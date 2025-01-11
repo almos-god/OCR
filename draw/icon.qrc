@@ -1,0 +1,43 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>icon/backup.svg</file>
+        <file>icon/WhhOpenfolderalt.svg</file>
+        <file>icon/WhhNewwindow.svg</file>
+        <file>icon/SolarExitBoldDuotone.svg</file>
+        <file>icon/FadSaveas.svg</file>
+        <file>icon/PrimeSave.svg</file>
+        <file>icon/FlatUiPicture.ico</file>
+        <file>icon/FluentSave32Regular.svg</file>
+        <file>icon/HugeiconsRightTriangle.svg</file>
+        <file>icon/MdiStarFourPointsOutline.svg</file>
+        <file>icon/TopcoatRoundedrectangleOutline.svg</file>
+        <file>icon/HeroiconsChatBubbleOvalLeft.svg</file>
+        <file>icon/F7BubbleMiddleBottom.svg</file>
+        <file>icon/MdiThoughtBubble.svg</file>
+        <file>icon/LsArrowright.svg</file>
+        <file>icon/LsArrowleft.svg</file>
+        <file>icon/LsArrowdown.svg</file>
+        <file>icon/LsArrowup.svg</file>
+        <file>icon/PhLightningFill.svg</file>
+        <file>icon/IconoirLinear.svg</file>
+        <file>icon/RiCropLine.svg</file>
+        <file>icon/MdiFill.svg</file>
+        <file>icon/CarbonErase.svg</file>
+        <file>icon/FaEyedropper.svg</file>
+        <file>icon/GravityUiMagnifierPlus.svg</file>
+        <file>icon/SimpleLineIconsSizeFullscreen.svg</file>
+        <file>icon/MdiTriangleDownOutline.svg</file>
+        <file>icon/MdiRhombusOutline.svg</file>
+        <file>icon/MdiRectangleOutline.svg</file>
+        <file>icon/MdiHexagramOutline.svg</file>
+        <file>icon/MdiHexagonOutline.svg</file>
+        <file>icon/MdiHeartOutline.svg</file>
+        <file>icon/ellipse.svg</file>
+        <file>icon/MdiEllipse.svg</file>
+        <file>icon/circle.svg</file>
+        <file>icon/advance.svg</file>
+        <file>icon/loving heart.svg</file>
+        <file>icon/five-pointed star.svg</file>
+        <file>icon/set.svg</file>
+    </qresource>
+</RCC>

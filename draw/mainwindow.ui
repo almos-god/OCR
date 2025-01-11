@@ -70,8 +70,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/CarbonErase.svg</normaloff>:/new/prefix1/CarbonErase.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/CarbonErase.svg</normaloff>:/new/prefix1/icon/CarbonErase.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -110,8 +110,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/SimpleLineIconsSizeFullscreen.svg</normaloff>:/new/prefix1/SimpleLineIconsSizeFullscreen.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/SimpleLineIconsSizeFullscreen.svg</normaloff>:/new/prefix1/icon/SimpleLineIconsSizeFullscreen.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -150,8 +150,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/FaEyedropper.svg</normaloff>:/new/prefix1/FaEyedropper.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/FaEyedropper.svg</normaloff>:/new/prefix1/icon/FaEyedropper.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -190,8 +190,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/MdiFill.svg</normaloff>:/new/prefix1/MdiFill.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/MdiFill.svg</normaloff>:/new/prefix1/icon/MdiFill.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -230,8 +230,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/RiCropLine.svg</normaloff>:/new/prefix1/RiCropLine.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/RiCropLine.svg</normaloff>:/new/prefix1/icon/RiCropLine.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -325,7 +325,7 @@
        <x>210</x>
        <y>10</y>
        <width>161</width>
-       <height>171</height>
+       <height>214</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -419,8 +419,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/MdiHexagonOutline.svg</normaloff>:/new/prefix1/MdiHexagonOutline.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/MdiHexagonOutline.svg</normaloff>:/new/prefix1/icon/MdiHexagonOutline.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -459,8 +459,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/MdiHexagramOutline.svg</normaloff>:/new/prefix1/MdiHexagramOutline.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/MdiHexagramOutline.svg</normaloff>:/new/prefix1/icon/MdiHexagramOutline.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -499,8 +499,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/circle.svg</normaloff>:/new/prefix1/circle.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/circle.svg</normaloff>:/new/prefix1/icon/circle.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -539,8 +539,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/five-pointed star.svg</normaloff>:/new/prefix1/five-pointed star.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/five-pointed star.svg</normaloff>:/new/prefix1/icon/five-pointed star.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -579,8 +579,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/MdiRhombusOutline.svg</normaloff>:/new/prefix1/MdiRhombusOutline.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/MdiRhombusOutline.svg</normaloff>:/new/prefix1/icon/MdiRhombusOutline.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -619,8 +619,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/MdiStarFourPointsOutline.svg</normaloff>:/new/prefix1/MdiStarFourPointsOutline.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/MdiStarFourPointsOutline.svg</normaloff>:/new/prefix1/icon/MdiStarFourPointsOutline.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -659,8 +659,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/ellipse.svg</normaloff>:/new/prefix1/ellipse.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/ellipse.svg</normaloff>:/new/prefix1/icon/ellipse.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -699,8 +699,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/MdiRectangleOutline.svg</normaloff>:/new/prefix1/MdiRectangleOutline.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/MdiRectangleOutline.svg</normaloff>:/new/prefix1/icon/MdiRectangleOutline.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -739,8 +739,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/TopcoatRoundedrectangleOutline.svg</normaloff>:/new/prefix1/TopcoatRoundedrectangleOutline.svg</iconset>
+         <iconset>
+          <normaloff>icon/TopcoatRoundedrectangleOutline.svg</normaloff>icon/TopcoatRoundedrectangleOutline.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -779,8 +779,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/IconoirLinear.svg</normaloff>:/new/prefix1/IconoirLinear.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/IconoirLinear.svg</normaloff>:/new/prefix1/icon/IconoirLinear.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -819,8 +819,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/HugeiconsRightTriangle.svg</normaloff>:/new/prefix1/HugeiconsRightTriangle.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/HugeiconsRightTriangle.svg</normaloff>:/new/prefix1/icon/HugeiconsRightTriangle.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -859,8 +859,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/MdiTriangleDownOutline.svg</normaloff>:/new/prefix1/MdiTriangleDownOutline.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/MdiTriangleDownOutline.svg</normaloff>:/new/prefix1/icon/MdiTriangleDownOutline.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -899,8 +899,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/PhLightningFill.svg</normaloff>:/new/prefix1/PhLightningFill.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/PhLightningFill.svg</normaloff>:/new/prefix1/icon/PhLightningFill.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -939,8 +939,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/LsArrowleft.svg</normaloff>:/new/prefix1/LsArrowleft.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/LsArrowleft.svg</normaloff>:/new/prefix1/icon/LsArrowleft.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -979,8 +979,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/LsArrowright.svg</normaloff>:/new/prefix1/LsArrowright.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/LsArrowright.svg</normaloff>:/new/prefix1/icon/LsArrowright.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -1019,8 +1019,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/LsArrowup.svg</normaloff>:/new/prefix1/LsArrowup.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/LsArrowup.svg</normaloff>:/new/prefix1/icon/LsArrowup.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -1059,8 +1059,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/LsArrowdown.svg</normaloff>:/new/prefix1/LsArrowdown.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/LsArrowdown.svg</normaloff>:/new/prefix1/icon/LsArrowdown.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -1099,8 +1099,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/F7BubbleMiddleBottom.svg</normaloff>:/new/prefix1/F7BubbleMiddleBottom.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/F7BubbleMiddleBottom.svg</normaloff>:/new/prefix1/icon/F7BubbleMiddleBottom.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -1139,8 +1139,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/MdiThoughtBubble.svg</normaloff>:/new/prefix1/MdiThoughtBubble.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/MdiThoughtBubble.svg</normaloff>:/new/prefix1/icon/MdiThoughtBubble.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -1179,8 +1179,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/HeroiconsChatBubbleOvalLeft.svg</normaloff>:/new/prefix1/HeroiconsChatBubbleOvalLeft.svg</iconset>
+         <iconset>
+          <normaloff>:/new/prefix1/icon/HeroiconsChatBubbleOvalLeft.svg</normaloff>:/new/prefix1/icon/HeroiconsChatBubbleOvalLeft.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -1374,82 +1374,25 @@
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuopen_file">
+   <widget class="CustomMenu" name="menu">
     <property name="title">
-     <string>open file</string>
-    </property>
-    <property name="icon">
-     <iconset resource="icon/icon.qrc">
-      <normaloff>:/new/prefix1/WhhOpenfolderalt.svg</normaloff>:/new/prefix1/WhhOpenfolderalt.svg</iconset>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menusave">
-    <property name="title">
-     <string>save</string>
-    </property>
-    <property name="icon">
-     <iconset resource="icon/icon.qrc">
-      <normaloff>:/new/prefix1/FluentSave32Regular.svg</normaloff>:/new/prefix1/FluentSave32Regular.svg</iconset>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menusave_anothing_file">
-    <property name="title">
-     <string>save as anothing file</string>
-    </property>
-    <property name="icon">
-     <iconset resource="icon/icon.qrc">
-      <normaloff>:/new/prefix1/FadSaveas.svg</normaloff>:/new/prefix1/FadSaveas.svg</iconset>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuexit">
-    <property name="title">
-     <string>exit</string>
-    </property>
-    <property name="icon">
-     <iconset resource="icon/icon.qrc">
-      <normaloff>:/new/prefix1/SolarExitBoldDuotone.svg</normaloff>:/new/prefix1/SolarExitBoldDuotone.svg</iconset>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuundo">
-    <property name="title">
-     <string>undo</string>
-    </property>
-    <property name="icon">
-     <iconset resource="icon/icon.qrc">
-      <normaloff>:/new/prefix1/back up.svg</normaloff>:/new/prefix1/back up.svg</iconset>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuredo">
-    <property name="title">
-     <string>redo</string>
-    </property>
-    <property name="icon">
-     <iconset resource="icon/icon.qrc">
-      <normaloff>:/new/prefix1/advance.svg</normaloff>:/new/prefix1/advance.svg</iconset>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menu">
-    <property name="title">
-     <string>meun</string>
-    </property>
-    <property name="icon">
-     <iconset resource="icon/icon.qrc">
-      <normaloff>:/new/prefix1/WhhNewwindow.svg</normaloff>:/new/prefix1/WhhNewwindow.svg</iconset>
+     <string>菜单</string>
     </property>
    </widget>
    <addaction name="menu"/>
-   <addaction name="menuopen_file"/>
-   <addaction name="menusave"/>
-   <addaction name="menusave_anothing_file"/>
-   <addaction name="menuexit"/>
-   <addaction name="menuundo"/>
-   <addaction name="menuredo"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources>
-  <include location="icon/icon.qrc"/>
-  <include location="icon/icon.qrc"/>
- </resources>
+ <customwidgets>
+  <customwidget>
+   <class>CustomMenu</class>
+   <extends>QMenu</extends>
+   <header location="global">custommenu.h</header>
+   <slots>
+    <signal>menuClicked()</signal>
+   </slots>
+  </customwidget>
+ </customwidgets>
+ <resources/>
  <connections/>
 </ui>

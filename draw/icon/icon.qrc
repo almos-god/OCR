@@ -1,0 +1,44 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>icon.qrc</file>
+        <file>WhhOpenfolderalt.svg</file>
+        <file>WhhNewwindow.svg</file>
+        <file>SolarExitBoldDuotone.svg</file>
+        <file>FadSaveas.svg</file>
+        <file>PrimeSave.svg</file>
+        <file>FlatUiPicture.ico</file>
+        <file>FluentSave32Regular.svg</file>
+        <file>HugeiconsRightTriangle.svg</file>
+        <file>MdiStarFourPointsOutline.svg</file>
+        <file>TopcoatRoundedrectangleOutline.svg</file>
+        <file>HeroiconsChatBubbleOvalLeft.svg</file>
+        <file>F7BubbleMiddleBottom.svg</file>
+        <file>MdiThoughtBubble.svg</file>
+        <file>LsArrowright.svg</file>
+        <file>LsArrowleft.svg</file>
+        <file>LsArrowdown.svg</file>
+        <file>LsArrowup.svg</file>
+        <file>PhLightningFill.svg</file>
+        <file>IconoirLinear.svg</file>
+        <file>RiCropLine.svg</file>
+        <file>MdiFill.svg</file>
+        <file>CarbonErase.svg</file>
+        <file>FaEyedropper.svg</file>
+        <file>GravityUiMagnifierPlus.svg</file>
+        <file>SimpleLineIconsSizeFullscreen.svg</file>
+        <file>MdiTriangleDownOutline.svg</file>
+        <file>MdiRhombusOutline.svg</file>
+        <file>MdiRectangleOutline.svg</file>
+        <file>MdiHexagramOutline.svg</file>
+        <file>MdiHexagonOutline.svg</file>
+        <file>MdiHeartOutline.svg</file>
+        <file>ellipse.svg</file>
+        <file>MdiEllipse.svg</file>
+        <file>circle.svg</file>
+        <file>advance.svg</file>
+        <file>loving heart.svg</file>
+        <file>five-pointed star.svg</file>
+        <file>set.svg</file>
+        <file>back  up.svg</file>
+    </qresource>
+</RCC>

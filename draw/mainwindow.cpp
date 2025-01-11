@@ -68,8 +68,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->radioButton->setChecked(false);
 
     // 设置动作的图标
-    ui->undo->setIcon(QIcon("qrc:/new/prefix1/back up.svg"));
-    ui->redo->setIcon(QIcon("qrc:/new/prefix1/advance.svg"));
+    ui->undo->setIcon(QIcon(":/new/prefix1/back  up.svg"));
+    ui->redo->setIcon(QIcon(":/new/prefix1/advance.svg"));
 
     //前景色，背景色状态初始化
     background_color=true;
@@ -149,11 +149,7 @@ MainWindow::MainWindow(QWidget *parent)
     statusBar->addPermanentWidget(valueLabel);
     statusBar->addPermanentWidget(slider);
     setStatusBar(statusBar);
-
-    // 设置菜单的点击事件
-    connect(ui->menu, &QMenu::aboutToShow, this, [this]() {
-        startNewDrawingProcess();
-    });
+/*
     ui->menu->removeAction(ui->new_file);
     ui->menu->removeAction(ui->actionopen_file);
     ui->menu->removeAction(ui->open_file);
@@ -162,29 +158,81 @@ MainWindow::MainWindow(QWidget *parent)
     ui->menu->removeAction(ui->redo);
     ui->menu->removeAction(ui->undo);
     ui->menu->removeAction(ui->save_as_anothing_file);
-    connect(ui->menuopen_file, &QMenu::aboutToShow, this, [this]() {
+
+
+    // 删除菜单项
+    ui->menubar->removeAction(ui->menuopen_file);
+    ui->menubar->removeAction(ui->menusave);
+    ui->menubar->removeAction(ui->menusave_anothing_file);
+    ui->menubar->removeAction(ui->menuexit);
+    ui->menubar->removeAction(ui->menuredo);
+    ui->menubar->removeAction(ui->menuundo);
+*/
+    // 如果你需要销毁它们，确保清理资源
+
+    delete ui->menuopen_file;
+    delete ui->menusave;
+    delete ui->menusave_anothing_file;
+    delete ui->menuexit;
+    delete ui->menuredo;
+    delete ui->menuundo;
+
+    // 连接菜单项的信号和槽
+    ui->menu->setIcon(QIcon());
+    ui->menu->setTitle("菜单");
+
+    // 为每个 QAction 设置快捷键
+    ui->new_file->setShortcut(QKeySequence("Ctrl+N"));  // 新建文件快捷键 Ctrl+N
+    ui->open_file->setShortcut(QKeySequence("Ctrl+O"));  // 打开文件快捷键 Ctrl+O
+    ui->save->setShortcut(QKeySequence("Ctrl+S"));  // 保存文件快捷键 Ctrl+S
+    ui->save_as_anothing_file->setShortcut(QKeySequence("Ctrl+Shift+S"));  // 另存为快捷键 Ctrl+Shift+S
+    ui->exit->setShortcut(QKeySequence("Ctrl+Q"));  // 退出快捷键 Ctrl+Q
+    ui->redo->setShortcut(QKeySequence("Ctrl+Y"));  // 重做快捷键 Ctrl+Y
+    ui->undo->setShortcut(QKeySequence("Ctrl+Z"));  // 撤销快捷键 Ctrl+Z
+
+    // 设置显示菜单的快捷键（例如 Ctrl+M）
+    QAction* showMenuAction = new QAction(this);
+    showMenuAction->setShortcut(QKeySequence("Ctrl+Space"));
+    ui->menubar->addAction(showMenuAction);
+
+    // 连接菜单项的 triggered 信号和槽函数
+    connect(ui->new_file, &QAction::triggered, this, [this]() {
+        startNewDrawingProcess();
+    });
+
+    connect(ui->open_file, &QAction::triggered, this, [this]() {
         openImage();
     });
-    connect(ui->menusave, &QMenu::aboutToShow, this, [this]() {
-        saveImage();  // 调用 saveImage 函数
+
+    connect(ui->save, &QAction::triggered, this, [this]() {
+        saveImage();
     });
-    connect(ui->menusave_anothing_file, &QMenu::aboutToShow, this, [this]() {
+
+    connect(ui->save_as_anothing_file, &QAction::triggered, this, [this]() {
         anotheringsaveImage();
     });
-    connect(ui->menuexit, &QMenu::aboutToShow, this, [this]() {
+
+    connect(ui->exit, &QAction::triggered, this, [this]() {
         exitApp();
     });
-    connect(ui->menuredo, &QMenu::aboutToShow, this, [this]() {
-        int result = customImage->redoimage(); // 调用 redoimage() 并获取返回值
-        if (result == -1) { // 判断返回值是否为 -1
-            QMessageBox::information(this, "信息", "已是最后一个."); // 显示消息框
+
+    connect(ui->redo, &QAction::triggered, this, [this]() {
+        int result = customImage->redoimage();
+        if (result == -1) {
+            QMessageBox::information(this, "信息", "已是最后一个.");
         }
     });
-    connect(ui->menuundo, &QMenu::aboutToShow, this, [this]() {
-        int result = customImage->undoimage(); // 调用 undoimage() 并获取返回值
-        if (result == -1) { // 判断返回值是否为 -1
-            QMessageBox::information(this, "信息", "已是第一个."); // 显示消息框
+
+    connect(ui->undo, &QAction::triggered, this, [this]() {
+        int result = customImage->undoimage();
+        if (result == -1) {
+            QMessageBox::information(this, "信息", "已是第一个.");
         }
+    });
+
+    // 连接显示菜单快捷键的触发事件
+    connect(showMenuAction, &QAction::triggered, this, [this]() {
+        ui->menu->exec(QCursor::pos());  // 显示菜单
     });
 
 

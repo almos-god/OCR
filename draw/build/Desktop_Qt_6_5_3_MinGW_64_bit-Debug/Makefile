@@ -330,7 +330,7 @@ Makefile: ../../drawing.pro D:/QT/6.5.3/mingw_64/mkspecs/win32-g++/qmake.conf D:
 		D:/QT/6.5.3/mingw_64/mkspecs/features/qt_config.prf \
 		D:/QT/6.5.3/mingw_64/mkspecs/win32-g++/qmake.conf \
 		D:/QT/6.5.3/mingw_64/mkspecs/features/spec_post.prf \
-		.qmake.stash \
+		../../.qmake.stash \
 		D:/QT/6.5.3/mingw_64/mkspecs/features/exclusive_builds.prf \
 		D:/QT/6.5.3/mingw_64/mkspecs/features/toolchain.prf \
 		D:/QT/6.5.3/mingw_64/mkspecs/features/default_pre.prf \
@@ -623,7 +623,7 @@ D:/QT/6.5.3/mingw_64/mkspecs/features/qt_functions.prf:
 D:/QT/6.5.3/mingw_64/mkspecs/features/qt_config.prf:
 D:/QT/6.5.3/mingw_64/mkspecs/win32-g++/qmake.conf:
 D:/QT/6.5.3/mingw_64/mkspecs/features/spec_post.prf:
-.qmake.stash:
+../../.qmake.stash:
 D:/QT/6.5.3/mingw_64/mkspecs/features/exclusive_builds.prf:
 D:/QT/6.5.3/mingw_64/mkspecs/features/toolchain.prf:
 D:/QT/6.5.3/mingw_64/mkspecs/features/default_pre.prf:
@@ -665,7 +665,6 @@ all: debug-all release-all  FORCE
 clean: debug-clean release-clean  FORCE
 distclean: debug-distclean release-distclean  FORCE
 	-$(DEL_FILE) Makefile
-	-$(DEL_FILE) .qmake.stash
 
 debug-mocclean:
 	$(MAKE) -f $(MAKEFILE).Debug mocclean

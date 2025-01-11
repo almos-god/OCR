@@ -19,7 +19,6 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
-#include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
@@ -28,6 +27,7 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include <custommenu.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -89,13 +89,7 @@ public:
     QLabel *label_4;
     QSlider *horizontalSlider_3;
     QMenuBar *menubar;
-    QMenu *menuopen_file;
-    QMenu *menusave;
-    QMenu *menusave_anothing_file;
-    QMenu *menuexit;
-    QMenu *menuundo;
-    QMenu *menuredo;
-    QMenu *menu;
+    CustomMenu *menu;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -127,7 +121,7 @@ public:
         my_erase->setFont(font1);
         my_erase->setStyleSheet(QString::fromUtf8("image: url(:/new/prefix1/earse.svg);"));
         QIcon icon;
-        icon.addFile(QString::fromUtf8(":/new/prefix1/CarbonErase.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QString::fromUtf8(":/new/prefix1/icon/CarbonErase.svg"), QSize(), QIcon::Normal, QIcon::Off);
         my_erase->setIcon(icon);
         my_erase->setIconSize(QSize(32, 32));
         my_erase->setAutoExclusive(true);
@@ -141,7 +135,7 @@ public:
         size->setFont(font1);
         size->setStyleSheet(QString::fromUtf8(""));
         QIcon icon1;
-        icon1.addFile(QString::fromUtf8(":/new/prefix1/SimpleLineIconsSizeFullscreen.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon1.addFile(QString::fromUtf8(":/new/prefix1/icon/SimpleLineIconsSizeFullscreen.svg"), QSize(), QIcon::Normal, QIcon::Off);
         size->setIcon(icon1);
         size->setIconSize(QSize(32, 32));
         size->setAutoExclusive(true);
@@ -155,7 +149,7 @@ public:
         color_extractor->setFont(font1);
         color_extractor->setStyleSheet(QString::fromUtf8("image: url(:/new/prefix1/color picker.svg);"));
         QIcon icon2;
-        icon2.addFile(QString::fromUtf8(":/new/prefix1/FaEyedropper.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon2.addFile(QString::fromUtf8(":/new/prefix1/icon/FaEyedropper.svg"), QSize(), QIcon::Normal, QIcon::Off);
         color_extractor->setIcon(icon2);
         color_extractor->setIconSize(QSize(32, 32));
         color_extractor->setAutoExclusive(true);
@@ -169,7 +163,7 @@ public:
         fill->setFont(font1);
         fill->setStyleSheet(QString::fromUtf8("image: url(:/new/prefix1/fill.svg);"));
         QIcon icon3;
-        icon3.addFile(QString::fromUtf8(":/new/prefix1/MdiFill.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon3.addFile(QString::fromUtf8(":/new/prefix1/icon/MdiFill.svg"), QSize(), QIcon::Normal, QIcon::Off);
         fill->setIcon(icon3);
         fill->setIconSize(QSize(32, 32));
         fill->setAutoExclusive(true);
@@ -183,7 +177,7 @@ public:
         crop->setFont(font1);
         crop->setStyleSheet(QString::fromUtf8("image: url(:/new/prefix1/cut out.svg);"));
         QIcon icon4;
-        icon4.addFile(QString::fromUtf8(":/new/prefix1/RiCropLine.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon4.addFile(QString::fromUtf8(":/new/prefix1/icon/RiCropLine.svg"), QSize(), QIcon::Normal, QIcon::Off);
         crop->setIcon(icon4);
         crop->setIconSize(QSize(32, 32));
         crop->setAutoExclusive(true);
@@ -214,7 +208,7 @@ public:
         painting->setAutoExclusive(true);
         verticalLayoutWidget_2 = new QWidget(groupBox);
         verticalLayoutWidget_2->setObjectName("verticalLayoutWidget_2");
-        verticalLayoutWidget_2->setGeometry(QRect(210, 10, 161, 171));
+        verticalLayoutWidget_2->setGeometry(QRect(210, 10, 161, 214));
         verticalLayout_2 = new QVBoxLayout(verticalLayoutWidget_2);
         verticalLayout_2->setObjectName("verticalLayout_2");
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
@@ -273,7 +267,7 @@ public:
         hexagon->setFont(font1);
         hexagon->setStyleSheet(QString::fromUtf8(""));
         QIcon icon5;
-        icon5.addFile(QString::fromUtf8(":/new/prefix1/MdiHexagonOutline.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon5.addFile(QString::fromUtf8(":/new/prefix1/icon/MdiHexagonOutline.svg"), QSize(), QIcon::Normal, QIcon::Off);
         hexagon->setIcon(icon5);
         hexagon->setIconSize(QSize(32, 32));
         hexagon->setAutoExclusive(false);
@@ -287,7 +281,7 @@ public:
         six_pointed_star->setFont(font1);
         six_pointed_star->setStyleSheet(QString::fromUtf8(""));
         QIcon icon6;
-        icon6.addFile(QString::fromUtf8(":/new/prefix1/MdiHexagramOutline.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon6.addFile(QString::fromUtf8(":/new/prefix1/icon/MdiHexagramOutline.svg"), QSize(), QIcon::Normal, QIcon::Off);
         six_pointed_star->setIcon(icon6);
         six_pointed_star->setIconSize(QSize(32, 32));
         six_pointed_star->setAutoExclusive(true);
@@ -301,7 +295,7 @@ public:
         right_circle->setFont(font1);
         right_circle->setStyleSheet(QString::fromUtf8(""));
         QIcon icon7;
-        icon7.addFile(QString::fromUtf8(":/new/prefix1/circle.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon7.addFile(QString::fromUtf8(":/new/prefix1/icon/circle.svg"), QSize(), QIcon::Normal, QIcon::Off);
         right_circle->setIcon(icon7);
         right_circle->setIconSize(QSize(32, 32));
         right_circle->setAutoExclusive(true);
@@ -315,7 +309,7 @@ public:
         five_pointed_star->setFont(font1);
         five_pointed_star->setStyleSheet(QString::fromUtf8(""));
         QIcon icon8;
-        icon8.addFile(QString::fromUtf8(":/new/prefix1/five-pointed star.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon8.addFile(QString::fromUtf8(":/new/prefix1/icon/five-pointed star.svg"), QSize(), QIcon::Normal, QIcon::Off);
         five_pointed_star->setIcon(icon8);
         five_pointed_star->setIconSize(QSize(32, 32));
         five_pointed_star->setAutoExclusive(true);
@@ -329,7 +323,7 @@ public:
         diamond->setFont(font1);
         diamond->setStyleSheet(QString::fromUtf8(""));
         QIcon icon9;
-        icon9.addFile(QString::fromUtf8(":/new/prefix1/MdiRhombusOutline.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon9.addFile(QString::fromUtf8(":/new/prefix1/icon/MdiRhombusOutline.svg"), QSize(), QIcon::Normal, QIcon::Off);
         diamond->setIcon(icon9);
         diamond->setIconSize(QSize(32, 32));
         diamond->setAutoExclusive(true);
@@ -343,7 +337,7 @@ public:
         four_pointed_star->setFont(font1);
         four_pointed_star->setStyleSheet(QString::fromUtf8(""));
         QIcon icon10;
-        icon10.addFile(QString::fromUtf8(":/new/prefix1/MdiStarFourPointsOutline.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon10.addFile(QString::fromUtf8(":/new/prefix1/icon/MdiStarFourPointsOutline.svg"), QSize(), QIcon::Normal, QIcon::Off);
         four_pointed_star->setIcon(icon10);
         four_pointed_star->setIconSize(QSize(32, 32));
         four_pointed_star->setAutoExclusive(true);
@@ -357,7 +351,7 @@ public:
         ellipse->setFont(font1);
         ellipse->setStyleSheet(QString::fromUtf8(""));
         QIcon icon11;
-        icon11.addFile(QString::fromUtf8(":/new/prefix1/ellipse.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon11.addFile(QString::fromUtf8(":/new/prefix1/icon/ellipse.svg"), QSize(), QIcon::Normal, QIcon::Off);
         ellipse->setIcon(icon11);
         ellipse->setIconSize(QSize(32, 32));
         ellipse->setAutoExclusive(true);
@@ -371,7 +365,7 @@ public:
         right_rectangle->setFont(font1);
         right_rectangle->setStyleSheet(QString::fromUtf8(""));
         QIcon icon12;
-        icon12.addFile(QString::fromUtf8(":/new/prefix1/MdiRectangleOutline.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon12.addFile(QString::fromUtf8(":/new/prefix1/icon/MdiRectangleOutline.svg"), QSize(), QIcon::Normal, QIcon::Off);
         right_rectangle->setIcon(icon12);
         right_rectangle->setIconSize(QSize(32, 32));
         right_rectangle->setAutoExclusive(true);
@@ -385,7 +379,7 @@ public:
         rounded_rectangle->setFont(font1);
         rounded_rectangle->setStyleSheet(QString::fromUtf8("image: url(:/new/prefix1/rectangle.svg);"));
         QIcon icon13;
-        icon13.addFile(QString::fromUtf8(":/new/prefix1/TopcoatRoundedrectangleOutline.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon13.addFile(QString::fromUtf8("icon/TopcoatRoundedrectangleOutline.svg"), QSize(), QIcon::Normal, QIcon::Off);
         rounded_rectangle->setIcon(icon13);
         rounded_rectangle->setIconSize(QSize(32, 32));
         rounded_rectangle->setAutoExclusive(true);
@@ -399,7 +393,7 @@ public:
         straight_line->setFont(font1);
         straight_line->setStyleSheet(QString::fromUtf8("image: url(:/new/prefix1/line.svg);"));
         QIcon icon14;
-        icon14.addFile(QString::fromUtf8(":/new/prefix1/IconoirLinear.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon14.addFile(QString::fromUtf8(":/new/prefix1/icon/IconoirLinear.svg"), QSize(), QIcon::Normal, QIcon::Off);
         straight_line->setIcon(icon14);
         straight_line->setIconSize(QSize(32, 32));
         straight_line->setAutoExclusive(true);
@@ -413,7 +407,7 @@ public:
         right_triangle->setFont(font1);
         right_triangle->setStyleSheet(QString::fromUtf8(""));
         QIcon icon15;
-        icon15.addFile(QString::fromUtf8(":/new/prefix1/HugeiconsRightTriangle.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon15.addFile(QString::fromUtf8(":/new/prefix1/icon/HugeiconsRightTriangle.svg"), QSize(), QIcon::Normal, QIcon::Off);
         right_triangle->setIcon(icon15);
         right_triangle->setIconSize(QSize(32, 32));
         right_triangle->setAutoExclusive(true);
@@ -427,7 +421,7 @@ public:
         isosceles_triangle->setFont(font1);
         isosceles_triangle->setStyleSheet(QString::fromUtf8(""));
         QIcon icon16;
-        icon16.addFile(QString::fromUtf8(":/new/prefix1/MdiTriangleDownOutline.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon16.addFile(QString::fromUtf8(":/new/prefix1/icon/MdiTriangleDownOutline.svg"), QSize(), QIcon::Normal, QIcon::Off);
         isosceles_triangle->setIcon(icon16);
         isosceles_triangle->setIconSize(QSize(32, 32));
         isosceles_triangle->setAutoExclusive(true);
@@ -441,7 +435,7 @@ public:
         lightning->setFont(font1);
         lightning->setStyleSheet(QString::fromUtf8(""));
         QIcon icon17;
-        icon17.addFile(QString::fromUtf8(":/new/prefix1/PhLightningFill.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon17.addFile(QString::fromUtf8(":/new/prefix1/icon/PhLightningFill.svg"), QSize(), QIcon::Normal, QIcon::Off);
         lightning->setIcon(icon17);
         lightning->setIconSize(QSize(32, 32));
         lightning->setAutoExclusive(true);
@@ -455,7 +449,7 @@ public:
         left->setFont(font1);
         left->setStyleSheet(QString::fromUtf8(""));
         QIcon icon18;
-        icon18.addFile(QString::fromUtf8(":/new/prefix1/LsArrowleft.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon18.addFile(QString::fromUtf8(":/new/prefix1/icon/LsArrowleft.svg"), QSize(), QIcon::Normal, QIcon::Off);
         left->setIcon(icon18);
         left->setIconSize(QSize(32, 32));
         left->setAutoExclusive(true);
@@ -469,7 +463,7 @@ public:
         right->setFont(font1);
         right->setStyleSheet(QString::fromUtf8(""));
         QIcon icon19;
-        icon19.addFile(QString::fromUtf8(":/new/prefix1/LsArrowright.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon19.addFile(QString::fromUtf8(":/new/prefix1/icon/LsArrowright.svg"), QSize(), QIcon::Normal, QIcon::Off);
         right->setIcon(icon19);
         right->setIconSize(QSize(32, 32));
         right->setAutoExclusive(true);
@@ -483,7 +477,7 @@ public:
         top->setFont(font1);
         top->setStyleSheet(QString::fromUtf8(""));
         QIcon icon20;
-        icon20.addFile(QString::fromUtf8(":/new/prefix1/LsArrowup.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon20.addFile(QString::fromUtf8(":/new/prefix1/icon/LsArrowup.svg"), QSize(), QIcon::Normal, QIcon::Off);
         top->setIcon(icon20);
         top->setIconSize(QSize(32, 32));
         top->setAutoExclusive(true);
@@ -497,7 +491,7 @@ public:
         bottom->setFont(font1);
         bottom->setStyleSheet(QString::fromUtf8(""));
         QIcon icon21;
-        icon21.addFile(QString::fromUtf8(":/new/prefix1/LsArrowdown.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon21.addFile(QString::fromUtf8(":/new/prefix1/icon/LsArrowdown.svg"), QSize(), QIcon::Normal, QIcon::Off);
         bottom->setIcon(icon21);
         bottom->setIconSize(QSize(32, 32));
         bottom->setAutoExclusive(true);
@@ -511,7 +505,7 @@ public:
         rounded_rectangle_annotation->setFont(font1);
         rounded_rectangle_annotation->setStyleSheet(QString::fromUtf8(""));
         QIcon icon22;
-        icon22.addFile(QString::fromUtf8(":/new/prefix1/F7BubbleMiddleBottom.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon22.addFile(QString::fromUtf8(":/new/prefix1/icon/F7BubbleMiddleBottom.svg"), QSize(), QIcon::Normal, QIcon::Off);
         rounded_rectangle_annotation->setIcon(icon22);
         rounded_rectangle_annotation->setIconSize(QSize(32, 32));
         rounded_rectangle_annotation->setAutoExclusive(true);
@@ -525,7 +519,7 @@ public:
         cloud_annotation->setFont(font1);
         cloud_annotation->setStyleSheet(QString::fromUtf8(""));
         QIcon icon23;
-        icon23.addFile(QString::fromUtf8(":/new/prefix1/MdiThoughtBubble.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon23.addFile(QString::fromUtf8(":/new/prefix1/icon/MdiThoughtBubble.svg"), QSize(), QIcon::Normal, QIcon::Off);
         cloud_annotation->setIcon(icon23);
         cloud_annotation->setIconSize(QSize(32, 32));
         cloud_annotation->setAutoExclusive(true);
@@ -539,7 +533,7 @@ public:
         circle_annotation->setFont(font1);
         circle_annotation->setStyleSheet(QString::fromUtf8(""));
         QIcon icon24;
-        icon24.addFile(QString::fromUtf8(":/new/prefix1/HeroiconsChatBubbleOvalLeft.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon24.addFile(QString::fromUtf8(":/new/prefix1/icon/HeroiconsChatBubbleOvalLeft.svg"), QSize(), QIcon::Normal, QIcon::Off);
         circle_annotation->setIcon(icon24);
         circle_annotation->setIconSize(QSize(32, 32));
         circle_annotation->setAutoExclusive(true);
@@ -598,53 +592,14 @@ public:
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
         menubar->setGeometry(QRect(0, 0, 1315, 22));
-        menuopen_file = new QMenu(menubar);
-        menuopen_file->setObjectName("menuopen_file");
-        QIcon icon25;
-        icon25.addFile(QString::fromUtf8(":/new/prefix1/WhhOpenfolderalt.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        menuopen_file->setIcon(icon25);
-        menusave = new QMenu(menubar);
-        menusave->setObjectName("menusave");
-        QIcon icon26;
-        icon26.addFile(QString::fromUtf8(":/new/prefix1/FluentSave32Regular.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        menusave->setIcon(icon26);
-        menusave_anothing_file = new QMenu(menubar);
-        menusave_anothing_file->setObjectName("menusave_anothing_file");
-        QIcon icon27;
-        icon27.addFile(QString::fromUtf8(":/new/prefix1/FadSaveas.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        menusave_anothing_file->setIcon(icon27);
-        menuexit = new QMenu(menubar);
-        menuexit->setObjectName("menuexit");
-        QIcon icon28;
-        icon28.addFile(QString::fromUtf8(":/new/prefix1/SolarExitBoldDuotone.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        menuexit->setIcon(icon28);
-        menuundo = new QMenu(menubar);
-        menuundo->setObjectName("menuundo");
-        QIcon icon29;
-        icon29.addFile(QString::fromUtf8(":/new/prefix1/back up.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        menuundo->setIcon(icon29);
-        menuredo = new QMenu(menubar);
-        menuredo->setObjectName("menuredo");
-        QIcon icon30;
-        icon30.addFile(QString::fromUtf8(":/new/prefix1/advance.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        menuredo->setIcon(icon30);
-        menu = new QMenu(menubar);
+        menu = new CustomMenu(menubar);
         menu->setObjectName("menu");
-        QIcon icon31;
-        icon31.addFile(QString::fromUtf8(":/new/prefix1/WhhNewwindow.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        menu->setIcon(icon31);
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName("statusbar");
         MainWindow->setStatusBar(statusbar);
 
         menubar->addAction(menu->menuAction());
-        menubar->addAction(menuopen_file->menuAction());
-        menubar->addAction(menusave->menuAction());
-        menubar->addAction(menusave_anothing_file->menuAction());
-        menubar->addAction(menuexit->menuAction());
-        menubar->addAction(menuundo->menuAction());
-        menubar->addAction(menuredo->menuAction());
 
         retranslateUi(MainWindow);
 
@@ -690,13 +645,7 @@ public:
         label_3->setText(QCoreApplication::translate("MainWindow", "\347\272\242\350\211\262", nullptr));
         label_5->setText(QCoreApplication::translate("MainWindow", "\347\273\277\350\211\262", nullptr));
         label_4->setText(QCoreApplication::translate("MainWindow", "\350\223\235\350\211\262", nullptr));
-        menuopen_file->setTitle(QCoreApplication::translate("MainWindow", "open file", nullptr));
-        menusave->setTitle(QCoreApplication::translate("MainWindow", "save", nullptr));
-        menusave_anothing_file->setTitle(QCoreApplication::translate("MainWindow", "save as anothing file", nullptr));
-        menuexit->setTitle(QCoreApplication::translate("MainWindow", "exit", nullptr));
-        menuundo->setTitle(QCoreApplication::translate("MainWindow", "undo", nullptr));
-        menuredo->setTitle(QCoreApplication::translate("MainWindow", "redo", nullptr));
-        menu->setTitle(QCoreApplication::translate("MainWindow", "meun", nullptr));
+        menu->setTitle(QCoreApplication::translate("MainWindow", "\350\217\234\345\215\225", nullptr));
     } // retranslateUi
 
 };
