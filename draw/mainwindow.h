@@ -37,12 +37,14 @@ public slots:
     void openImage();
     void anotheringsaveImage();
     void exitApp();
+    void showBoundary();
+    void hideBoundary();
 protected:
     void resizeEvent(QResizeEvent *event);
     void showEvent(QShowEvent * /*event*/);
 
 private:
-
+    void contextMenuEvent(QContextMenuEvent *event);
     Ui::MainWindow *ui;
     QPixmap *pix;
     QCustomImage* customImage;
@@ -61,5 +63,7 @@ private:
     bool background_color;
     int linewidth;
     QString filename;
+    QAction *showBoundaryAction; // "显示边界" 菜单项
+    QAction *hideBoundaryAction; // "隐藏边界" 菜单项
 };
 #endif // MAINWINDOW_H

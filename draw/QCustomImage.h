@@ -21,7 +21,7 @@
 #include <ctime>   // 添加这个头文件以使用 time()
 #include <iostream>
 enum all_my_function{
-    painting, size,color_extractor, my_erase, fill, crop
+    painting, size,color_extractor, my_erase, fill, crop,expansion
 };
 enum all_my_graphics{
     basic, straight_line, right_circle, ellipse, isosceles_triangle, right_triangle, right_rectangle,
@@ -58,6 +58,15 @@ public:
         now=0;
         buffer.reserve(50);
         buffer.push_back(originalImage);
+
+        offset=20;
+        // 更新四条线条的位置
+        up_line.setLine(rect.left(), rect.top() - offset, rect.right(), rect.top() - offset);
+        down_line.setLine(rect.left(), rect.bottom() + offset, rect.right(), rect.bottom() + offset);
+        left_line.setLine(rect.left() - offset, rect.top(), rect.left() - offset, rect.bottom());
+        right_line.setLine(rect.right() + offset, rect.top(), rect.right() + offset, rect.bottom());
+
+        expand=true;
     }
     //添加新文件
     int addimage()
@@ -116,6 +125,12 @@ public:
             return 0;
         }
         return -1;
+    }
+    void set_expansion(bool expand)
+    {
+        this->expand=expand;
+        if(this->expand==true)
+             function1=all_my_function::expansion;
     }
     //保存
     void imageredraw()
@@ -1870,6 +1885,8 @@ public:
             case all_my_function::crop:
                 crop(event,mouse);
                 break;
+            case all_my_function::expansion:
+                break;
             default:
                 break;
         }
@@ -1948,50 +1965,122 @@ public:
     {
         return originalImage;
     }
-    QRectF boundingRect() const override
-    {
-        return rect;
+    QPainterPath shape() const override {
+        QPainterPath path;
+        // 使用扩展的 boundingRect 确保感知区域一致
+        QRectF expandedRect = boundingRect().adjusted(-500, -500, 500, 500);
+        path.addRect(expandedRect);
+        return path;
     }
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option = nullptr, QWidget *widget = nullptr) override
-    {
-        // 绘制图像
-        painter->drawImage(0, 0, this->image);
 
-        // 判断擦除位置是否在有效范围内，并绘制圆形
-        if (erase_location.x() >= 0 && erase_location.rx() <= width && erase_location.y() >= 0 && erase_location.y() <= height) {
+    QRectF boundingRect() const override {
+        // 合并现有图片区域和动态调整后的边界区域
+        QRectF expandedRect = rect;
+        expandedRect.setWidth(rect.width() +500+ right_move_component - left_move_component);
+        expandedRect.setX(rect.x() + left_move_component-500);
+        expandedRect.setHeight(rect.height() + down_move_component - up_move_component+500);
+        expandedRect.setY(rect.y() + up_move_component-500);
+        return expandedRect.normalized(); // 确保矩形是标准化的
+    }
+
+    void updateRect() {
+        prepareGeometryChange(); // 通知 Qt 更新几何边界
+        // 更新 rect 的位置和大小
+        rect.setWidth(rect.width() + right_move_component - left_move_component+500);
+        rect.setX(rect.x() + left_move_component-500);
+        rect.setHeight(rect.height() + down_move_component - up_move_component+500);
+        rect.setY(rect.y() + up_move_component-500);
+        update(); // 触发重绘
+    }
+
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option = nullptr, QWidget *widget = nullptr) override {
+        Q_UNUSED(option);
+        Q_UNUSED(widget);
+
+        // 创建离屏缓冲区，大小与 boundingRect 相同
+        QRectF boundingBox = boundingRect();
+        QImage offscreenImage(boundingBox.size().toSize(), QImage::Format_ARGB32);
+        offscreenImage.fill(Qt::transparent); // 初始化为透明背景
+
+        QPainter offscreenPainter(&offscreenImage);
+
+        // 偏移坐标系以适应 boundingBox 的位置
+        offscreenPainter.translate(-boundingBox.topLeft());
+
+        // 绘制图片
+        offscreenPainter.save(); // 保存当前状态
+        //offscreenPainter.scale(image_factor, image_factor); // 应用缩放
+        offscreenPainter.drawImage(0, 0, this->image); // 按缩放后的比例绘制图像
+        offscreenPainter.restore(); // 恢复到之前的状态
+
+        // 绘制橡皮擦圆圈
+        if (erase_location.x() >= 0 && erase_location.rx() <= boundingBox.width() &&
+            erase_location.y() >= 0 && erase_location.y() <= boundingBox.height() &&
+            function1 == all_my_function::my_erase) {
             int circleRadius = (borderWidth - 1) / 2;
             QPen pen(Qt::black, 1);
             QBrush brush(Qt::white);
-            painter->setPen(pen);
-            painter->setBrush(brush);
-            painter->drawEllipse(erase_location, circleRadius, circleRadius);
-            erase_location.setX(-100);
-            erase_location.setY(-100);
-            //emit refresh_signals();
+            offscreenPainter.setPen(pen);
+            offscreenPainter.setBrush(brush);
+            offscreenPainter.drawEllipse(erase_location, circleRadius, circleRadius);
         }
-        // 如果矩形r的左上角坐标不是(1000, 1000)，则绘制矩形r
-        if (r.x()!= 1000 || r.y()!= 1000) {
 
-            // 在你的代码中，确保在适当的位置调用 srand() 以初始化随机数生成器
-            srand(static_cast<unsigned int>(time(nullptr))); // 在程序开始时调用一次
-            // 生成随机颜色
-            int red = rand() % 256;   // 生成0-255之间的随机数
-            int green = rand() % 256; // 生成0-255之间的随机数
-            int blue = rand() % 256;  // 生成0-255之间的随机数
-
-            QColor startColor(red, green, blue); // 随机起始颜色
-            QColor endColor(rand() % 256, rand() % 256, rand() % 256); // 随机结束颜色
-
+        // 绘制渐变矩形
+        if (!r.isNull() && r.width() > 0 && r.height() > 0) {
             QLinearGradient gradient(r.topLeft(), r.bottomRight());
-            gradient.setColorAt(0, startColor);  // 起始颜色
-            gradient.setColorAt(1, endColor);    // 结束颜色
-
-            QPen rectPen;
-            rectPen.setWidth(2);  // 设置线条宽度，可根据需要调整
+            gradient.setColorAt(0.0, QColor(255, 0, 0));
+            gradient.setColorAt(0.16, QColor(255, 127, 0));
+            gradient.setColorAt(0.33, QColor(255, 255, 0));
+            gradient.setColorAt(0.5, QColor(0, 255, 0));
+            gradient.setColorAt(0.66, QColor(0, 0, 255));
+            gradient.setColorAt(0.83, QColor(75, 0, 130));
+            gradient.setColorAt(1.0, QColor(148, 0, 211));
+            QPen rectPen(QBrush(gradient), 2);
             rectPen.setStyle(Qt::DashLine);
-            painter->setPen(rectPen);
-            painter->drawRect(r);
+            offscreenPainter.setPen(rectPen);
+
+            // 计算缩放后的矩形
+            QRect scaledRect(r.x(), r.y(), static_cast<int>(r.width()), static_cast<int>(r.height()));
+            offscreenPainter.drawRect(scaledRect);
         }
+
+        // 完成离屏缓冲绘图
+        offscreenPainter.end();
+
+        // 将离屏缓冲区绘制到屏幕上
+        painter->drawImage(boundingBox.topLeft(), offscreenImage);
+
+        // 动态矩形绘制（确保绘制在图像之上）
+        if (expand == true&&function1==all_my_function::expansion) {
+            double factor =image_factor;
+            // 设置四条线的位置
+            up_line.setLine(rect.x(), (rect.y()) * factor - offset + up_move_component,
+                            (rect.x() + width) * factor, (rect.y()) * factor - offset + up_move_component);
+            down_line.setLine(rect.x(), (rect.y() + height + down_move_component) * factor + offset,
+                              (rect.x() + width) * factor, (rect.y() + height+ down_move_component) * factor + offset);
+            left_line.setLine((rect.x() + left_move_component) * factor - offset, rect.y(),
+                              (rect.x() + left_move_component) * factor - offset, (rect.y() + height) * factor);
+            right_line.setLine((rect.x() + width+ right_move_component) * factor + offset, rect.y(),
+                               (rect.x() + width+ right_move_component) * factor + offset, (rect.y() + height) * factor);
+
+
+            QPen pen;
+            pen.setWidth(5); // 设置线条宽度
+            painter->setPen(pen);
+
+            // 绘制四条线
+            painter->drawLine(up_line);
+            painter->drawLine(right_line);
+            painter->drawLine(down_line);
+            painter->drawLine(left_line);
+        }
+
+        // 触发更新
+        update();
+    }
+    bool isPointNearLine(const QPointF &point, const QLineF &line, qreal threshold = 10.0) const {
+        return QLineF(point, line.p1()).length() + QLineF(point, line.p2()).length()
+        - line.length() < threshold;
     }
 signals:
     void change_color_signals(const QColor& c);
@@ -2002,7 +2091,21 @@ protected:
 
         int newWidth = static_cast<int>(this->width * image_factor);
         int newHeight = static_cast<int>(this->height * image_factor);
-
+        if(function1==all_my_function::expansion&&expand==true)
+        {
+            Point1 = event->pos();
+            if (isPointNearLine(event->pos(), up_line)) {
+                selectedLine = 1;
+            } else if (isPointNearLine(event->pos(), down_line)) {
+                selectedLine = 2;
+            } else if (isPointNearLine(event->pos(), left_line)) {
+                selectedLine = 3;
+            } else if (isPointNearLine(event->pos(), right_line)) {
+                selectedLine = 4;
+            } else {
+                selectedLine = 0;
+            }
+        }
         choice_function(event,1);
         image = originalImage.scaled(newWidth, newHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
         update();
@@ -2013,18 +2116,78 @@ protected:
         choice_function(event,2);
         int newWidth = static_cast<int>(this->width * image_factor);
         int newHeight = static_cast<int>(this->height * image_factor);
+        if (selectedLine != 0&&function1==all_my_function::expansion&&expand==true) {
+            Point2 = event->pos(); // 鼠标移动的偏移量
+            switch (selectedLine) {
+            case 1: // 上边线
+                up_move_component=Point2.y()-Point1.y(); // 仅调整上边
+                break;
+            case 2: // 下边线
+                down_move_component=Point2.y()-Point1.y(); // 仅调整下边
+                break;
+            case 3: // 左边线
+                left_move_component=Point2.x()-Point1.x(); // 仅调整左边
+                break;
+            case 4: // 右边线
+                right_move_component=Point2.x()-Point1.x(); // 仅调整右边
+                break;
+            default:
+                break;
+            }
+        }
         image = originalImage.scaled(newWidth, newHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
         update();
     }
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override
-    {
-        event->accept();
-        choice_function(event,3);
-        int newWidth = static_cast<int>(this->width * image_factor);
-        int newHeight = static_cast<int>(this->height * image_factor);
-        image = originalImage.scaled(newWidth, newHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override {
+        choice_function(event, 3); // 调用函数处理鼠标释放事件
+
+        if (selectedLine != 0&&function1==all_my_function::expansion&&expand==true) {
+            // 计算新图像的尺寸
+            int newWidth = originalImage.width() + right_move_component - left_move_component;
+            int newHeight = originalImage.height() + down_move_component - up_move_component;
+
+            // 创建一个新的 QImage，大小为扩增后的尺寸
+            QImage expandedImage(newWidth, newHeight, QImage::Format_RGB32);
+            expandedImage.fill(Qt::white); // 填充新图像为白色
+
+            // 创建一个画家，将原始图像绘制到新图像的正确位置
+            QPainter painter(&expandedImage);
+
+            // 根据选中的线条和移动量，计算原始图像的绘制位置
+            //int xOffset = left_move_component > 0 ? -1*left_move_component : 0;
+            //int yOffset = up_move_component > 0 ? -1*up_move_component : 0;
+
+            painter.drawImage(0- left_move_component, 0-up_move_component, originalImage);
+            painter.end();
+
+            // 更新 originalImage 为扩展后的图像
+            originalImage = expandedImage;
+
+            // 重置选择的线条和移动分量
+            selectedLine = 0;
+            up_move_component = 0;
+            down_move_component = 0;
+            left_move_component = 0;
+            right_move_component = 0;
+
+            // 重新计算缩放后的图像
+            int scaledWidth = static_cast<int>(newWidth * image_factor);
+            int scaledHeight = static_cast<int>(newHeight * image_factor);
+            image = originalImage.scaled(scaledWidth, scaledHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+
+            addimage(); // 调用自定义函数处理更新
+        } else {
+            // 如果未选中任何线条，仅重新计算缩放后的图像
+            int newWidth = static_cast<int>(this->width * image_factor);
+            int newHeight = static_cast<int>(this->height * image_factor);
+            image = originalImage.scaled(newWidth, newHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        }
+
+        // 更新界面
         update();
     }
+
+
 private:
     //显示图像
     QImage image;
@@ -2058,6 +2221,17 @@ private:
     QVector<QImage> buffer;
     //当前文件
     int now;
+
+    QLine up_line,down_line,left_line,right_line;
+    int offset;
+    bool expand;
+    QPointF Point1; // 鼠标按下时的位置
+    QPointF Point2; // 鼠标释放时的位置
+    qreal up_move_component = 0;
+    qreal down_move_component = 0;
+    qreal left_move_component = 0;
+    qreal right_move_component = 0;
+    int selectedLine = 0; // 当前选中的线条
 };
 
 #endif // QCUSTOMIMAGE_H

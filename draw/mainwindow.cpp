@@ -179,7 +179,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 连接菜单项的信号和槽
     ui->menu->setIcon(QIcon());
-    ui->menu->setTitle("菜单");
+    ui->menu->setTitle("菜单(space)");
 
     // 为每个 QAction 设置快捷键
     ui->new_file->setShortcut(QKeySequence("Ctrl+N"));  // 新建文件快捷键 Ctrl+N
@@ -266,10 +266,51 @@ MainWindow::MainWindow(QWidget *parent)
     graphicsMap["rounded_rectangle_annotation"] = all_my_graphics::rounded_rectangle_annotation;
     graphicsMap["cloud_annotation"] = all_my_graphics::cloud_annotation;
     graphicsMap["circle_annotation"] = all_my_graphics::circle_annotation;
+
+
+    // 初始化菜单项
+    showBoundaryAction = new QAction(tr("显示边界"), this);
+    hideBoundaryAction = new QAction(tr("隐藏边界"), this);
+
+    // 设置初始状态
+    showBoundaryAction->setEnabled(true);  // 可用
+    hideBoundaryAction->setEnabled(false); // 禁用
+
+    // 连接菜单项信号和槽
+    connect(showBoundaryAction, &QAction::triggered, this, &MainWindow::showBoundary);
+    connect(hideBoundaryAction, &QAction::triggered, this, &MainWindow::hideBoundary);
+
+    // 启用右键菜单策略
+    setContextMenuPolicy(Qt::DefaultContextMenu);
 }
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+// 重写右键菜单事件
+void MainWindow::contextMenuEvent(QContextMenuEvent *event){
+    QMenu menu(this);
+    menu.addAction(showBoundaryAction);
+    menu.addAction(hideBoundaryAction);
+    menu.exec(event->globalPos());
+}
+void MainWindow::showBoundary() {
+    qDebug() << "显示边界";
+    // 切换菜单项状态
+    showBoundaryAction->setEnabled(false);
+    hideBoundaryAction->setEnabled(true);
+
+    customImage->set_expansion(true);
+}
+
+void MainWindow::hideBoundary() {
+    qDebug() << "隐藏边界";
+    // 切换菜单项状态
+    showBoundaryAction->setEnabled(true);
+    hideBoundaryAction->setEnabled(false);
+
+    // 添加隐藏边界的逻辑
+    customImage->set_expansion(false);
 }
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
@@ -301,6 +342,7 @@ void MainWindow::showEvent(QShowEvent * /*event*/)
         }
         customImage->changefunction(painting);
         customImage->changegraphics(basic);
+        this->hideBoundary();
         // 可以使用鼠标在scene上画线
         qDebug() << "按钮改变回去";
         ui->painting->setStyleSheet("QPushButton {background-color:QColor(200,200,200);}");
@@ -416,6 +458,7 @@ void MainWindow::showEvent(QShowEvent * /*event*/)
                     all_my_graphics graphicsType = it->second;
                     qDebug() << graphicsType;
                     customImage->changegraphics(graphicsType);
+                    this->hideBoundary();
                 }
             });
         }
@@ -450,6 +493,7 @@ void MainWindow::showEvent(QShowEvent * /*event*/)
                     all_my_function functionType = it->second;
                     qDebug() << functionType;
                     customImage->changefunction(functionType);
+                    this->hideBoundary();
                 }
             });
         }
