@@ -2051,29 +2051,65 @@ public:
         painter->drawImage(boundingBox.topLeft(), offscreenImage);
 
         // 动态矩形绘制（确保绘制在图像之上）
-        if (expand == true&&function1==all_my_function::expansion) {
+        if (expand == true && function1 == all_my_function::expansion) {
             double factor =image_factor;
-            // 设置四条线的位置
-            up_line.setLine(rect.x(), (rect.y()) * factor - offset + up_move_component,
-                            (rect.x() + width) * factor, (rect.y()) * factor - offset + up_move_component);
-            down_line.setLine(rect.x(), (rect.y() + height + down_move_component) * factor + offset,
-                              (rect.x() + width) * factor, (rect.y() + height+ down_move_component) * factor + offset);
-            left_line.setLine((rect.x() + left_move_component) * factor - offset, rect.y(),
-                              (rect.x() + left_move_component) * factor - offset, (rect.y() + height) * factor);
-            right_line.setLine((rect.x() + width+ right_move_component) * factor + offset, rect.y(),
-                               (rect.x() + width+ right_move_component) * factor + offset, (rect.y() + height) * factor);
 
+            // 计算矩形的偏移位置和大小
+            QRectF dynamicRect(
+                (rect.x()) * factor + left_move_component,            // 左上角 x
+                (rect.y()) * factor + up_move_component ,             // 左上角 y
+                (rect.x() + width ) * factor+ right_move_component- left_move_component, // 宽度
+                (rect.y() + height ) * factor+ down_move_component - up_move_component   // 高度
+                );
 
+            // 配置画笔
             QPen pen;
-            pen.setWidth(5); // 设置线条宽度
-            painter->setPen(pen);
+            pen.setWidth(1); // 设置线条宽度为 1
+            pen.setStyle(Qt::DashLine); // 设置线条样式为虚线
+            pen.setColor(Qt::black); // 设置线条颜色为黑色
 
-            // 绘制四条线
+            // 使用画笔绘制矩形
+            painter->setPen(pen);
+            painter->drawRect(dynamicRect);
+
+            // 绘制四条辅助线（可选，如果需要保留原先的线条）
+            QPen linePen;
+            linePen.setWidth(5); // 设置辅助线宽度
+            linePen.setStyle(Qt::SolidLine); // 使用实线样式
+            //linePen.setColor(Qt::red); // 设置辅助线颜色为红色
+            painter->setPen(linePen);
+
+            // 设置四条线的位置
+            up_line.setLine(
+                rect.x() * factor,
+                rect.y() * factor - offset + up_move_component,
+                (rect.x() + width) * factor,
+                rect.y() * factor - offset + up_move_component
+                );
+            down_line.setLine(
+                rect.x() * factor,
+                (rect.y() + height) * factor + offset + down_move_component,
+                (rect.x() + width) * factor,
+                (rect.y() + height ) * factor + offset+ down_move_component
+                );
+            left_line.setLine(
+                (rect.x() ) * factor + left_move_component- offset,rect.y() * factor,
+                (rect.x() ) * factor - offset+ left_move_component,
+                (rect.y() + height) * factor
+                );
+            right_line.setLine(
+                (rect.x() + width ) * factor + offset+ right_move_component,rect.y() * factor,
+                (rect.x() + width ) * factor + offset+ right_move_component,
+                (rect.y() + height) * factor
+                );
+
+            // 绘制辅助线
             painter->drawLine(up_line);
-            painter->drawLine(right_line);
             painter->drawLine(down_line);
             painter->drawLine(left_line);
+            painter->drawLine(right_line);
         }
+
 
         // 触发更新
         update();
@@ -2152,10 +2188,6 @@ protected:
 
             // 创建一个画家，将原始图像绘制到新图像的正确位置
             QPainter painter(&expandedImage);
-
-            // 根据选中的线条和移动量，计算原始图像的绘制位置
-            //int xOffset = left_move_component > 0 ? -1*left_move_component : 0;
-            //int yOffset = up_move_component > 0 ? -1*up_move_component : 0;
 
             painter.drawImage(0- left_move_component, 0-up_move_component, originalImage);
             painter.end();
