@@ -65,5 +65,6 @@ private:
     QString filename;
     QAction *showBoundaryAction; // "显示边界" 菜单项
     QAction *hideBoundaryAction; // "隐藏边界" 菜单项
+    QAction  *showMenuAction;
 };
 #endif // MAINWINDOW_H

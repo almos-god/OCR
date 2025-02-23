@@ -21,6 +21,7 @@
 #include <QMessageBox>
 #include <QProcess>
 #include <QTimer>
+#include <QGraphicsBlurEffect>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -41,9 +42,14 @@ MainWindow::MainWindow(QWidget *parent)
     // 将 QPalette 对象应用于 groupBox 和 groupBox_2
     ui->groupBox->setAutoFillBackground(true);
     ui->groupBox->setPalette(palette);
+
+    ui->groupBox->setStyleSheet("QGroupBox { border: none; background-color: white; }");
+
     ui->groupBox_2->setAutoFillBackground(true);
     ui->groupBox_2->setPalette(palette);
     ui->groupBox_2->setGeometry(0, 0, 200, 200);
+
+    ui->groupBox_2->setStyleSheet("QGroupBox { border: none; background-color: white; }");
 
     // 设置初始值为 0
     ui->spinBox->setValue(0);
@@ -68,8 +74,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->radioButton->setChecked(false);
 
     // 设置动作的图标
-    ui->undo->setIcon(QIcon(":/new/prefix1/back  up.svg"));
-    ui->redo->setIcon(QIcon(":/new/prefix1/advance.svg"));
+    //ui->undo->setIcon(QIcon(":/new/prefix1/back  up.svg"));
+    //ui->redo->setIcon(QIcon(":/new/prefix1/advance.svg"));
 
     //前景色，背景色状态初始化
     background_color=true;
@@ -149,40 +155,14 @@ MainWindow::MainWindow(QWidget *parent)
     statusBar->addPermanentWidget(valueLabel);
     statusBar->addPermanentWidget(slider);
     setStatusBar(statusBar);
-/*
-    ui->menu->removeAction(ui->new_file);
-    ui->menu->removeAction(ui->actionopen_file);
-    ui->menu->removeAction(ui->open_file);
-    ui->menu->removeAction(ui->exit);
-    ui->menu->removeAction(ui->save);
-    ui->menu->removeAction(ui->redo);
-    ui->menu->removeAction(ui->undo);
-    ui->menu->removeAction(ui->save_as_anothing_file);
-
-
-    // 删除菜单项
-    ui->menubar->removeAction(ui->menuopen_file);
-    ui->menubar->removeAction(ui->menusave);
-    ui->menubar->removeAction(ui->menusave_anothing_file);
-    ui->menubar->removeAction(ui->menuexit);
-    ui->menubar->removeAction(ui->menuredo);
-    ui->menubar->removeAction(ui->menuundo);
-*/
-    // 如果你需要销毁它们，确保清理资源
-
-    delete ui->menuopen_file;
-    delete ui->menusave;
-    delete ui->menusave_anothing_file;
-    delete ui->menuexit;
-    delete ui->menuredo;
-    delete ui->menuundo;
 
     // 连接菜单项的信号和槽
     ui->menu->setIcon(QIcon());
     ui->menu->setTitle("菜单(space)");
 
+
     // 为每个 QAction 设置快捷键
-    ui->new_file->setShortcut(QKeySequence("Ctrl+N"));  // 新建文件快捷键 Ctrl+N
+    ui->new_window->setShortcut(QKeySequence("Ctrl+N"));  // 新建文件快捷键 Ctrl+N
     ui->open_file->setShortcut(QKeySequence("Ctrl+O"));  // 打开文件快捷键 Ctrl+O
     ui->save->setShortcut(QKeySequence("Ctrl+S"));  // 保存文件快捷键 Ctrl+S
     ui->save_as_anothing_file->setShortcut(QKeySequence("Ctrl+Shift+S"));  // 另存为快捷键 Ctrl+Shift+S
@@ -191,12 +171,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->undo->setShortcut(QKeySequence("Ctrl+Z"));  // 撤销快捷键 Ctrl+Z
 
     // 设置显示菜单的快捷键（例如 Ctrl+M）
-    QAction* showMenuAction = new QAction(this);
-    showMenuAction->setShortcut(QKeySequence("Ctrl+Space"));
-    ui->menubar->addAction(showMenuAction);
+    showMenuAction = new QAction(this);
+    this->showMenuAction->setShortcut(QKeySequence("Ctrl+Space"));
+    ui->menubar->addAction(this->showMenuAction);
 
     // 连接菜单项的 triggered 信号和槽函数
-    connect(ui->new_file, &QAction::triggered, this, [this]() {
+    connect(ui->new_window, &QAction::triggered, this, [this]() {
         startNewDrawingProcess();
     });
 
@@ -243,6 +223,10 @@ MainWindow::MainWindow(QWidget *parent)
     functionMap["my_erase"]=all_my_function::my_erase;
     functionMap["fill"]=all_my_function::fill;
     functionMap["crop"]=all_my_function::crop;
+    functionMap["right_rotation"]=all_my_function::right_rotation;
+    functionMap["left_rotation"]=all_my_function::left_rotation;
+    functionMap["flip_horizontally"]=all_my_function::flip_horizontally;
+    functionMap["flip_vertically"]=all_my_function::flip_vertically;
 
     // 初始化图形映射
     graphicsMap["basic"] = all_my_graphics::basic;
@@ -690,29 +674,22 @@ void MainWindow::exitApp()
 }
 void MainWindow::get_refresh()
 {
-    // 获取QSlider的值，注意QSlider的值是整数类型，需要根据具体情况考虑是否要转换为qreal类型
+    // 获取QSlider的值，计算缩放比例
     qreal percentage = sqrt((slider->value()) / 1000.0);
-
-    // 设置视图的矩形区域，并留出边距
-    QRectF viewRect = customImage->boundingRect();
-    int margin = 50;
-    viewRect.setX(viewRect.x() - margin); // 左上角减去边距
-    viewRect.setY(viewRect.y() - margin); // 左上角减去边距
-    viewRect.setWidth(viewRect.width() +  margin); // 左右各留出边距
-    viewRect.setHeight(viewRect.height() + margin); // 上下各留出边距
-    graphicsView->setSceneRect(viewRect);
 
     // 设置视图的变换矩阵
     QTransform transform;
     transform.scale(percentage, percentage);
     graphicsView->setTransform(transform);
 
-    // 调整滚动条的位置，使 customImage 在视图中居中
-    QRectF graphicsViewRect = graphicsView->rect();
-    QRectF itemRect = customImage->mapToScene(customImage->boundingRect()).boundingRect();
-    qreal hScrollValue = (itemRect.width() - graphicsViewRect.width()) / 2;
-    qreal vScrollValue = (itemRect.height() - graphicsViewRect.height()) / 2;
-    graphicsView->horizontalScrollBar()->setValue(static_cast<int>(hScrollValue));
-    graphicsView->verticalScrollBar()->setValue(static_cast<int>(vScrollValue));
+    // 获取 customImage 的边界
+    QRectF viewRect = customImage->boundingRect();
+
+    // 设置场景的可视区域
+    graphicsView->setSceneRect(viewRect);
+
+    // **确保 customImage 居中**
+    graphicsView->centerOn(customImage);
 }
+
 

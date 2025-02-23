@@ -22,8 +22,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>200</width>
-      <height>200</height>
+      <width>211</width>
+      <height>201</height>
      </rect>
     </property>
     <property name="font">
@@ -39,13 +39,42 @@
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>180</width>
-       <height>91</height>
+       <width>191</width>
+       <height>134</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="3">
-       <widget class="QPushButton" name="my_erase">
+      <item row="1" column="1">
+       <widget class="QPushButton" name="right_rotation">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/MemoryRotateClockwise.svg</normaloff>:/new/prefix1/MemoryRotateClockwise.svg</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QPushButton" name="color_extractor">
         <property name="minimumSize">
          <size>
           <width>40</width>
@@ -64,14 +93,14 @@
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">image: url(:/new/prefix1/earse.svg);</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/CarbonErase.svg</normaloff>:/new/prefix1/icon/CarbonErase.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/FaEyedropper.svg</normaloff>:/new/prefix1/FaEyedropper.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -110,8 +139,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/SimpleLineIconsSizeFullscreen.svg</normaloff>:/new/prefix1/icon/SimpleLineIconsSizeFullscreen.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/SimpleLineIconsSizeFullscreen.svg</normaloff>:/new/prefix1/SimpleLineIconsSizeFullscreen.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -124,8 +153,66 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QPushButton" name="color_extractor">
+      <item row="2" column="0">
+       <widget class="QPushButton" name="flip_vertically">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/OiElevator.svg</normaloff>:/new/prefix1/OiElevator.svg</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QPushButton" name="left_rotation">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/MemoryRotateCounterclockwise.svg</normaloff>:/new/prefix1/MemoryRotateCounterclockwise.svg</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="my_erase">
         <property name="minimumSize">
          <size>
           <width>40</width>
@@ -144,54 +231,14 @@
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">image: url(:/new/prefix1/color picker.svg);</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/FaEyedropper.svg</normaloff>:/new/prefix1/icon/FaEyedropper.svg</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>32</width>
-          <height>32</height>
-         </size>
-        </property>
-        <property name="autoExclusive">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4">
-       <widget class="QPushButton" name="fill">
-        <property name="minimumSize">
-         <size>
-          <width>40</width>
-          <height>40</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>40</width>
-          <height>40</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">image: url(:/new/prefix1/fill.svg);</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/MdiFill.svg</normaloff>:/new/prefix1/icon/MdiFill.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/CarbonErase.svg</normaloff>:/new/prefix1/CarbonErase.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -224,14 +271,83 @@
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">image: url(:/new/prefix1/cut out.svg);</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/RiCropLine.svg</normaloff>:/new/prefix1/icon/RiCropLine.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/RiCropLine.svg</normaloff>:/new/prefix1/RiCropLine.svg</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QPushButton" name="flip_horizontally">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/DashiconsLeftright.svg</normaloff>:/new/prefix1/DashiconsLeftright.svg</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QPushButton" name="fill">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/MdiFill.svg</normaloff>:/new/prefix1/MdiFill.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -250,9 +366,9 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>210</x>
       <y>0</y>
-      <width>940</width>
+      <width>971</width>
       <height>200</height>
      </rect>
     </property>
@@ -325,7 +441,7 @@
        <x>210</x>
        <y>10</y>
        <width>161</width>
-       <height>214</height>
+       <height>171</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -419,8 +535,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/MdiHexagonOutline.svg</normaloff>:/new/prefix1/icon/MdiHexagonOutline.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/MdiHexagonOutline.svg</normaloff>:/new/prefix1/MdiHexagonOutline.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -459,8 +575,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/MdiHexagramOutline.svg</normaloff>:/new/prefix1/icon/MdiHexagramOutline.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/MdiHexagramOutline.svg</normaloff>:/new/prefix1/MdiHexagramOutline.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -499,8 +615,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/circle.svg</normaloff>:/new/prefix1/icon/circle.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/circle.svg</normaloff>:/new/prefix1/circle.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -539,8 +655,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/five-pointed star.svg</normaloff>:/new/prefix1/icon/five-pointed star.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/five-pointed star.svg</normaloff>:/new/prefix1/five-pointed star.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -579,8 +695,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/MdiRhombusOutline.svg</normaloff>:/new/prefix1/icon/MdiRhombusOutline.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/MdiRhombusOutline.svg</normaloff>:/new/prefix1/MdiRhombusOutline.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -619,8 +735,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/MdiStarFourPointsOutline.svg</normaloff>:/new/prefix1/icon/MdiStarFourPointsOutline.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/MdiStarFourPointsOutline.svg</normaloff>:/new/prefix1/MdiStarFourPointsOutline.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -659,8 +775,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/ellipse.svg</normaloff>:/new/prefix1/icon/ellipse.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/ellipse.svg</normaloff>:/new/prefix1/ellipse.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -699,8 +815,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/MdiRectangleOutline.svg</normaloff>:/new/prefix1/icon/MdiRectangleOutline.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/MdiRectangleOutline.svg</normaloff>:/new/prefix1/MdiRectangleOutline.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -733,14 +849,14 @@
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">image: url(:/new/prefix1/rectangle.svg);</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>icon/TopcoatRoundedrectangleOutline.svg</normaloff>icon/TopcoatRoundedrectangleOutline.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/TopcoatRoundedrectangleOutline.svg</normaloff>:/new/prefix1/TopcoatRoundedrectangleOutline.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -773,14 +889,14 @@
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">image: url(:/new/prefix1/line.svg);</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/IconoirLinear.svg</normaloff>:/new/prefix1/icon/IconoirLinear.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/IconoirLinear.svg</normaloff>:/new/prefix1/IconoirLinear.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -819,8 +935,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/HugeiconsRightTriangle.svg</normaloff>:/new/prefix1/icon/HugeiconsRightTriangle.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/HugeiconsRightTriangle.svg</normaloff>:/new/prefix1/HugeiconsRightTriangle.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -859,8 +975,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/MdiTriangleDownOutline.svg</normaloff>:/new/prefix1/icon/MdiTriangleDownOutline.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/MdiTriangleDownOutline.svg</normaloff>:/new/prefix1/MdiTriangleDownOutline.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -899,8 +1015,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/PhLightningFill.svg</normaloff>:/new/prefix1/icon/PhLightningFill.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/PhLightningFill.svg</normaloff>:/new/prefix1/PhLightningFill.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -939,8 +1055,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/LsArrowleft.svg</normaloff>:/new/prefix1/icon/LsArrowleft.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/LsArrowleft.svg</normaloff>:/new/prefix1/LsArrowleft.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -979,8 +1095,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/LsArrowright.svg</normaloff>:/new/prefix1/icon/LsArrowright.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/LsArrowright.svg</normaloff>:/new/prefix1/LsArrowright.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -1019,8 +1135,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/LsArrowup.svg</normaloff>:/new/prefix1/icon/LsArrowup.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/LsArrowup.svg</normaloff>:/new/prefix1/LsArrowup.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -1059,8 +1175,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/LsArrowdown.svg</normaloff>:/new/prefix1/icon/LsArrowdown.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/LsArrowdown.svg</normaloff>:/new/prefix1/LsArrowdown.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -1099,8 +1215,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/F7BubbleMiddleBottom.svg</normaloff>:/new/prefix1/icon/F7BubbleMiddleBottom.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/F7BubbleMiddleBottom.svg</normaloff>:/new/prefix1/F7BubbleMiddleBottom.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -1139,8 +1255,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/MdiThoughtBubble.svg</normaloff>:/new/prefix1/icon/MdiThoughtBubble.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/MdiThoughtBubble.svg</normaloff>:/new/prefix1/MdiThoughtBubble.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -1179,8 +1295,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/new/prefix1/icon/HeroiconsChatBubbleOvalLeft.svg</normaloff>:/new/prefix1/icon/HeroiconsChatBubbleOvalLeft.svg</iconset>
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/HeroiconsChatBubbleOvalLeft.svg</normaloff>:/new/prefix1/HeroiconsChatBubbleOvalLeft.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -1374,25 +1490,88 @@
      <height>22</height>
     </rect>
    </property>
-   <widget class="CustomMenu" name="menu">
+   <widget class="QMenu" name="menu">
     <property name="title">
      <string>菜单</string>
     </property>
+    <addaction name="new_window"/>
+    <addaction name="open_file"/>
+    <addaction name="save"/>
+    <addaction name="save_as_anothing_file"/>
+    <addaction name="exit"/>
+    <addaction name="redo"/>
+    <addaction name="undo"/>
    </widget>
    <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="new_window">
+   <property name="icon">
+    <iconset resource="icon/icon.qrc">
+     <normaloff>:/new/prefix1/WhhNewwindow.svg</normaloff>:/new/prefix1/WhhNewwindow.svg</iconset>
+   </property>
+   <property name="text">
+    <string>new window</string>
+   </property>
+  </action>
+  <action name="open_file">
+   <property name="icon">
+    <iconset resource="icon/icon.qrc">
+     <normaloff>:/new/prefix1/WhhOpenfolderalt.svg</normaloff>:/new/prefix1/WhhOpenfolderalt.svg</iconset>
+   </property>
+   <property name="text">
+    <string>open_file</string>
+   </property>
+  </action>
+  <action name="save">
+   <property name="icon">
+    <iconset resource="icon/icon.qrc">
+     <normaloff>:/new/prefix1/FluentSave32Regular.svg</normaloff>:/new/prefix1/FluentSave32Regular.svg</iconset>
+   </property>
+   <property name="text">
+    <string>save</string>
+   </property>
+  </action>
+  <action name="save_as_anothing_file">
+   <property name="icon">
+    <iconset resource="icon/icon.qrc">
+     <normaloff>:/new/prefix1/FadSaveas.svg</normaloff>:/new/prefix1/FadSaveas.svg</iconset>
+   </property>
+   <property name="text">
+    <string>save as anothering file</string>
+   </property>
+  </action>
+  <action name="exit">
+   <property name="icon">
+    <iconset resource="icon/icon.qrc">
+     <normaloff>:/new/prefix1/SolarExitBoldDuotone.svg</normaloff>:/new/prefix1/SolarExitBoldDuotone.svg</iconset>
+   </property>
+   <property name="text">
+    <string>exit</string>
+   </property>
+  </action>
+  <action name="redo">
+   <property name="icon">
+    <iconset resource="icon/icon.qrc">
+     <normaloff>:/new/prefix1/back  up.svg</normaloff>:/new/prefix1/back  up.svg</iconset>
+   </property>
+   <property name="text">
+    <string>redo</string>
+   </property>
+  </action>
+  <action name="undo">
+   <property name="icon">
+    <iconset resource="icon/icon.qrc">
+     <normaloff>:/new/prefix1/advance.svg</normaloff>:/new/prefix1/advance.svg</iconset>
+   </property>
+   <property name="text">
+    <string>undo</string>
+   </property>
+  </action>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>CustomMenu</class>
-   <extends>QMenu</extends>
-   <header location="global">custommenu.h</header>
-   <slots>
-    <signal>menuClicked()</signal>
-   </slots>
-  </customwidget>
- </customwidgets>
- <resources/>
+ <resources>
+  <include location="icon/icon.qrc"/>
+  <include location="icon/icon.qrc"/>
+ </resources>
  <connections/>
 </ui>

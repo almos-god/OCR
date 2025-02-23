@@ -112,7 +112,51 @@ compiler_rcc_make_all: release/qrc_icon.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) release\qrc_icon.cpp
 release/qrc_icon.cpp: icon/icon.qrc \
-		D:/QT/6.5.3/mingw_64/bin/rcc.exe
+		D:/QT/6.5.3/mingw_64/bin/rcc.exe \
+		icon/DashiconsLeftright.svg \
+		icon/LsArrowup.svg \
+		icon/MdiRectangleOutline.svg \
+		icon/FluentSave32Regular.svg \
+		icon/SimpleLineIconsSizeFullscreen.svg \
+		icon/MemoryRotateClockwise.svg \
+		icon/FadSaveas.svg \
+		icon/CarbonErase.svg \
+		icon/WhhOpenfolderalt.svg \
+		icon/advance.svg \
+		icon/LsArrowright.svg \
+		icon/MdiHeartOutline.svg \
+		icon/TopcoatRoundedrectangleOutline.svg \
+		icon/FlatUiPicture.ico \
+		icon/HugeiconsRightTriangle.svg \
+		icon/MdiFill.svg \
+		icon/GravityUiMagnifierPlus.svg \
+		icon/IconoirLinear.svg \
+		icon/MdiHexagramOutline.svg \
+		icon/five-pointed\ star.svg \
+		icon/WhhNewwindow.svg \
+		icon/OiElevator.svg \
+		icon/FaEyedropper.svg \
+		icon/PhLightningFill.svg \
+		icon/SolarExitBoldDuotone.svg \
+		icon/set.svg \
+		icon/ellipse.svg \
+		icon/loving\ heart.svg \
+		icon/F7BubbleMiddleBottom.svg \
+		icon/LsArrowleft.svg \
+		icon/MdiThoughtBubble.svg \
+		icon/icon.qrc \
+		icon/circle.svg \
+		icon/back\ \ up.svg \
+		icon/MdiEllipse.svg \
+		icon/RiCropLine.svg \
+		icon/MdiRhombusOutline.svg \
+		icon/MdiTriangleDownOutline.svg \
+		icon/HeroiconsChatBubbleOvalLeft.svg \
+		icon/PrimeSave.svg \
+		icon/LsArrowdown.svg \
+		icon/MemoryRotateCounterclockwise.svg \
+		icon/MdiStarFourPointsOutline.svg \
+		icon/MdiHexagonOutline.svg
 	D:\QT\6.5.3\mingw_64\bin\rcc.exe -name icon --no-zstd icon\icon.qrc -o release\qrc_icon.cpp
 
 compiler_moc_predefs_make_all: release/moc_predefs.h
@@ -325,7 +369,7 @@ release/moc_QCustomImage.cpp: QCustomImage.h \
 		D:/QT/6.5.3/mingw_64/include/QtWidgets/qmessagebox.h \
 		release/moc_predefs.h \
 		D:/QT/6.5.3/mingw_64/bin/moc.exe
-	D:\QT\6.5.3\mingw_64\bin\moc.exe $(DEFINES) --include C:/常用文件/draw/release/moc_predefs.h -ID:/QT/6.5.3/mingw_64/mkspecs/win32-g++ -IC:/常用文件/draw -ID:/QT/6.5.3/mingw_64/include -ID:/QT/6.5.3/mingw_64/include/QtWidgets -ID:/QT/6.5.3/mingw_64/include/QtGui -ID:/QT/6.5.3/mingw_64/include/QtCore -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -ID:/QT/Tools/mingw1120_64/x86_64-w64-mingw32/include QCustomImage.h -o release\moc_QCustomImage.cpp
+	D:\QT\6.5.3\mingw_64\bin\moc.exe $(DEFINES) --include C:/Desktop/draw/release/moc_predefs.h -ID:/QT/6.5.3/mingw_64/mkspecs/win32-g++ -IC:/Desktop/draw -ID:/QT/6.5.3/mingw_64/include -ID:/QT/6.5.3/mingw_64/include/QtWidgets -ID:/QT/6.5.3/mingw_64/include/QtGui -ID:/QT/6.5.3/mingw_64/include/QtCore -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -ID:/QT/Tools/mingw1120_64/x86_64-w64-mingw32/include QCustomImage.h -o release\moc_QCustomImage.cpp
 
 release/moc_mainwindow.cpp: mainwindow.h \
 		D:/QT/6.5.3/mingw_64/include/QtWidgets/QMainWindow \
@@ -553,7 +597,7 @@ release/moc_mainwindow.cpp: mainwindow.h \
 		D:/QT/6.5.3/mingw_64/include/QtWidgets/QGraphicsScene \
 		release/moc_predefs.h \
 		D:/QT/6.5.3/mingw_64/bin/moc.exe
-	D:\QT\6.5.3\mingw_64\bin\moc.exe $(DEFINES) --include C:/常用文件/draw/release/moc_predefs.h -ID:/QT/6.5.3/mingw_64/mkspecs/win32-g++ -IC:/常用文件/draw -ID:/QT/6.5.3/mingw_64/include -ID:/QT/6.5.3/mingw_64/include/QtWidgets -ID:/QT/6.5.3/mingw_64/include/QtGui -ID:/QT/6.5.3/mingw_64/include/QtCore -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -ID:/QT/Tools/mingw1120_64/x86_64-w64-mingw32/include mainwindow.h -o release\moc_mainwindow.cpp
+	D:\QT\6.5.3\mingw_64\bin\moc.exe $(DEFINES) --include C:/Desktop/draw/release/moc_predefs.h -ID:/QT/6.5.3/mingw_64/mkspecs/win32-g++ -IC:/Desktop/draw -ID:/QT/6.5.3/mingw_64/include -ID:/QT/6.5.3/mingw_64/include/QtWidgets -ID:/QT/6.5.3/mingw_64/include/QtGui -ID:/QT/6.5.3/mingw_64/include/QtCore -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -ID:/QT/Tools/mingw1120_64/x86_64-w64-mingw32/include mainwindow.h -o release\moc_mainwindow.cpp
 
 release/moc_size_dialog.cpp: size_dialog.h \
 		D:/QT/6.5.3/mingw_64/include/QtWidgets/QDialog \
@@ -720,7 +764,7 @@ release/moc_size_dialog.cpp: size_dialog.h \
 		D:/QT/6.5.3/mingw_64/include/QtCore/qlocale.h \
 		release/moc_predefs.h \
 		D:/QT/6.5.3/mingw_64/bin/moc.exe
-	D:\QT\6.5.3\mingw_64\bin\moc.exe $(DEFINES) --include C:/常用文件/draw/release/moc_predefs.h -ID:/QT/6.5.3/mingw_64/mkspecs/win32-g++ -IC:/常用文件/draw -ID:/QT/6.5.3/mingw_64/include -ID:/QT/6.5.3/mingw_64/include/QtWidgets -ID:/QT/6.5.3/mingw_64/include/QtGui -ID:/QT/6.5.3/mingw_64/include/QtCore -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -ID:/QT/Tools/mingw1120_64/x86_64-w64-mingw32/include size_dialog.h -o release\moc_size_dialog.cpp
+	D:\QT\6.5.3\mingw_64\bin\moc.exe $(DEFINES) --include C:/Desktop/draw/release/moc_predefs.h -ID:/QT/6.5.3/mingw_64/mkspecs/win32-g++ -IC:/Desktop/draw -ID:/QT/6.5.3/mingw_64/include -ID:/QT/6.5.3/mingw_64/include/QtWidgets -ID:/QT/6.5.3/mingw_64/include/QtGui -ID:/QT/6.5.3/mingw_64/include/QtCore -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -ID:/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -ID:/QT/Tools/mingw1120_64/x86_64-w64-mingw32/include size_dialog.h -o release\moc_size_dialog.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -1267,7 +1311,9 @@ release/mainwindow.o: mainwindow.cpp mainwindow.h \
 		D:/QT/6.5.3/mingw_64/include/QtCore/qprocess.h \
 		D:/QT/6.5.3/mingw_64/include/QtCore/QTimer \
 		D:/QT/6.5.3/mingw_64/include/QtCore/qtimer.h \
-		D:/QT/6.5.3/mingw_64/include/QtCore/qbasictimer.h
+		D:/QT/6.5.3/mingw_64/include/QtCore/qbasictimer.h \
+		D:/QT/6.5.3/mingw_64/include/QtWidgets/QGraphicsBlurEffect \
+		D:/QT/6.5.3/mingw_64/include/QtWidgets/qgraphicseffect.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\mainwindow.o mainwindow.cpp
 
 release/size_dialog.o: size_dialog.cpp size_dialog.h \

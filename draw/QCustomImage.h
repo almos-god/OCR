@@ -1,4 +1,4 @@
-#ifndef QCUSTOMIMAGE_H
+ #ifndef QCUSTOMIMAGE_H
 #define QCUSTOMIMAGE_H
 
 #include <QImage>
@@ -21,7 +21,7 @@
 #include <ctime>   // 添加这个头文件以使用 time()
 #include <iostream>
 enum all_my_function{
-    painting, size,color_extractor, my_erase, fill, crop,expansion
+    painting, size,color_extractor, my_erase, fill, crop,expansion,right_rotation,left_rotation,flip_vertically,flip_horizontally
 };
 enum all_my_graphics{
     basic, straight_line, right_circle, ellipse, isosceles_triangle, right_triangle, right_rectangle,
@@ -144,6 +144,22 @@ public:
         if(this->function1==all_my_function::size)
         {
             size();
+        }
+        else if(this->function1==all_my_function::right_rotation)
+        {
+            right_rotation();
+        }
+        else if(this->function1==all_my_function::left_rotation)
+        {
+            left_rotation();
+        }
+        else if(this->function1==all_my_function::flip_horizontally)
+        {
+            flip_horizontally();
+        }
+        else if(this->function1==all_my_function::flip_vertically)
+        {
+            flip_vertically();
         }
     }
     //改变图形
@@ -1723,6 +1739,58 @@ public:
             }
         }
     }
+    void right_rotation()
+    {
+        // 创建一个 45 度的旋转变换
+        QTransform transform;
+        transform.rotate(90);
+        qDebug()<<"右旋";
+
+        // 对图像应用旋转
+        originalImage = originalImage.transformed(transform, Qt::SmoothTransformation);
+        image=originalImage;
+        addimage();
+        emit refresh_signals();
+    }
+    void left_rotation()
+    {
+        // 创建一个 -90 度的旋转变换（左旋转）
+        QTransform transform;
+        transform.rotate(-90);
+        qDebug()<<"左旋";
+        // 对图像应用旋转
+        originalImage = originalImage.transformed(transform, Qt::SmoothTransformation);
+        image = originalImage;
+        addimage();
+        emit refresh_signals();
+    }
+
+    void flip_vertically()
+    {
+        // 创建一个垂直翻转的变换
+        QTransform transform;
+        transform.scale(1, -1); // y轴翻转
+
+        // 对图像应用翻转
+        originalImage = originalImage.transformed(transform, Qt::SmoothTransformation);
+        image = originalImage;
+        addimage();
+        emit refresh_signals();
+    }
+
+    void flip_horizontally()
+    {
+        // 创建一个水平翻转的变换
+        QTransform transform;
+        transform.scale(-1, 1); // x轴翻转
+
+        // 对图像应用翻转
+        originalImage = originalImage.transformed(transform, Qt::SmoothTransformation);
+        image = originalImage;
+        addimage();
+        emit refresh_signals();
+    }
+
     void choice_painting(QGraphicsSceneMouseEvent *event,int mouse)
     {
         if (foregroundColor.alpha()!= 0) {
@@ -1886,6 +1954,14 @@ public:
                 crop(event,mouse);
                 break;
             case all_my_function::expansion:
+                break;
+            case all_my_function::right_rotation:
+                break;
+            case all_my_function::left_rotation:
+                break;
+            case all_my_function::flip_horizontally:
+                break;
+            case all_my_function::flip_vertically:
                 break;
             default:
                 break;

@@ -40,5 +40,9 @@
         <file>five-pointed star.svg</file>
         <file>set.svg</file>
         <file>back  up.svg</file>
+        <file>MemoryRotateCounterclockwise.svg</file>
+        <file>MemoryRotateClockwise.svg</file>
+        <file>DashiconsLeftright.svg</file>
+        <file>OiElevator.svg</file>
     </qresource>
 </RCC>
