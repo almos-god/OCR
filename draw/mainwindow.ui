@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1315</width>
-    <height>746</height>
+    <width>1563</width>
+    <height>750</height>
    </rect>
   </property>
   <property name="tabletTracking">
@@ -22,7 +22,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>211</width>
+      <width>221</width>
       <height>201</height>
      </rect>
     </property>
@@ -73,8 +73,8 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QPushButton" name="color_extractor">
+      <item row="1" column="2">
+       <widget class="QPushButton" name="left_rotation">
         <property name="minimumSize">
          <size>
           <width>40</width>
@@ -87,69 +87,18 @@
           <height>40</height>
          </size>
         </property>
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
         <property name="text">
          <string/>
         </property>
         <property name="icon">
          <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/FaEyedropper.svg</normaloff>:/new/prefix1/FaEyedropper.svg</iconset>
+          <normaloff>:/new/prefix1/MemoryRotateCounterclockwise.svg</normaloff>:/new/prefix1/MemoryRotateCounterclockwise.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
           <width>32</width>
           <height>32</height>
          </size>
-        </property>
-        <property name="autoExclusive">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QPushButton" name="size">
-        <property name="minimumSize">
-         <size>
-          <width>40</width>
-          <height>40</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>40</width>
-          <height>40</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/SimpleLineIconsSizeFullscreen.svg</normaloff>:/new/prefix1/SimpleLineIconsSizeFullscreen.svg</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>32</width>
-          <height>32</height>
-         </size>
-        </property>
-        <property name="autoExclusive">
-         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -182,8 +131,8 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="2">
-       <widget class="QPushButton" name="left_rotation">
+      <item row="1" column="3">
+       <widget class="QPushButton" name="flip_horizontally">
         <property name="minimumSize">
          <size>
           <width>40</width>
@@ -201,7 +150,7 @@
         </property>
         <property name="icon">
          <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/MemoryRotateCounterclockwise.svg</normaloff>:/new/prefix1/MemoryRotateCounterclockwise.svg</iconset>
+          <normaloff>:/new/prefix1/DashiconsLeftright.svg</normaloff>:/new/prefix1/DashiconsLeftright.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -291,35 +240,6 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="3">
-       <widget class="QPushButton" name="flip_horizontally">
-        <property name="minimumSize">
-         <size>
-          <width>40</width>
-          <height>40</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>40</width>
-          <height>40</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="icon/icon.qrc">
-          <normaloff>:/new/prefix1/DashiconsLeftright.svg</normaloff>:/new/prefix1/DashiconsLeftright.svg</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>32</width>
-          <height>32</height>
-         </size>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="3">
        <widget class="QPushButton" name="fill">
         <property name="minimumSize">
@@ -360,15 +280,95 @@
         </property>
        </widget>
       </item>
+      <item row="0" column="0">
+       <widget class="QPushButton" name="size">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/SimpleLineIconsSizeFullscreen.svg</normaloff>:/new/prefix1/SimpleLineIconsSizeFullscreen.svg</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QPushButton" name="color_extractor">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="icon/icon.qrc">
+          <normaloff>:/new/prefix1/FaEyedropper.svg</normaloff>:/new/prefix1/FaEyedropper.svg</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>210</x>
+      <x>220</x>
       <y>0</y>
-      <width>971</width>
+      <width>941</width>
       <height>200</height>
      </rect>
     </property>
@@ -1480,13 +1480,91 @@
      </property>
     </widget>
    </widget>
+   <widget class="QGroupBox" name="groupBox_3">
+    <property name="geometry">
+     <rect>
+      <x>1160</x>
+      <y>0</y>
+      <width>401</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QRadioButton" name="zero">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>10</y>
+       <width>99</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>无延迟</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="three">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>50</y>
+       <width>99</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>三秒延迟</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="five">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>90</y>
+       <width>99</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>五秒延迟</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="screenshot">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>130</y>
+       <width>180</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>截图</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ocr">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>130</y>
+       <width>180</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>OCR图像转文字</string>
+     </property>
+    </widget>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1315</width>
+     <width>1563</width>
      <height>22</height>
     </rect>
    </property>

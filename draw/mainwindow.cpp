@@ -22,6 +22,11 @@
 #include <QProcess>
 #include <QTimer>
 #include <QGraphicsBlurEffect>
+#include <QImage>
+#include <QDebug>
+#include <QProcess>
+#include <QGraphicsProxyWidget>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -47,9 +52,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->groupBox_2->setAutoFillBackground(true);
     ui->groupBox_2->setPalette(palette);
-    ui->groupBox_2->setGeometry(0, 0, 200, 200);
+   // ui->groupBox_2->setGeometry(0, 0, 200, 200);
 
     ui->groupBox_2->setStyleSheet("QGroupBox { border: none; background-color: white; }");
+
+    ui->groupBox_3->setAutoFillBackground(true);
+    ui->groupBox_3->setPalette(palette);
+
+    ui->groupBox_3->setStyleSheet("QGroupBox { border: none; background-color: white; }");
 
     // 设置初始值为 0
     ui->spinBox->setValue(0);
@@ -90,7 +100,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 画板
     graphicsView = new QGraphicsView(this);
-    graphicsView->setGeometry(0, 220, miderlonger -20, miderwider - 260);
+    viewWidth = this->width()-20; // 获取窗口的宽度
+    viewHeight = this->height()-260; // 获取窗口的高度
+    graphicsView->setGeometry(0, 220, viewWidth, viewHeight);
 
     graphicsView->setStyleSheet("background:transparent;");
     graphicsView->setFrameShape(QFrame::NoFrame); // 设置无边框
@@ -266,7 +278,64 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 启用右键菜单策略
     setContextMenuPolicy(Qt::DefaultContextMenu);
+
+    // 初始化截图工具
+    screenshotTool = new ScreenshotTool();
+
+    connect(ui->screenshot, &QPushButton::clicked, this, [this]() {
+        int delay = 0; // 默认延迟 0 秒
+
+        // 判断哪个单选按钮被选中
+        if (ui->zero->isChecked()) {
+            delay = 0; // 0 秒延迟
+        } else if (ui->three->isChecked()) {
+            delay = 3000; // 3 秒延迟
+        } else if (ui->five->isChecked()) {
+            delay = 5000; // 5 秒延迟
+        }
+
+        qDebug() << "延迟" << delay / 1000 << "秒后启动截图";
+
+        // 设置延迟
+        QTimer::singleShot(delay, this, [this]() {
+            qDebug() << "延迟结束后启动截图";
+            this->screenshotTool->startScreenshot(); // 启动截图
+        });
+    });
+
+    // 将单选按钮设置为未选中状态
+    ui->zero->setChecked(true);
+    connect(screenshotTool, &ScreenshotTool::screenshotTaken, this,[this](){
+        customImage->setimage(this->screenshotTool->getScreenshotImage());
+    });
+
+    ui->screenshot->setStyleSheet("background-color:white");
+    ui->ocr->setStyleSheet("background-color:white");
+    this->close=new QPushButton(ui->groupBox_3);
+    this->save=new QPushButton(ui->groupBox_3);
+    this->copy=new QPushButton(ui->groupBox_3);
+    this->text=new QTextEdit(this);
+
+    this->close->setText("关闭");
+    this->save->setText("保存");
+    this->copy->setText("复制");
+    viewWidth = this->width()-20; // 获取窗口的宽度
+    viewHeight = this->height()-260; // 获取窗口的高度
+
+    graphicsView->setGeometry(0, 220, viewWidth, viewHeight);
+    // 设置 text 控件的位置和大小
+    this->text->setGeometry(viewWidth, 220, viewWidth, viewHeight-50);
+
+    // 设置 close 按钮的位置和大小
+    this->close->setGeometry(210, 20, 180, 25);
+
+    // 设置 save 按钮的位置和大小
+    this->save->setGeometry(210,60 , 180,25);
+
+    // 设置 copy 按钮的位置和大小
+    this->copy->setGeometry(210, 100,180,25);
 }
+
 MainWindow::~MainWindow()
 {
     delete ui;
@@ -300,11 +369,38 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 {
     QMainWindow::resizeEvent(event); // 首先调用基类的resizeEvent函数
 
-    int windowWidth = this->width(); // 获取窗口的宽度
-    int windowHeight = this->height(); // 获取窗口的高度
-    int miderlonger = windowWidth; // 更新miderlonger为窗口的宽度
-    int miderwider = windowHeight; // 更新miderwider为窗口的高度
-    graphicsView->setGeometry(0, 220, miderlonger - 20, miderwider - 260);
+    viewHeight = this->height()-260; // 获取窗口的高度
+
+    if(abs(viewWidth-(this->width()-20)/2)<abs(viewWidth-(this->width()-20)))
+    {
+        viewWidth=(this->width()-20)/2;
+        // 设置 text 控件的位置和大小
+        this->text->setGeometry(viewWidth, 220, viewWidth, viewHeight-50);
+        // 设置 close 按钮的位置和大小
+        this->close->setGeometry(210, 20, 180, 25);
+
+        // 设置 save 按钮的位置和大小
+        this->save->setGeometry(210,60 , 180,25);
+
+        // 设置 copy 按钮的位置和大小
+        this->copy->setGeometry(210, 100,180,25);
+    }
+    else
+    {
+        viewWidth=(this->width()-20);
+        // 设置 text 控件的位置和大小
+        this->text->setGeometry(viewWidth, 220, viewWidth, viewHeight-50);
+        // 设置 close 按钮的位置和大小
+        this->close->setGeometry(210, 20, 180, 25);
+
+        // 设置 save 按钮的位置和大小
+        this->save->setGeometry(210,60 , 180,25);
+
+        // 设置 copy 按钮的位置和大小
+        this->copy->setGeometry(210, 100,180,25);
+    }
+    graphicsView->setGeometry(0, 220, viewWidth, viewHeight);
+    this->get_refresh();
     customImage->update();
 }
 void MainWindow::showEvent(QShowEvent * /*event*/)
@@ -495,6 +591,7 @@ void MainWindow::showEvent(QShowEvent * /*event*/)
         qreal percentage = sqrt(value / 1000.0);
         customImage->doScaling(percentage);
     });
+
 }
 
 void MainWindow::updateGraphicsViewColor(QRadioButton* radioButton1,QRadioButton* radioButton2){
@@ -692,4 +789,87 @@ void MainWindow::get_refresh()
     graphicsView->centerOn(customImage);
 }
 
+#include <QProcess>
+void MainWindow::on_ocr_clicked()
+{
+
+    if(abs(viewWidth-(this->width()-20)/2)>abs(viewWidth-(this->width()-20)))
+    {
+        viewWidth=(this->width()-20)/2;
+        // 设置 text 控件的位置和大小
+        this->text->setGeometry(viewWidth, 220, viewWidth, viewHeight-50);
+        // 设置 close 按钮的位置和大小
+        this->close->setGeometry(210, 20, 180, 25);
+
+        // 设置 save 按钮的位置和大小
+        this->save->setGeometry(210,60 , 180,25);
+
+        // 设置 copy 按钮的位置和大小
+        this->copy->setGeometry(210, 100,180,25);
+    }
+
+    this->text->clear();
+    this->get_refresh();
+    customImage->update();
+    update();
+    // 将图像临时保存为本地图片
+    QString imagePath = qApp->applicationDirPath() + "/Tesseract-OCR/image/temp.png";
+
+    QImage image = customImage->getImage();
+    if(!image.save(imagePath)){
+        qDebug() << "Fialed to save image";
+        return;
+    }
+
+    // 识别结果输出路径
+    QString retOutPath = qApp->applicationDirPath() + "/result";
+
+    // 调用OCR
+    QStringList args;
+    args << imagePath
+         << retOutPath
+         << QString("-l")
+         << QString("chi_sim+eng");
+    QString pathExe = qApp->applicationDirPath() + "/Tesseract-OCR/tesseract.exe";
+    QString program(pathExe);
+    QProcess* pTesseract = new QProcess();
+    pTesseract->start(program,args);
+
+    // 等待识别完成
+    bool bResult = false;
+    if(pTesseract->waitForFinished()){
+        bResult = true;
+    }else{
+        bResult = false;
+    }
+
+    // 成功后回显结果
+    if(!bResult){
+        return;
+    }
+
+    QString txtPath = QString("%1.txt").arg(retOutPath);
+    QFile file(txtPath);
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)){
+        qDebug() << file.errorString();
+        return;
+    }
+    QTextStream inText(&file);
+    while (!inText.atEnd()) {
+        QString lineTxt = inText.readLine();
+        this->text->append(lineTxt);
+    }
+    file.close();
+
+    // 删除本地临时文件
+    QFile fileTemp(imagePath);
+    if(fileTemp.remove()){
+        qDebug() << "remove sucess";
+    }
+
+    if(pTesseract){
+        delete pTesseract;
+        pTesseract = nullptr;
+    }
+}
 

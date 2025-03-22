@@ -7,11 +7,16 @@
 #include <QRadioButton>
 #include <QPointF>
 #include "QCustomImage.h"
+#include "screenshottool.h"
 #include <QSpinBox>
 #include <QSlider>
 #include <QLabel>
+#include <QTabWidget>
 #include <QHBoxLayout>
 #include <QGraphicsScene>
+#include <QProcess>
+#include <QDebug>
+#include <QTextEdit>
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -27,6 +32,7 @@ public:
     std::map<QString,all_my_function> functionMap;
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
     // 在头文件中声明槽函数
 public slots:
     void updateGraphicsViewColor(QRadioButton* radioButton1, QRadioButton* radioButton2);
@@ -39,9 +45,13 @@ public slots:
     void exitApp();
     void showBoundary();
     void hideBoundary();
+
 protected:
     void resizeEvent(QResizeEvent *event);
     void showEvent(QShowEvent * /*event*/);
+
+private slots:
+    void on_ocr_clicked();
 
 private:
     void contextMenuEvent(QContextMenuEvent *event);
@@ -51,8 +61,11 @@ private:
     QGraphicsView* graphicsView;
     QGraphicsScene* scene;
 
+    int viewWidth ;
+    int viewHeight ;
     QSlider *slider;
     QLabel *valueLabel;
+    QTabWidget *tabWidget;
     QHBoxLayout *layout;
 
     int intred;
@@ -66,5 +79,12 @@ private:
     QAction *showBoundaryAction; // "显示边界" 菜单项
     QAction *hideBoundaryAction; // "隐藏边界" 菜单项
     QAction  *showMenuAction;
+
+    ScreenshotTool *screenshotTool; // 截图工具
+
+    QPushButton* close;
+    QPushButton* save;
+    QPushButton* copy;
+    QTextEdit* text;
 };
 #endif // MAINWINDOW_H

@@ -8,24 +8,26 @@ CONFIG += c++17
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+
+
+# 如果你的项目需要 C++11 或更高版本
+CONFIG += c++11
+
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    screenshottool.cpp \
     size_dialog.cpp
 
 HEADERS += \
     QCustomImage.h \
     mainwindow.h \
+    screenshottool.h \
     size_dialog.h
 
 FORMS += \
     mainwindow.ui \
     size_dialog.ui
-
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
     icon/icon.qrc

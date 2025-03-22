@@ -46,14 +46,14 @@ public:
     QWidget *gridLayoutWidget_2;
     QGridLayout *gridLayout_2;
     QPushButton *right_rotation;
-    QPushButton *color_extractor;
-    QPushButton *size;
-    QPushButton *flip_vertically;
     QPushButton *left_rotation;
+    QPushButton *flip_vertically;
+    QPushButton *flip_horizontally;
     QPushButton *my_erase;
     QPushButton *crop;
-    QPushButton *flip_horizontally;
     QPushButton *fill;
+    QPushButton *size;
+    QPushButton *color_extractor;
     QGroupBox *groupBox;
     QSpinBox *spinBox;
     QLabel *label_2;
@@ -99,6 +99,12 @@ public:
     QSpinBox *spinBox_4;
     QLabel *label_4;
     QSlider *horizontalSlider_3;
+    QGroupBox *groupBox_3;
+    QRadioButton *zero;
+    QRadioButton *three;
+    QRadioButton *five;
+    QPushButton *screenshot;
+    QPushButton *ocr;
     QMenuBar *menubar;
     QMenu *menu;
     QStatusBar *statusbar;
@@ -107,7 +113,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(1315, 746);
+        MainWindow->resize(1563, 750);
         MainWindow->setTabletTracking(true);
         new_window = new QAction(MainWindow);
         new_window->setObjectName("new_window");
@@ -148,7 +154,7 @@ public:
         centralwidget->setObjectName("centralwidget");
         groupBox_2 = new QGroupBox(centralwidget);
         groupBox_2->setObjectName("groupBox_2");
-        groupBox_2->setGeometry(QRect(0, 0, 211, 201));
+        groupBox_2->setGeometry(QRect(0, 0, 221, 201));
         QFont font;
         font.setPointSize(10);
         groupBox_2->setFont(font);
@@ -169,67 +175,50 @@ public:
 
         gridLayout_2->addWidget(right_rotation, 1, 1, 1, 1);
 
-        color_extractor = new QPushButton(gridLayoutWidget_2);
-        color_extractor->setObjectName("color_extractor");
-        color_extractor->setMinimumSize(QSize(40, 40));
-        color_extractor->setMaximumSize(QSize(40, 40));
-        QFont font1;
-        font1.setPointSize(8);
-        color_extractor->setFont(font1);
-        color_extractor->setStyleSheet(QString::fromUtf8(""));
+        left_rotation = new QPushButton(gridLayoutWidget_2);
+        left_rotation->setObjectName("left_rotation");
+        left_rotation->setMinimumSize(QSize(40, 40));
+        left_rotation->setMaximumSize(QSize(40, 40));
         QIcon icon8;
-        icon8.addFile(QString::fromUtf8(":/new/prefix1/FaEyedropper.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        color_extractor->setIcon(icon8);
-        color_extractor->setIconSize(QSize(32, 32));
-        color_extractor->setAutoExclusive(true);
+        icon8.addFile(QString::fromUtf8(":/new/prefix1/MemoryRotateCounterclockwise.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        left_rotation->setIcon(icon8);
+        left_rotation->setIconSize(QSize(32, 32));
 
-        gridLayout_2->addWidget(color_extractor, 0, 1, 1, 1);
-
-        size = new QPushButton(gridLayoutWidget_2);
-        size->setObjectName("size");
-        size->setMinimumSize(QSize(40, 40));
-        size->setMaximumSize(QSize(40, 40));
-        size->setFont(font1);
-        size->setStyleSheet(QString::fromUtf8(""));
-        QIcon icon9;
-        icon9.addFile(QString::fromUtf8(":/new/prefix1/SimpleLineIconsSizeFullscreen.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        size->setIcon(icon9);
-        size->setIconSize(QSize(32, 32));
-        size->setAutoExclusive(true);
-
-        gridLayout_2->addWidget(size, 0, 0, 1, 1);
+        gridLayout_2->addWidget(left_rotation, 1, 2, 1, 1);
 
         flip_vertically = new QPushButton(gridLayoutWidget_2);
         flip_vertically->setObjectName("flip_vertically");
         flip_vertically->setMinimumSize(QSize(40, 40));
         flip_vertically->setMaximumSize(QSize(40, 40));
-        QIcon icon10;
-        icon10.addFile(QString::fromUtf8(":/new/prefix1/OiElevator.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        flip_vertically->setIcon(icon10);
+        QIcon icon9;
+        icon9.addFile(QString::fromUtf8(":/new/prefix1/OiElevator.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        flip_vertically->setIcon(icon9);
         flip_vertically->setIconSize(QSize(32, 32));
 
         gridLayout_2->addWidget(flip_vertically, 2, 0, 1, 1);
 
-        left_rotation = new QPushButton(gridLayoutWidget_2);
-        left_rotation->setObjectName("left_rotation");
-        left_rotation->setMinimumSize(QSize(40, 40));
-        left_rotation->setMaximumSize(QSize(40, 40));
-        QIcon icon11;
-        icon11.addFile(QString::fromUtf8(":/new/prefix1/MemoryRotateCounterclockwise.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        left_rotation->setIcon(icon11);
-        left_rotation->setIconSize(QSize(32, 32));
+        flip_horizontally = new QPushButton(gridLayoutWidget_2);
+        flip_horizontally->setObjectName("flip_horizontally");
+        flip_horizontally->setMinimumSize(QSize(40, 40));
+        flip_horizontally->setMaximumSize(QSize(40, 40));
+        QIcon icon10;
+        icon10.addFile(QString::fromUtf8(":/new/prefix1/DashiconsLeftright.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        flip_horizontally->setIcon(icon10);
+        flip_horizontally->setIconSize(QSize(32, 32));
 
-        gridLayout_2->addWidget(left_rotation, 1, 2, 1, 1);
+        gridLayout_2->addWidget(flip_horizontally, 1, 3, 1, 1);
 
         my_erase = new QPushButton(gridLayoutWidget_2);
         my_erase->setObjectName("my_erase");
         my_erase->setMinimumSize(QSize(40, 40));
         my_erase->setMaximumSize(QSize(40, 40));
+        QFont font1;
+        font1.setPointSize(8);
         my_erase->setFont(font1);
         my_erase->setStyleSheet(QString::fromUtf8(""));
-        QIcon icon12;
-        icon12.addFile(QString::fromUtf8(":/new/prefix1/CarbonErase.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        my_erase->setIcon(icon12);
+        QIcon icon11;
+        icon11.addFile(QString::fromUtf8(":/new/prefix1/CarbonErase.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        my_erase->setIcon(icon11);
         my_erase->setIconSize(QSize(32, 32));
         my_erase->setAutoExclusive(true);
 
@@ -241,24 +230,13 @@ public:
         crop->setMaximumSize(QSize(40, 40));
         crop->setFont(font1);
         crop->setStyleSheet(QString::fromUtf8(""));
-        QIcon icon13;
-        icon13.addFile(QString::fromUtf8(":/new/prefix1/RiCropLine.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        crop->setIcon(icon13);
+        QIcon icon12;
+        icon12.addFile(QString::fromUtf8(":/new/prefix1/RiCropLine.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        crop->setIcon(icon12);
         crop->setIconSize(QSize(32, 32));
         crop->setAutoExclusive(true);
 
         gridLayout_2->addWidget(crop, 1, 0, 1, 1);
-
-        flip_horizontally = new QPushButton(gridLayoutWidget_2);
-        flip_horizontally->setObjectName("flip_horizontally");
-        flip_horizontally->setMinimumSize(QSize(40, 40));
-        flip_horizontally->setMaximumSize(QSize(40, 40));
-        QIcon icon14;
-        icon14.addFile(QString::fromUtf8(":/new/prefix1/DashiconsLeftright.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        flip_horizontally->setIcon(icon14);
-        flip_horizontally->setIconSize(QSize(32, 32));
-
-        gridLayout_2->addWidget(flip_horizontally, 1, 3, 1, 1);
 
         fill = new QPushButton(gridLayoutWidget_2);
         fill->setObjectName("fill");
@@ -266,17 +244,45 @@ public:
         fill->setMaximumSize(QSize(40, 40));
         fill->setFont(font1);
         fill->setStyleSheet(QString::fromUtf8(""));
-        QIcon icon15;
-        icon15.addFile(QString::fromUtf8(":/new/prefix1/MdiFill.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        fill->setIcon(icon15);
+        QIcon icon13;
+        icon13.addFile(QString::fromUtf8(":/new/prefix1/MdiFill.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        fill->setIcon(icon13);
         fill->setIconSize(QSize(32, 32));
         fill->setAutoExclusive(true);
 
         gridLayout_2->addWidget(fill, 0, 3, 1, 1);
 
+        size = new QPushButton(gridLayoutWidget_2);
+        size->setObjectName("size");
+        size->setMinimumSize(QSize(40, 40));
+        size->setMaximumSize(QSize(40, 40));
+        size->setFont(font1);
+        size->setStyleSheet(QString::fromUtf8(""));
+        QIcon icon14;
+        icon14.addFile(QString::fromUtf8(":/new/prefix1/SimpleLineIconsSizeFullscreen.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        size->setIcon(icon14);
+        size->setIconSize(QSize(32, 32));
+        size->setAutoExclusive(true);
+
+        gridLayout_2->addWidget(size, 0, 0, 1, 1);
+
+        color_extractor = new QPushButton(gridLayoutWidget_2);
+        color_extractor->setObjectName("color_extractor");
+        color_extractor->setMinimumSize(QSize(40, 40));
+        color_extractor->setMaximumSize(QSize(40, 40));
+        color_extractor->setFont(font1);
+        color_extractor->setStyleSheet(QString::fromUtf8(""));
+        QIcon icon15;
+        icon15.addFile(QString::fromUtf8(":/new/prefix1/FaEyedropper.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        color_extractor->setIcon(icon15);
+        color_extractor->setIconSize(QSize(32, 32));
+        color_extractor->setAutoExclusive(true);
+
+        gridLayout_2->addWidget(color_extractor, 0, 1, 1, 1);
+
         groupBox = new QGroupBox(centralwidget);
         groupBox->setObjectName("groupBox");
-        groupBox->setGeometry(QRect(210, 0, 971, 200));
+        groupBox->setGeometry(QRect(220, 0, 941, 200));
         spinBox = new QSpinBox(groupBox);
         spinBox->setObjectName("spinBox");
         spinBox->setGeometry(QRect(90, 60, 100, 30));
@@ -678,10 +684,28 @@ public:
         horizontalSlider_3->setGeometry(QRect(390, 160, 158, 22));
         horizontalSlider_3->setMaximum(255);
         horizontalSlider_3->setOrientation(Qt::Orientation::Horizontal);
+        groupBox_3 = new QGroupBox(centralwidget);
+        groupBox_3->setObjectName("groupBox_3");
+        groupBox_3->setGeometry(QRect(1160, 0, 401, 201));
+        zero = new QRadioButton(groupBox_3);
+        zero->setObjectName("zero");
+        zero->setGeometry(QRect(20, 10, 99, 20));
+        three = new QRadioButton(groupBox_3);
+        three->setObjectName("three");
+        three->setGeometry(QRect(20, 50, 99, 20));
+        five = new QRadioButton(groupBox_3);
+        five->setObjectName("five");
+        five->setGeometry(QRect(20, 90, 99, 20));
+        screenshot = new QPushButton(groupBox_3);
+        screenshot->setObjectName("screenshot");
+        screenshot->setGeometry(QRect(20, 130, 180, 25));
+        ocr = new QPushButton(groupBox_3);
+        ocr->setObjectName("ocr");
+        ocr->setGeometry(QRect(210, 130, 180, 25));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 1315, 22));
+        menubar->setGeometry(QRect(0, 0, 1563, 22));
         menu = new QMenu(menubar);
         menu->setObjectName("menu");
         MainWindow->setMenuBar(menubar);
@@ -715,14 +739,14 @@ public:
         undo->setText(QCoreApplication::translate("MainWindow", "undo", nullptr));
         groupBox_2->setTitle(QString());
         right_rotation->setText(QString());
-        color_extractor->setText(QString());
-        size->setText(QString());
-        flip_vertically->setText(QString());
         left_rotation->setText(QString());
+        flip_vertically->setText(QString());
+        flip_horizontally->setText(QString());
         my_erase->setText(QString());
         crop->setText(QString());
-        flip_horizontally->setText(QString());
         fill->setText(QString());
+        size->setText(QString());
+        color_extractor->setText(QString());
         groupBox->setTitle(QString());
         label_2->setText(QCoreApplication::translate("MainWindow", "\347\272\277\345\256\275", nullptr));
         painting->setText(QCoreApplication::translate("MainWindow", "\347\273\230\345\233\276", nullptr));
@@ -753,6 +777,12 @@ public:
         label_3->setText(QCoreApplication::translate("MainWindow", "\347\272\242\350\211\262", nullptr));
         label_5->setText(QCoreApplication::translate("MainWindow", "\347\273\277\350\211\262", nullptr));
         label_4->setText(QCoreApplication::translate("MainWindow", "\350\223\235\350\211\262", nullptr));
+        groupBox_3->setTitle(QString());
+        zero->setText(QCoreApplication::translate("MainWindow", "\346\227\240\345\273\266\350\277\237", nullptr));
+        three->setText(QCoreApplication::translate("MainWindow", "\344\270\211\347\247\222\345\273\266\350\277\237", nullptr));
+        five->setText(QCoreApplication::translate("MainWindow", "\344\272\224\347\247\222\345\273\266\350\277\237", nullptr));
+        screenshot->setText(QCoreApplication::translate("MainWindow", "\346\210\252\345\233\276", nullptr));
+        ocr->setText(QCoreApplication::translate("MainWindow", "OCR\345\233\276\345\203\217\350\275\254\346\226\207\345\255\227", nullptr));
         menu->setTitle(QCoreApplication::translate("MainWindow", "\350\217\234\345\215\225", nullptr));
     } // retranslateUi
 

@@ -2255,8 +2255,8 @@ protected:
 
         if (selectedLine != 0&&function1==all_my_function::expansion&&expand==true) {
             // 计算新图像的尺寸
-            int newWidth = originalImage.width() + right_move_component - left_move_component;
-            int newHeight = originalImage.height() + down_move_component - up_move_component;
+            int newWidth = originalImage.width() + right_move_component/image_factor - left_move_component/image_factor;
+            int newHeight = originalImage.height() + down_move_component/image_factor - up_move_component/image_factor;
 
             // 创建一个新的 QImage，大小为扩增后的尺寸
             QImage expandedImage(newWidth, newHeight, QImage::Format_RGB32);
@@ -2265,7 +2265,7 @@ protected:
             // 创建一个画家，将原始图像绘制到新图像的正确位置
             QPainter painter(&expandedImage);
 
-            painter.drawImage(0- left_move_component, 0-up_move_component, originalImage);
+            painter.drawImage(0- left_move_component/image_factor, 0-up_move_component/image_factor, originalImage);
             painter.end();
 
             // 更新 originalImage 为扩展后的图像

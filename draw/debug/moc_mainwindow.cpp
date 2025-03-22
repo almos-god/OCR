@@ -54,11 +54,12 @@ static constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers:
     "anotheringsaveImage",
     "exitApp",
     "showBoundary",
-    "hideBoundary"
+    "hideBoundary",
+    "on_ocr_clicked"
 );
 #else  // !QT_MOC_HAS_STRING_DATA
 struct qt_meta_stringdata_CLASSMainWindowENDCLASS_t {
-    uint offsetsAndSizes[32];
+    uint offsetsAndSizes[34];
     char stringdata0[11];
     char stringdata1[24];
     char stringdata2[1];
@@ -75,6 +76,7 @@ struct qt_meta_stringdata_CLASSMainWindowENDCLASS_t {
     char stringdata13[8];
     char stringdata14[13];
     char stringdata15[13];
+    char stringdata16[15];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_CLASSMainWindowENDCLASS_t::offsetsAndSizes) + ofs), len 
@@ -95,7 +97,8 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSMainWindowENDCLASS_t qt_meta_st
         QT_MOC_LITERAL(150, 19),  // "anotheringsaveImage"
         QT_MOC_LITERAL(170, 7),  // "exitApp"
         QT_MOC_LITERAL(178, 12),  // "showBoundary"
-        QT_MOC_LITERAL(191, 12)   // "hideBoundary"
+        QT_MOC_LITERAL(191, 12),  // "hideBoundary"
+        QT_MOC_LITERAL(204, 14)   // "on_ocr_clicked"
     },
     "MainWindow",
     "updateGraphicsViewColor",
@@ -112,7 +115,8 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSMainWindowENDCLASS_t qt_meta_st
     "anotheringsaveImage",
     "exitApp",
     "showBoundary",
-    "hideBoundary"
+    "hideBoundary",
+    "on_ocr_clicked"
 };
 #undef QT_MOC_LITERAL
 #endif // !QT_MOC_HAS_STRING_DATA
@@ -124,7 +128,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
       11,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -132,20 +136,22 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    2,   74,    2, 0x0a,    1 /* Public */,
-       6,    1,   79,    2, 0x0a,    4 /* Public */,
-       8,    0,   82,    2, 0x0a,    6 /* Public */,
-       9,    0,   83,    2, 0x0a,    7 /* Public */,
-      10,    0,   84,    2, 0x0a,    8 /* Public */,
-      11,    0,   85,    2, 0x0a,    9 /* Public */,
-      12,    0,   86,    2, 0x0a,   10 /* Public */,
-      13,    0,   87,    2, 0x0a,   11 /* Public */,
-      14,    0,   88,    2, 0x0a,   12 /* Public */,
-      15,    0,   89,    2, 0x0a,   13 /* Public */,
+       1,    2,   80,    2, 0x0a,    1 /* Public */,
+       6,    1,   85,    2, 0x0a,    4 /* Public */,
+       8,    0,   88,    2, 0x0a,    6 /* Public */,
+       9,    0,   89,    2, 0x0a,    7 /* Public */,
+      10,    0,   90,    2, 0x0a,    8 /* Public */,
+      11,    0,   91,    2, 0x0a,    9 /* Public */,
+      12,    0,   92,    2, 0x0a,   10 /* Public */,
+      13,    0,   93,    2, 0x0a,   11 /* Public */,
+      14,    0,   94,    2, 0x0a,   12 /* Public */,
+      15,    0,   95,    2, 0x0a,   13 /* Public */,
+      16,    0,   96,    2, 0x08,   14 /* Private */,
 
  // slots: parameters
     QMetaType::Void, 0x80000000 | 3, 0x80000000 | 3,    4,    5,
     QMetaType::Void, QMetaType::QColor,    7,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -189,6 +195,8 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         // method 'showBoundary'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'hideBoundary'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_ocr_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -210,6 +218,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 7: _t->exitApp(); break;
         case 8: _t->showBoundary(); break;
         case 9: _t->hideBoundary(); break;
+        case 10: _t->on_ocr_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -246,13 +255,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 11;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 10)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 11;
     }
     return _id;
 }
