@@ -304,7 +304,7 @@ public:
         painting->setAutoExclusive(true);
         verticalLayoutWidget_2 = new QWidget(groupBox);
         verticalLayoutWidget_2->setObjectName("verticalLayoutWidget_2");
-        verticalLayoutWidget_2->setGeometry(QRect(210, 10, 161, 171));
+        verticalLayoutWidget_2->setGeometry(QRect(210, 0, 161, 171));
         verticalLayout_2 = new QVBoxLayout(verticalLayoutWidget_2);
         verticalLayout_2->setObjectName("verticalLayout_2");
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
@@ -686,22 +686,34 @@ public:
         horizontalSlider_3->setOrientation(Qt::Orientation::Horizontal);
         groupBox_3 = new QGroupBox(centralwidget);
         groupBox_3->setObjectName("groupBox_3");
-        groupBox_3->setGeometry(QRect(1160, 0, 401, 201));
+        groupBox_3->setGeometry(QRect(1160, 0, 201, 201));
         zero = new QRadioButton(groupBox_3);
         zero->setObjectName("zero");
-        zero->setGeometry(QRect(20, 10, 99, 20));
+        zero->setGeometry(QRect(20, 30, 99, 20));
         three = new QRadioButton(groupBox_3);
         three->setObjectName("three");
-        three->setGeometry(QRect(20, 50, 99, 20));
+        three->setGeometry(QRect(20, 70, 99, 20));
         five = new QRadioButton(groupBox_3);
         five->setObjectName("five");
-        five->setGeometry(QRect(20, 90, 99, 20));
+        five->setGeometry(QRect(20, 110, 99, 20));
         screenshot = new QPushButton(groupBox_3);
         screenshot->setObjectName("screenshot");
-        screenshot->setGeometry(QRect(20, 130, 180, 25));
+        screenshot->setGeometry(QRect(20, 140, 40, 40));
+        screenshot->setMinimumSize(QSize(40, 40));
+        screenshot->setMaximumSize(QSize(32, 32));
+        QIcon icon36;
+        icon36.addFile(QString::fromUtf8(":/new/prefix1/IconParkOutlineScreenshotTwo.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        screenshot->setIcon(icon36);
+        screenshot->setIconSize(QSize(32, 32));
         ocr = new QPushButton(groupBox_3);
         ocr->setObjectName("ocr");
-        ocr->setGeometry(QRect(210, 130, 180, 25));
+        ocr->setGeometry(QRect(120, 140, 40, 40));
+        ocr->setMinimumSize(QSize(40, 40));
+        ocr->setMaximumSize(QSize(32, 32));
+        QIcon icon37;
+        icon37.addFile(QString::fromUtf8(":/new/prefix1/MdiOcr.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        ocr->setIcon(icon37);
+        ocr->setIconSize(QSize(32, 32));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
@@ -731,7 +743,7 @@ public:
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         new_window->setText(QCoreApplication::translate("MainWindow", "new window", nullptr));
-        open_file->setText(QCoreApplication::translate("MainWindow", "open_file", nullptr));
+        open_file->setText(QCoreApplication::translate("MainWindow", "open file", nullptr));
         save->setText(QCoreApplication::translate("MainWindow", "save", nullptr));
         save_as_anothing_file->setText(QCoreApplication::translate("MainWindow", "save as anothering file", nullptr));
         exit->setText(QCoreApplication::translate("MainWindow", "exit", nullptr));
@@ -781,8 +793,8 @@ public:
         zero->setText(QCoreApplication::translate("MainWindow", "\346\227\240\345\273\266\350\277\237", nullptr));
         three->setText(QCoreApplication::translate("MainWindow", "\344\270\211\347\247\222\345\273\266\350\277\237", nullptr));
         five->setText(QCoreApplication::translate("MainWindow", "\344\272\224\347\247\222\345\273\266\350\277\237", nullptr));
-        screenshot->setText(QCoreApplication::translate("MainWindow", "\346\210\252\345\233\276", nullptr));
-        ocr->setText(QCoreApplication::translate("MainWindow", "OCR\345\233\276\345\203\217\350\275\254\346\226\207\345\255\227", nullptr));
+        screenshot->setText(QString());
+        ocr->setText(QString());
         menu->setTitle(QCoreApplication::translate("MainWindow", "\350\217\234\345\215\225", nullptr));
     } // retranslateUi
 

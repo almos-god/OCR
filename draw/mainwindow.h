@@ -32,7 +32,7 @@ public:
     std::map<QString,all_my_function> functionMap;
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+    void showFloatingMessage(const QString &message, int timeout);
     // 在头文件中声明槽函数
 public slots:
     void updateGraphicsViewColor(QRadioButton* radioButton1, QRadioButton* radioButton2);

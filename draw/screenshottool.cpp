@@ -4,10 +4,11 @@
 #include <QDebug>
 
 ScreenshotTool::ScreenshotTool(QWidget *parent) : QWidget(parent), isSelecting(false) {
-    // 设置窗口为无边框
-    setWindowFlags(Qt::FramelessWindowHint);
+    // 设置窗口为无边框并始终置顶
+    setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
 
-   setWindowOpacity(0.25);
+    // 设置窗口透明度
+    setWindowOpacity(0.25);
 }
 
 void ScreenshotTool::mousePressEvent(QMouseEvent *event) {

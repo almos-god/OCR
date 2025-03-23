@@ -26,6 +26,12 @@
 #include <QDebug>
 #include <QProcess>
 #include <QGraphicsProxyWidget>
+#include <QClipboard>
+#include <QMessageBox>
+#include <QtConcurrent/QtConcurrent>
+#include <QThread>
+#include <QLabel>
+#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -305,35 +311,81 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 将单选按钮设置为未选中状态
     ui->zero->setChecked(true);
-    connect(screenshotTool, &ScreenshotTool::screenshotTaken, this,[this](){
+    connect(screenshotTool, &ScreenshotTool::screenshotTaken, this, [this]() {
+        // 设置 customImage 的图像
         customImage->setimage(this->screenshotTool->getScreenshotImage());
+
+        // 将当前窗口弹出并设置为最顶层
+        this->raise();           // 将窗口提升到顶层
+        this->activateWindow();   // 激活窗口，使其获得焦点
     });
 
     ui->screenshot->setStyleSheet("background-color:white");
     ui->ocr->setStyleSheet("background-color:white");
-    this->close=new QPushButton(ui->groupBox_3);
-    this->save=new QPushButton(ui->groupBox_3);
-    this->copy=new QPushButton(ui->groupBox_3);
+    this->close=new QPushButton(this);
+    this->save=new QPushButton(this);
+    this->copy=new QPushButton(this);
     this->text=new QTextEdit(this);
 
     this->close->setText("关闭");
     this->save->setText("保存");
     this->copy->setText("复制");
-    viewWidth = this->width()-20; // 获取窗口的宽度
+    viewWidth = this->width(); // 获取窗口的宽度
     viewHeight = this->height()-260; // 获取窗口的高度
 
     graphicsView->setGeometry(0, 220, viewWidth, viewHeight);
     // 设置 text 控件的位置和大小
-    this->text->setGeometry(viewWidth, 220, viewWidth, viewHeight-50);
-
+    this->text->setGeometry(viewWidth, 220, viewWidth, viewHeight-25);
     // 设置 close 按钮的位置和大小
-    this->close->setGeometry(210, 20, 180, 25);
+    this->close->setGeometry(viewWidth+200*2+180, viewHeight-25, 180, 25);
 
     // 设置 save 按钮的位置和大小
-    this->save->setGeometry(210,60 , 180,25);
+    this->save->setGeometry(viewWidth+200+180,viewHeight-25, 180,25);
 
     // 设置 copy 按钮的位置和大小
-    this->copy->setGeometry(210, 100,180,25);
+    this->copy->setGeometry(viewWidth+180, viewHeight-25,180,25);
+    // 使用 Lambda 表达式连接按钮的点击事件
+    connect(this->close, &QPushButton::clicked, [this]() {
+        ui->ocr->setDown(false); // 将 close 按钮设为弹起状态
+        viewWidth=(this->width());
+        // 设置 text 控件的位置和大小
+        this->text->setGeometry(viewWidth, 220, viewWidth, viewHeight-25);
+        // 设置 close 按钮的位置和大小
+        this->close->setGeometry(viewWidth+200*2+180, viewHeight-25, 180, 25);
+
+        // 设置 save 按钮的位置和大小
+        this->save->setGeometry(viewWidth+200+180,viewHeight-25 , 180,25);
+
+        // 设置 copy 按钮的位置和大小
+        this->copy->setGeometry(viewWidth+180, viewHeight-25,180,25);
+        graphicsView->setGeometry(0, 220, viewWidth, viewHeight);
+        qDebug() << "Close button is unchecked.";
+    });
+
+    connect(this->save, &QPushButton::clicked, [this]() {
+        ui->ocr->setDown(true); // 将 close 按钮设为状态
+        QString fileName = QFileDialog::getSaveFileName(this, "Save File", "", "Text Files (*.txt)"); // 打开文件保存对话框
+        if (!fileName.isEmpty()) {
+            QFile file(fileName);
+            if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                QTextStream stream(&file);
+                stream << this->text->toPlainText(); // 将 text 的内容写入文件
+                file.close();
+                qDebug() << "Text saved to file:" << fileName;
+            } else {
+                qDebug() << "Failed to save file:" << fileName;
+            }
+        }
+    });
+
+    connect(this->copy, &QPushButton::clicked, [this]() {
+        ui->ocr->setDown(true); // 将 close 按钮设为状态
+        QClipboard *clipboard = QApplication::clipboard();
+        clipboard->setText(this->text->toPlainText()); // 将 text 的内容复制到剪切板
+        qDebug() << "Text copied to clipboard.";
+    });
+
+
 }
 
 MainWindow::~MainWindow()
@@ -371,33 +423,33 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 
     viewHeight = this->height()-260; // 获取窗口的高度
 
-    if(abs(viewWidth-(this->width()-20)/2)<abs(viewWidth-(this->width()-20)))
+    if(ui->ocr->isDown())
     {
-        viewWidth=(this->width()-20)/2;
+        viewWidth=(this->width())/2;
         // 设置 text 控件的位置和大小
-        this->text->setGeometry(viewWidth, 220, viewWidth, viewHeight-50);
+        this->text->setGeometry(viewWidth, 220, viewWidth, viewHeight-25);
         // 设置 close 按钮的位置和大小
-        this->close->setGeometry(210, 20, 180, 25);
+        this->close->setGeometry(viewWidth*2-200*2-180, 220+viewHeight-25, 180, 25);
 
         // 设置 save 按钮的位置和大小
-        this->save->setGeometry(210,60 , 180,25);
+        this->save->setGeometry(viewWidth*2-200-180,220+viewHeight-25 , 180,25);
 
         // 设置 copy 按钮的位置和大小
-        this->copy->setGeometry(210, 100,180,25);
+        this->copy->setGeometry(viewWidth*2-180, 220+viewHeight-25,180,25);
     }
     else
     {
-        viewWidth=(this->width()-20);
+        viewWidth=(this->width());
         // 设置 text 控件的位置和大小
-        this->text->setGeometry(viewWidth, 220, viewWidth, viewHeight-50);
+        this->text->setGeometry(viewWidth, 220, viewWidth, viewHeight-25);
         // 设置 close 按钮的位置和大小
-        this->close->setGeometry(210, 20, 180, 25);
+        this->close->setGeometry(viewWidth+200*2+180, viewHeight-25, 180, 25);
 
         // 设置 save 按钮的位置和大小
-        this->save->setGeometry(210,60 , 180,25);
+        this->save->setGeometry(viewWidth+200+180,viewHeight-25 , 180,25);
 
         // 设置 copy 按钮的位置和大小
-        this->copy->setGeometry(210, 100,180,25);
+        this->copy->setGeometry(viewWidth+180, viewHeight-25,180,25);
     }
     graphicsView->setGeometry(0, 220, viewWidth, viewHeight);
     this->get_refresh();
@@ -789,87 +841,102 @@ void MainWindow::get_refresh()
     graphicsView->centerOn(customImage);
 }
 
-#include <QProcess>
-void MainWindow::on_ocr_clicked()
-{
+void MainWindow::showFloatingMessage(const QString &message, int timeout) {
+    // 创建浮动提示框
+    QLabel *floatingMessage = new QLabel(this);
+    floatingMessage->setText(message);
+    floatingMessage->setStyleSheet("background-color: white; border: 1px solid black; padding: 5px;");
+    floatingMessage->setAlignment(Qt::AlignCenter);
 
-    if(abs(viewWidth-(this->width()-20)/2)>abs(viewWidth-(this->width()-20)))
-    {
-        viewWidth=(this->width()-20)/2;
-        // 设置 text 控件的位置和大小
-        this->text->setGeometry(viewWidth, 220, viewWidth, viewHeight-50);
-        // 设置 close 按钮的位置和大小
-        this->close->setGeometry(210, 20, 180, 25);
+    // 设置提示框位置和大小
+    floatingMessage->setGeometry(width() / 2 - 100, height() / 2 - 25, 200, 50);
+    floatingMessage->show();
 
-        // 设置 save 按钮的位置和大小
-        this->save->setGeometry(210,60 , 180,25);
-
-        // 设置 copy 按钮的位置和大小
-        this->copy->setGeometry(210, 100,180,25);
-    }
-
-    this->text->clear();
-    this->get_refresh();
-    customImage->update();
-    update();
-    // 将图像临时保存为本地图片
-    QString imagePath = qApp->applicationDirPath() + "/Tesseract-OCR/image/temp.png";
-
-    QImage image = customImage->getImage();
-    if(!image.save(imagePath)){
-        qDebug() << "Fialed to save image";
-        return;
-    }
-
-    // 识别结果输出路径
-    QString retOutPath = qApp->applicationDirPath() + "/result";
-
-    // 调用OCR
-    QStringList args;
-    args << imagePath
-         << retOutPath
-         << QString("-l")
-         << QString("chi_sim+eng");
-    QString pathExe = qApp->applicationDirPath() + "/Tesseract-OCR/tesseract.exe";
-    QString program(pathExe);
-    QProcess* pTesseract = new QProcess();
-    pTesseract->start(program,args);
-
-    // 等待识别完成
-    bool bResult = false;
-    if(pTesseract->waitForFinished()){
-        bResult = true;
-    }else{
-        bResult = false;
-    }
-
-    // 成功后回显结果
-    if(!bResult){
-        return;
-    }
-
-    QString txtPath = QString("%1.txt").arg(retOutPath);
-    QFile file(txtPath);
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)){
-        qDebug() << file.errorString();
-        return;
-    }
-    QTextStream inText(&file);
-    while (!inText.atEnd()) {
-        QString lineTxt = inText.readLine();
-        this->text->append(lineTxt);
-    }
-    file.close();
-
-    // 删除本地临时文件
-    QFile fileTemp(imagePath);
-    if(fileTemp.remove()){
-        qDebug() << "remove sucess";
-    }
-
-    if(pTesseract){
-        delete pTesseract;
-        pTesseract = nullptr;
-    }
+    // 设置定时器，自动关闭提示框
+    QTimer::singleShot(timeout, floatingMessage, &QLabel::deleteLater);
 }
 
+void MainWindow::on_ocr_clicked() {
+
+    // 调整 UI 布局
+    if (!ui->ocr->isDown()) {
+
+        // 设置按钮为按下状态
+        ui->ocr->setDown(true);
+
+        viewWidth = (this->width()) / 2;
+
+        graphicsView->setGeometry(0, 220, viewWidth, viewHeight);
+        this->text->setGeometry(viewWidth, 220, viewWidth, viewHeight - 25);
+        this->close->setGeometry(viewWidth * 2 - 200 * 2 - 180, 220 + viewHeight - 25, 180, 25);
+        this->save->setGeometry(viewWidth * 2 - 200 - 180, 220 + viewHeight - 25, 180, 25);
+        this->copy->setGeometry(viewWidth * 2 - 180, 220 + viewHeight - 25, 180, 25);
+        this->get_refresh();
+        customImage->update();
+    }
+
+    // 清空文本框
+    this->text->clear();
+
+    // 显示浮动提示框
+    showFloatingMessage("正在识别中，请稍候...", 1000); // 显示 3 秒
+
+    // 将图像临时保存为本地图片
+    QString imagePath = qApp->applicationDirPath() + "/Tesseract-OCR/image/temp.png";
+    QImage image = customImage->getImage();
+    if (!image.save(imagePath)) {
+        qDebug() << "Failed to save image";
+        showFloatingMessage("保存图像失败！", 1000); // 显示 3 秒
+        return;
+    }
+
+    // 使用 QtConcurrent 异步执行 OCR 识别
+    QtConcurrent::run([this, imagePath]() {
+        // 识别结果输出路径
+        QString retOutPath = qApp->applicationDirPath() + "/result";
+
+        // 调用 OCR
+        QStringList args;
+        args << imagePath
+             << retOutPath
+             << QString("-l")
+             << QString("chi_sim+eng");
+        QString pathExe = qApp->applicationDirPath() + "/Tesseract-OCR/tesseract.exe";
+        QString program(pathExe);
+        QProcess pTesseract;
+        pTesseract.start(program, args);
+
+        // 等待识别完成
+        bool bResult = pTesseract.waitForFinished();
+
+        // 识别完成后，更新 UI
+        QMetaObject::invokeMethod(this, [this, retOutPath, bResult, imagePath]() {
+            if (!bResult) {
+                showFloatingMessage("OCR 识别失败！", 1000); // 显示 3 秒
+                return;
+            }
+
+            // 读取识别结果
+            QString txtPath = QString("%1.txt").arg(retOutPath);
+            QFile file(txtPath);
+            if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                qDebug() << file.errorString();
+                showFloatingMessage("读取识别结果失败！", 1000); // 显示 3 秒
+                return;
+            }
+
+            QTextStream inText(&file);
+            while (!inText.atEnd()) {
+                QString lineTxt = inText.readLine();
+                this->text->append(lineTxt);
+            }
+            file.close();
+
+            // 删除本地临时文件
+            QFile::remove(imagePath);
+
+            // 显示“识别完成”提示
+            showFloatingMessage("识别完成！", 1000); // 显示 3 秒
+        });
+    });
+}

@@ -45,5 +45,7 @@
         <file>DashiconsLeftright.svg</file>
         <file>OiElevator.svg</file>
         <file>icon.qrc</file>
+        <file>MdiOcr.svg</file>
+        <file>IconParkOutlineScreenshotTwo.svg</file>
     </qresource>
 </RCC>

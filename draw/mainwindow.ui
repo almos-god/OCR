@@ -439,7 +439,7 @@
      <property name="geometry">
       <rect>
        <x>210</x>
-       <y>10</y>
+       <y>0</y>
        <width>161</width>
        <height>171</height>
       </rect>
@@ -1485,7 +1485,7 @@
      <rect>
       <x>1160</x>
       <y>0</y>
-      <width>401</width>
+      <width>201</width>
       <height>201</height>
      </rect>
     </property>
@@ -1496,7 +1496,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>10</y>
+       <y>30</y>
        <width>99</width>
        <height>20</height>
       </rect>
@@ -1509,7 +1509,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>50</y>
+       <y>70</y>
        <width>99</width>
        <height>20</height>
       </rect>
@@ -1522,7 +1522,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>90</y>
+       <y>110</y>
        <width>99</width>
        <height>20</height>
       </rect>
@@ -1535,26 +1535,70 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>130</y>
-       <width>180</width>
-       <height>25</height>
+       <y>140</y>
+       <width>40</width>
+       <height>40</height>
       </rect>
      </property>
+     <property name="minimumSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>32</width>
+       <height>32</height>
+      </size>
+     </property>
      <property name="text">
-      <string>截图</string>
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="icon/icon.qrc">
+       <normaloff>:/new/prefix1/IconParkOutlineScreenshotTwo.svg</normaloff>:/new/prefix1/IconParkOutlineScreenshotTwo.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>32</width>
+       <height>32</height>
+      </size>
      </property>
     </widget>
     <widget class="QPushButton" name="ocr">
      <property name="geometry">
       <rect>
-       <x>210</x>
-       <y>130</y>
-       <width>180</width>
-       <height>25</height>
+       <x>120</x>
+       <y>140</y>
+       <width>40</width>
+       <height>40</height>
       </rect>
      </property>
+     <property name="minimumSize">
+      <size>
+       <width>40</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>32</width>
+       <height>32</height>
+      </size>
+     </property>
      <property name="text">
-      <string>OCR图像转文字</string>
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="icon/icon.qrc">
+       <normaloff>:/new/prefix1/MdiOcr.svg</normaloff>:/new/prefix1/MdiOcr.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>32</width>
+       <height>32</height>
+      </size>
      </property>
     </widget>
    </widget>
@@ -1598,7 +1642,7 @@
      <normaloff>:/new/prefix1/WhhOpenfolderalt.svg</normaloff>:/new/prefix1/WhhOpenfolderalt.svg</iconset>
    </property>
    <property name="text">
-    <string>open_file</string>
+    <string>open file</string>
    </property>
   </action>
   <action name="save">
