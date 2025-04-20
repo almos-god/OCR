@@ -1,0 +1,2 @@
+draw/ocr/ocrlib/lib/tesseract41d.lib filter=lfs diff=lfs merge=lfs -text
+draw/ocr/ocrlib/lib/tesseract41.lib filter=lfs diff=lfs merge=lfs -text
