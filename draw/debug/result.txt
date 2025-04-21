@@ -1,7 +1,3 @@
-BREE
+Appendix
 
-为 了 继 的 限 孔 实 全 , FRBELHTIT
-134002014
-
-\ 故 诊 网 谅 筠 人 命 命 _ KRR `\
-
+Thefollowing sections contain reference material you may find usefulin your Rust journey.

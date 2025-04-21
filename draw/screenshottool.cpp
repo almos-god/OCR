@@ -65,7 +65,6 @@ void ScreenshotTool::takeScreenshot() {
 
     // 裁剪选择区域
     screenshotImage = fullPixmap.copy(adjustedRect).toImage();
-    screenshotImage = fullPixmap.copy(adjustedRect).toImage();
 
     // 发送截图完成信号
     emit screenshotTaken(screenshotImage);

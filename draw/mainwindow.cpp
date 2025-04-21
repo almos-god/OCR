@@ -19,7 +19,7 @@
 #include <QApplication>
 #include <QFileDialog>
 #include <QMessageBox>
-#include <QProcess>
+//#include <QProcess>
 #include <QTimer>
 #include <QGraphicsBlurEffect>
 #include <QImage>
@@ -185,8 +185,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->save->setShortcut(QKeySequence("Ctrl+S"));  // 保存文件快捷键 Ctrl+S
     ui->save_as_anothing_file->setShortcut(QKeySequence("Ctrl+Shift+S"));  // 另存为快捷键 Ctrl+Shift+S
     ui->exit->setShortcut(QKeySequence("Ctrl+Q"));  // 退出快捷键 Ctrl+Q
-    ui->redo->setShortcut(QKeySequence("Ctrl+Y"));  // 重做快捷键 Ctrl+Y
-    ui->undo->setShortcut(QKeySequence("Ctrl+Z"));  // 撤销快捷键 Ctrl+Z
+    ui->redo->setShortcut(QKeySequence("Ctrl+Z"));  // 重做快捷键 Ctrl+Y
+    ui->undo->setShortcut(QKeySequence("Ctrl+Y"));  // 撤销快捷键 Ctrl+Z
 
     // 设置显示菜单的快捷键（例如 Ctrl+M）
     showMenuAction = new QAction(this);
@@ -214,18 +214,20 @@ MainWindow::MainWindow(QWidget *parent)
         exitApp();
     });
 
-    connect(ui->redo, &QAction::triggered, this, [this]() {
+    connect(ui->undo, &QAction::triggered, this, [this]() {
         int result = customImage->redoimage();
         if (result == -1) {
             QMessageBox::information(this, "信息", "已是最后一个.");
         }
+        this->get_refresh();
     });
 
-    connect(ui->undo, &QAction::triggered, this, [this]() {
+    connect(ui->redo, &QAction::triggered, this, [this]() {
         int result = customImage->undoimage();
         if (result == -1) {
             QMessageBox::information(this, "信息", "已是第一个.");
         }
+        this->get_refresh();
     });
 
     // 连接显示菜单快捷键的触发事件
@@ -452,6 +454,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
         this->copy->setGeometry(viewWidth+180, viewHeight-25,180,25);
     }
     graphicsView->setGeometry(0, 220, viewWidth, viewHeight);
+    //get_refresh()
     this->get_refresh();
     customImage->update();
 }
