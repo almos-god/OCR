@@ -1,0 +1,51 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>set.svg</file>
+        <file>five-pointed star.svg</file>
+        <file>loving heart.svg</file>
+        <file>advance.svg</file>
+        <file>circle.svg</file>
+        <file>MdiEllipse.svg</file>
+        <file>ellipse.svg</file>
+        <file>MdiHeartOutline.svg</file>
+        <file>MdiHexagonOutline.svg</file>
+        <file>MdiHexagramOutline.svg</file>
+        <file>MdiRectangleOutline.svg</file>
+        <file>MdiRhombusOutline.svg</file>
+        <file>MdiTriangleDownOutline.svg</file>
+        <file>SimpleLineIconsSizeFullscreen.svg</file>
+        <file>GravityUiMagnifierPlus.svg</file>
+        <file>FaEyedropper.svg</file>
+        <file>CarbonErase.svg</file>
+        <file>MdiFill.svg</file>
+        <file>RiCropLine.svg</file>
+        <file>IconoirLinear.svg</file>
+        <file>PhLightningFill.svg</file>
+        <file>LsArrowup.svg</file>
+        <file>LsArrowdown.svg</file>
+        <file>LsArrowleft.svg</file>
+        <file>LsArrowright.svg</file>
+        <file>MdiThoughtBubble.svg</file>
+        <file>F7BubbleMiddleBottom.svg</file>
+        <file>HeroiconsChatBubbleOvalLeft.svg</file>
+        <file>TopcoatRoundedrectangleOutline.svg</file>
+        <file>MdiStarFourPointsOutline.svg</file>
+        <file>HugeiconsRightTriangle.svg</file>
+        <file>FluentSave32Regular.svg</file>
+        <file>FlatUiPicture.ico</file>
+        <file>PrimeSave.svg</file>
+        <file>FadSaveas.svg</file>
+        <file>SolarExitBoldDuotone.svg</file>
+        <file>WhhNewwindow.svg</file>
+        <file>WhhOpenfolderalt.svg</file>
+        <file>back  up.svg</file>
+        <file>backup.svg</file>
+        <file>MemoryRotateCounterclockwise.svg</file>
+        <file>MemoryRotateClockwise.svg</file>
+        <file>DashiconsLeftright.svg</file>
+        <file>OiElevator.svg</file>
+        <file>icon.qrc</file>
+        <file>MdiOcr.svg</file>
+        <file>IconParkOutlineScreenshotTwo.svg</file>
+    </qresource>
+</RCC>
