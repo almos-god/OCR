@@ -1,0 +1,29 @@
+<table border="0" width="450">
+′ <tr bgColor="#000080">
+<td width="100%" colspan="7"><p>
+i <font style="FONT-SIZE: 12pt" color=#fffffff> 公 元
+1 生 成 选 择 年 份 (1900~2100) 下 拉 列 表 框 , 命 名 为 SY -->|
+<select size="1" name="SY">
+<%
+Fori = 1900 To 2100
+If i=CInt(Yy) Then
+Response.Write "<option Selected>"&i&" </option>"
+
+Else
+Response.Write " <option>"&i&" </option>"
+End If
+Next
+%>
+</select>H&nbsp;
+
+=1 - 生 成 选 择 月 份 (1~12) 下 拉 列 表 框 , 命 名 为 5M -->
+<select size="1" name="SM">
+
+<%
+
+Fori=11o012
+
+If i=CInt(Mm) Then _
+Response.Write "<option Selected>"&i&" </pption>"
+
+Else
