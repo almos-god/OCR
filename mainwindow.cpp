@@ -861,15 +861,10 @@ void MainWindow::showFloatingMessage(const QString &message, int timeout) {
 }
 
 void MainWindow::on_ocr_clicked() {
-
     // 调整 UI 布局
     if (!ui->ocr->isDown()) {
-
-        // 设置按钮为按下状态
         ui->ocr->setDown(true);
-
         viewWidth = (this->width()) / 2;
-
         graphicsView->setGeometry(0, 220, viewWidth, viewHeight);
         this->text->setGeometry(viewWidth, 220, viewWidth, viewHeight - 25);
         this->close->setGeometry(viewWidth * 2 - 200 * 2 - 180, 220 + viewHeight - 25, 180, 25);
@@ -883,23 +878,34 @@ void MainWindow::on_ocr_clicked() {
     this->text->clear();
 
     // 显示浮动提示框
-    showFloatingMessage("正在识别中，请稍候...", 1000); // 显示 3 秒
+    showFloatingMessage("正在识别中，请稍候...", 1000);
 
-    // 将图像临时保存为本地图片
-    QString imagePath = qApp->applicationDirPath() + "/Tesseract-OCR/image/temp.png";
+    // 检查并创建 C:/ocr_image_data/ 目录
+    QString ocrDataDir = "C:/ocr_image_data/";
+    QDir dir(ocrDataDir);
+    if (!dir.exists()) {
+        if (!dir.mkpath(ocrDataDir)) {
+            qDebug() << "Failed to create directory:" << ocrDataDir;
+            showFloatingMessage("无法创建 OCR 数据目录！", 1000);
+            return;
+        }
+    }
+
+    // 保存临时图像到 C:/ocr_image_data/temp.png
+    QString imagePath = ocrDataDir + "temp.png";
     QImage image = customImage->getImage();
     if (!image.save(imagePath)) {
         qDebug() << "Failed to save image";
-        showFloatingMessage("保存图像失败！", 1000); // 显示 3 秒
+        showFloatingMessage("保存图像失败！", 1000);
         return;
     }
 
     // 使用 QtConcurrent 异步执行 OCR 识别
-    QtConcurrent::run([this, imagePath]() {
-        // 识别结果输出路径
-        QString retOutPath = qApp->applicationDirPath() + "/result";
+    QtConcurrent::run([this, imagePath, ocrDataDir]() {
+        // OCR 结果输出路径
+        QString retOutPath = ocrDataDir + "result";
 
-        // 调用 OCR
+        // 调用 Tesseract OCR
         QStringList args;
         args << imagePath
              << retOutPath
@@ -916,16 +922,16 @@ void MainWindow::on_ocr_clicked() {
         // 识别完成后，更新 UI
         QMetaObject::invokeMethod(this, [this, retOutPath, bResult, imagePath]() {
             if (!bResult) {
-                showFloatingMessage("OCR 识别失败！", 1000); // 显示 3 秒
+                showFloatingMessage("OCR 识别失败！", 1000);
                 return;
             }
 
             // 读取识别结果
-            QString txtPath = QString("%1.txt").arg(retOutPath);
+            QString txtPath = retOutPath + ".txt";
             QFile file(txtPath);
             if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
                 qDebug() << file.errorString();
-                showFloatingMessage("读取识别结果失败！", 1000); // 显示 3 秒
+                showFloatingMessage("读取识别结果失败！", 1000);
                 return;
             }
 
@@ -936,11 +942,11 @@ void MainWindow::on_ocr_clicked() {
             }
             file.close();
 
-            // 删除本地临时文件
-            QFile::remove(imagePath);
+            // 删除临时文件（可选）
+            QFile::remove(imagePath);  // 删除临时图像
+            QFile::remove(txtPath);    // 删除 OCR 结果文件（如果不需要保留）
 
-            // 显示“识别完成”提示
-            showFloatingMessage("识别完成！", 1000); // 显示 3 秒
+            showFloatingMessage("识别完成！", 1000);
         });
     });
 }

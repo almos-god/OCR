@@ -19,7 +19,7 @@ CXXFLAGS      = -fno-keep-inline-dllexport -O2 -g -std=gnu++1z -Wall -Wextra -We
 INCPATH       = -I. -ID:/QT/6.5.3/mingw_64/include -ID:/QT/6.5.3/mingw_64/include/QtWidgets -ID:/QT/6.5.3/mingw_64/include/QtGui -ID:/QT/6.5.3/mingw_64/include/QtCore -Irelease -I. -I/include -ID:/QT/6.5.3/mingw_64/mkspecs/win32-g++ 
 LINKER      =        g++
 LFLAGS        =        -Wl,-subsystem,windows -mthreads
-LIBS        =        D:\QT\6.5.3\mingw_64\lib\libQt6Widgets.a D:\QT\6.5.3\mingw_64\lib\libQt6Gui.a D:\QT\6.5.3\mingw_64\lib\libQt6Core.a -lmingw32 D:\QT\6.5.3\mingw_64\lib\libQt6EntryPoint.a -lshell32  
+LIBS        =        D:\QT\6.5.3\mingw_64\lib\libQt6Widgets.a D:\QT\6.5.3\mingw_64\lib\libQt6Gui.a D:\QT\6.5.3\mingw_64\lib\libQt6Core.a release\drawing_resource_res.o -lmingw32 D:\QT\6.5.3\mingw_64\lib\libQt6EntryPoint.a -lshell32  
 QMAKE         = D:\QT\6.5.3\mingw_64\bin\qmake.exe
 DEL_FILE      = del
 CHK_DIR_EXISTS= if not exist
@@ -40,7 +40,7 @@ IDC           = idc
 IDL           = midl
 ZIP           = zip -r -9
 DEF_FILE      = 
-RES_FILE      = 
+RES_FILE      = release\drawing_resource_res.o
 SED           = $(QMAKE) -install sed
 MOVE          = move
 
@@ -85,9 +85,12 @@ DESTDIR_TARGET = release\drawing.exe
 first: all
 all: Makefile.Release  release/drawing.exe
 
-release/drawing.exe: D:/QT/6.5.3/mingw_64/lib/libQt6Widgets.a D:/QT/6.5.3/mingw_64/lib/libQt6Gui.a D:/QT/6.5.3/mingw_64/lib/libQt6Core.a D:/QT/6.5.3/mingw_64/lib/libQt6EntryPoint.a ui_mainwindow.h ui_size_dialog.h $(OBJECTS) 
+release/drawing.exe: D:/QT/6.5.3/mingw_64/lib/libQt6Widgets.a D:/QT/6.5.3/mingw_64/lib/libQt6Gui.a D:/QT/6.5.3/mingw_64/lib/libQt6Core.a D:/QT/6.5.3/mingw_64/lib/libQt6EntryPoint.a ui_mainwindow.h ui_size_dialog.h $(OBJECTS) release/drawing_resource_res.o
 	$(LINKER) $(LFLAGS) -o $(DESTDIR_TARGET) $(OBJECTS) $(LIBS)
 	objcopy --only-keep-debug release/drawing.exe release/drawing.exe.debug && objcopy --strip-debug release/drawing.exe && objcopy --add-gnu-debuglink=release/drawing.exe.debug release/drawing.exe
+
+release/drawing_resource_res.o: drawing_resource.rc
+	windres -i drawing_resource.rc -o release\drawing_resource_res.o --include-dir=. $(DEFINES)
 
 qmake: FORCE
 	@$(QMAKE) -o Makefile.Release drawing.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=force_debug_info" "CONFIG+=separate_debug_info"
@@ -99,6 +102,7 @@ dist:
 
 clean: compiler_clean 
 	-$(DEL_FILE) release\main.o release\mainwindow.o release\screenshottool.o release\size_dialog.o release\qrc_icon.o release\moc_QCustomImage.o release\moc_mainwindow.o release\moc_screenshottool.o release\moc_size_dialog.o
+	-$(DEL_FILE) release\drawing_resource_res.o
 
 distclean: clean 
 	-$(DEL_FILE) C:\Desktop\draw\release\drawing.exe.debug .qmake.stash

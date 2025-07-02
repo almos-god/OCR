@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 14.0.1, 2025-05-12T09:04:53. -->
+<!-- Written by QtCreator 16.0.2, 2025-06-27T23:56:05. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -13,8 +13,8 @@
  <data>
   <variable>ProjectExplorer.Project.EditorSettings</variable>
   <valuemap type="QVariantMap">
+   <value type="bool" key="EditorConfiguration.AutoDetect">true</value>
    <value type="bool" key="EditorConfiguration.AutoIndent">true</value>
-   <value type="bool" key="EditorConfiguration.AutoSpacesForTabs">false</value>
    <value type="bool" key="EditorConfiguration.CamelCaseNavigation">true</value>
    <valuemap type="QVariantMap" key="EditorConfiguration.CodeStyle.0">
     <value type="QString" key="language">Cpp</value>
@@ -33,6 +33,7 @@
    <value type="bool" key="EditorConfiguration.ConstrainTooltips">false</value>
    <value type="int" key="EditorConfiguration.IndentSize">4</value>
    <value type="bool" key="EditorConfiguration.KeyboardTooltips">false</value>
+   <value type="int" key="EditorConfiguration.LineEndingBehavior">0</value>
    <value type="int" key="EditorConfiguration.MarginColumn">80</value>
    <value type="bool" key="EditorConfiguration.MouseHiding">true</value>
    <value type="bool" key="EditorConfiguration.MouseNavigation">true</value>
@@ -86,7 +87,7 @@
     <value type="bool" key="ClangTools.UseGlobalSettings">true</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ClangdSettings">
-    <value type="bool" key="blockIndexing">true</value>
+    <value type="bool" key="blockIndexing">false</value>
     <value type="bool" key="useGlobalSettings">true</value>
    </valuemap>
    <valuemap type="QVariantMap" key="CppEditor.QuickFix">
@@ -251,7 +252,7 @@
     <value type="bool" key="PE.EnvironmentAspect.PrintOnRun">false</value>
     <value type="QString" key="PerfRecordArgsId">-e cpu-cycles --call-graph &quot;dwarf,4096&quot; -F 250</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Desktop/draw/drawing.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Desktop/draw/drawing.pro</value>
     <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
