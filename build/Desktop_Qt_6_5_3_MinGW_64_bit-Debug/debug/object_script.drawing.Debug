@@ -1,0 +1,11 @@
+debug/apiwindow.o
+debug/main.o
+debug/mainwindow.o
+debug/screenshottool.o
+debug/size_dialog.o
+debug/qrc_icon.o
+debug/moc_QCustomImage.o
+debug/moc_apiwindow.o
+debug/moc_mainwindow.o
+debug/moc_screenshottool.o
+debug/moc_size_dialog.o

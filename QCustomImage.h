@@ -1,4 +1,4 @@
- #ifndef QCUSTOMIMAGE_H
+#ifndef QCUSTOMIMAGE_H
 #define QCUSTOMIMAGE_H
 
 #include <QImage>
@@ -20,19 +20,15 @@
 #include <cstdlib> // 添加这个头文件以使用 rand() 和 srand()
 #include <ctime>   // 添加这个头文件以使用 time()
 #include <iostream>
-enum all_my_function{
-    painting, size,color_extractor, my_erase, fill, crop,expansion,right_rotation,left_rotation,flip_vertically,flip_horizontally
-};
-enum all_my_graphics{
-    basic, straight_line, right_circle, ellipse, isosceles_triangle, right_triangle, right_rectangle,
-    rounded_rectangle,diamond, hexagon, four_pointed_star, five_pointed_star, six_pointed_star,
-    lightning, left,right, top, bottom,rounded_rectangle_annotation, cloud_annotation, circle_annotation
-};
+#include <map>
+#include "enum_mappings.h"
+using namespace std;
 
 class QCustomImage : public QGraphicsObject
 {
      Q_OBJECT
 public:
+
     QCustomImage(int width = 800, int height = 600)
         : rect(QRectF(0, 0, width, height))
     {
@@ -48,7 +44,7 @@ public:
         backgroundColor = QColor(0, 0, 0);
         borderWidth = 1;
         image_factor=1;
-        function1=painting;
+        function1=func_painting;
         graphics1=basic;
 
         erase_location.setX(-100);
@@ -67,6 +63,36 @@ public:
         right_line.setLine(rect.right() + offset, rect.top(), rect.right() + offset, rect.bottom());
 
         expand=true;
+
+        // Initialize the graphics function map
+        graphicsFunctionMap[all_my_graphics::basic] = &QCustomImage::painting_basic;
+        graphicsFunctionMap[all_my_graphics::straight_line] = &QCustomImage::painting_straight_line;
+        graphicsFunctionMap[all_my_graphics::right_circle] = &QCustomImage::painting_right_circle;
+        graphicsFunctionMap[all_my_graphics::ellipse] = &QCustomImage::painting_ellipse;
+        graphicsFunctionMap[all_my_graphics::isosceles_triangle] = &QCustomImage::painting_isosceles_triangle;
+        graphicsFunctionMap[all_my_graphics::right_triangle] = &QCustomImage::painting_right_triangle;
+        graphicsFunctionMap[all_my_graphics::right_rectangle] = &QCustomImage::painting_right_rectangle;
+        graphicsFunctionMap[all_my_graphics::rounded_rectangle] = &QCustomImage::painting_rounded_rectangle;
+        graphicsFunctionMap[all_my_graphics::diamond] = &QCustomImage::painting_diamond;
+        graphicsFunctionMap[all_my_graphics::hexagon] = &QCustomImage::painting_hexagon;
+        graphicsFunctionMap[all_my_graphics::four_pointed_star] = &QCustomImage::painting_four_pointed_star;
+        graphicsFunctionMap[all_my_graphics::five_pointed_star] = &QCustomImage::painting_five_pointed_star;
+        graphicsFunctionMap[all_my_graphics::six_pointed_star] = &QCustomImage::painting_six_pointed_star;
+        graphicsFunctionMap[all_my_graphics::lightning] = &QCustomImage::painting_lightning;
+        graphicsFunctionMap[all_my_graphics::left] = &QCustomImage::painting_left;
+        graphicsFunctionMap[all_my_graphics::right] = &QCustomImage::painting_right;
+        graphicsFunctionMap[all_my_graphics::top] = &QCustomImage::painting_top;
+        graphicsFunctionMap[all_my_graphics::bottom] = &QCustomImage::painting_bottom;
+        graphicsFunctionMap[all_my_graphics::rounded_rectangle_annotation] = &QCustomImage::painting_rounded_rectangle_annotation;
+        graphicsFunctionMap[all_my_graphics::cloud_annotation] = &QCustomImage::painting_cloud_annotation;
+        graphicsFunctionMap[all_my_graphics::circle_annotation] = &QCustomImage::printing_circle_annotation;
+
+        // Initialize the function map
+        functionFunctionMap[all_my_function::func_painting] = &QCustomImage::choice_painting;
+        functionFunctionMap[all_my_function::func_color_extractor] = &QCustomImage::color_extractor;
+        functionFunctionMap[all_my_function::func_my_erase] = &QCustomImage::my_erase;
+        functionFunctionMap[all_my_function::func_fill] = &QCustomImage::fill;
+        functionFunctionMap[all_my_function::func_crop] = &QCustomImage::crop;
     }
     //添加新文件
     int addimage()
@@ -130,7 +156,7 @@ public:
     {
         this->expand=expand;
         if(this->expand==true)
-             function1=all_my_function::expansion;
+             function1=all_my_function::func_expansion;
     }
     //保存
     void imageredraw()
@@ -141,23 +167,23 @@ public:
     void changefunction(all_my_function function)
     {
         this->function1=function;
-        if(this->function1==all_my_function::size)
+        if(this->function1==all_my_function::func_size)
         {
             size();
         }
-        else if(this->function1==all_my_function::right_rotation)
+        else if(this->function1==all_my_function::func_right_rotation)
         {
             right_rotation();
         }
-        else if(this->function1==all_my_function::left_rotation)
+        else if(this->function1==all_my_function::func_left_rotation)
         {
             left_rotation();
         }
-        else if(this->function1==all_my_function::flip_horizontally)
+        else if(this->function1==all_my_function::func_flip_horizontally)
         {
             flip_horizontally();
         }
-        else if(this->function1==all_my_function::flip_vertically)
+        else if(this->function1==all_my_function::func_flip_vertically)
         {
             flip_vertically();
         }
@@ -166,7 +192,7 @@ public:
     void changegraphics(all_my_graphics graphics)
     {
         this->graphics1=graphics;
-        this->function1=painting;
+        this->function1=func_painting;
     }
     void setforegroundColor(QColor color,bool foregroundcolor)
     {
@@ -1793,179 +1819,28 @@ public:
 
     void choice_painting(QGraphicsSceneMouseEvent *event,int mouse)
     {
-        if (foregroundColor.alpha()!= 0) {
-            switch (graphics1) {
-            case basic:
-                painting_basic(event, mouse);
-                break;
-            case straight_line:
-                painting_straight_line(event, mouse);
-                break;
-            case right_circle:
-                painting_right_circle(event, mouse);
-                break;
-            case ellipse:
-                painting_ellipse(event, mouse);
-                break;
-            case isosceles_triangle:
-                painting_isosceles_triangle(event, mouse);
-                break;
-            case right_triangle:
-                painting_right_triangle(event, mouse);
-                break;
-            case right_rectangle:
-                painting_right_rectangle(event, mouse);
-                break;
-            case rounded_rectangle:
-                painting_rounded_rectangle(event, mouse);
-                break;
-            case diamond:
-                painting_diamond(event, mouse);
-                break;
-            case hexagon:
-                painting_hexagon(event, mouse);
-                break;
-            case four_pointed_star:
-                painting_four_pointed_star(event, mouse);
-                break;
-            case five_pointed_star:
-                painting_five_pointed_star(event, mouse);
-                break;
-            case six_pointed_star:
-                painting_six_pointed_star(event, mouse);
-                break;
-            case lightning:
-                painting_lightning(event, mouse);
-                break;
-            case left:
-                painting_left(event, mouse);
-                break;
-            case right:
-                painting_right(event, mouse);
-                break;
-            case top:
-                painting_top(event, mouse);
-                break;
-            case bottom:
-                painting_bottom(event, mouse);
-                break;
-            case rounded_rectangle_annotation:
-                painting_rounded_rectangle_annotation(event, mouse);
-                break;
-            case cloud_annotation:
-                painting_cloud_annotation(event, mouse);
-                break;
-            case circle_annotation:
-                printing_circle_annotation(event, mouse);
-                break;
-            default:
-                std::cerr << "Unhandled graphics1 value in foreground drawing: " << static_cast<int>(graphics1) << std::endl;
-                break;
-            }
-        }
-        else if (backgroundColor.alpha()!= 0) {
-            switch (graphics1) {
-            case basic:
-                painting_basic(event, mouse);
-                break;
-            case straight_line:
-                painting_straight_line(event, mouse);
-                break;
-            case right_circle:
-                painting_right_circle(event, mouse);
-                break;
-            case ellipse:
-                painting_ellipse(event, mouse);
-                break;
-            case isosceles_triangle:
-                painting_isosceles_triangle(event, mouse);
-                break;
-            case right_triangle:
-                painting_right_triangle(event, mouse);
-                break;
-            case right_rectangle:
-                painting_right_rectangle(event, mouse);
-                break;
-            case rounded_rectangle:
-                painting_rounded_rectangle(event, mouse);
-                break;
-            case diamond:
-                painting_diamond(event, mouse);
-                break;
-            case hexagon:
-                painting_hexagon(event, mouse);
-                break;
-            case four_pointed_star:
-                painting_four_pointed_star(event, mouse);
-                break;
-            case five_pointed_star:
-                painting_five_pointed_star(event, mouse);
-                break;
-            case six_pointed_star:
-                painting_six_pointed_star(event, mouse);
-                break;
-            case lightning:
-                painting_lightning(event, mouse);
-                break;
-            case left:
-                painting_left(event, mouse);
-                break;
-            case right:
-                painting_right(event, mouse);
-                break;
-            case top:
-                painting_top(event, mouse);
-                break;
-            case bottom:
-                painting_bottom(event, mouse);
-                break;
-            case rounded_rectangle_annotation:
-                painting_rounded_rectangle_annotation(event, mouse);
-                break;
-            case cloud_annotation:
-                painting_cloud_annotation(event, mouse);
-                break;
-            case circle_annotation:
-                printing_circle_annotation(event, mouse);
-                break;
-            default:
-                std::cerr << "Unhandled graphics1 value in background drawing: " << static_cast<int>(graphics1) << std::endl;
-                break;
+        // Check if either foreground or background color is visible
+        if (foregroundColor.alpha() != 0 || backgroundColor.alpha() != 0) {
+            auto it = graphicsFunctionMap.find(graphics1);
+            if (it != graphicsFunctionMap.end()) {
+                (this->*(it->second))(event, mouse);
+            } else {
+                std::cerr << "Unhandled graphics1 value in painting: " << static_cast<int>(graphics1) << std::endl;
             }
         }
     }
     void choice_function(QGraphicsSceneMouseEvent *event,int mouse)
     {
-        switch(function1)
-        {
-            case all_my_function::painting:
-                choice_painting(event,mouse);
-                break;
-            case all_my_function::color_extractor:
-                color_extractor(event,mouse);
-                break;
-            case all_my_function::my_erase:
-                my_erase(event,mouse);
-                break;
-            case all_my_function::fill:
-                fill(event,mouse);
-                break;
-            case all_my_function::crop:
-                crop(event,mouse);
-                break;
-            case all_my_function::expansion:
-                break;
-            case all_my_function::right_rotation:
-                break;
-            case all_my_function::left_rotation:
-                break;
-            case all_my_function::flip_horizontally:
-                break;
-            case all_my_function::flip_vertically:
-                break;
-            default:
-                break;
+        auto it = functionFunctionMap.find(function1);
+        if (it != functionFunctionMap.end()) {
+            (this->*(it->second))(event, mouse);
         }
+        // The following cases have empty bodies and are intentionally skipped
+        // case all_my_function::expansion:
+        // case all_my_function::right_rotation:
+        // case all_my_function::left_rotation:
+        // case all_my_function::flip_horizontally:
+        // case all_my_function::flip_vertically:
     }
     // 修改图像的大小
     void changeImageSize(int newWidth, int newHeight)
@@ -2092,7 +1967,7 @@ public:
         // 绘制橡皮擦圆圈
         if (erase_location.x() >= 0 && erase_location.rx() <= boundingBox.width() &&
             erase_location.y() >= 0 && erase_location.y() <= boundingBox.height() &&
-            function1 == all_my_function::my_erase) {
+            function1 == all_my_function::func_my_erase) {
             int circleRadius = (borderWidth - 1) / 2;
             QPen pen(Qt::black, 1);
             QBrush brush(Qt::white);
@@ -2127,7 +2002,7 @@ public:
         painter->drawImage(boundingBox.topLeft(), offscreenImage);
 
         // 动态矩形绘制（确保绘制在图像之上）
-        if (expand == true && function1 == all_my_function::expansion) {
+        if (expand == true && function1 == all_my_function::func_expansion) {
             double factor =image_factor;
 
             // 计算矩形的偏移位置和大小
@@ -2203,7 +2078,7 @@ protected:
 
         int newWidth = static_cast<int>(this->width * image_factor);
         int newHeight = static_cast<int>(this->height * image_factor);
-        if(function1==all_my_function::expansion&&expand==true)
+        if(function1==all_my_function::func_expansion&&expand==true)
         {
             Point1 = event->pos();
             if (isPointNearLine(event->pos(), up_line)) {
@@ -2228,7 +2103,7 @@ protected:
         choice_function(event,2);
         int newWidth = static_cast<int>(this->width * image_factor);
         int newHeight = static_cast<int>(this->height * image_factor);
-        if (selectedLine != 0&&function1==all_my_function::expansion&&expand==true) {
+        if (selectedLine != 0&&function1==all_my_function::func_expansion&&expand==true) {
             Point2 = event->pos(); // 鼠标移动的偏移量
             switch (selectedLine) {
             case 1: // 上边线
@@ -2253,7 +2128,7 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override {
         choice_function(event, 3); // 调用函数处理鼠标释放事件
 
-        if (selectedLine != 0&&function1==all_my_function::expansion&&expand==true) {
+        if (selectedLine != 0&&function1==all_my_function::func_expansion&&expand==true) {
             // 计算新图像的尺寸
             int newWidth = originalImage.width() + right_move_component/image_factor - left_move_component/image_factor;
             int newHeight = originalImage.height() + down_move_component/image_factor - up_move_component/image_factor;
@@ -2317,6 +2192,12 @@ private:
     int height;
     //缩放比例
     qreal image_factor;
+
+    // Graphics function map
+    std::map<all_my_graphics, void (QCustomImage::*)(QGraphicsSceneMouseEvent *, int)> graphicsFunctionMap;
+
+    // Function map
+    std::map<all_my_function, void (QCustomImage::*)(QGraphicsSceneMouseEvent *, int)> functionFunctionMap;
     //功能变量
     all_my_function function1;
     //图型变量

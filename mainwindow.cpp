@@ -1,4 +1,4 @@
- #include "mainwindow.h"
+#include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include <QApplication>
 #include <QImage>
@@ -21,6 +21,9 @@
 #include <QMessageBox>
 //#include <QProcess>
 #include <QTimer>
+// Tesseract OCR相关头文件
+#include <tesseract/baseapi.h>
+#include <leptonica/allheaders.h>
 #include <QGraphicsBlurEffect>
 #include <QImage>
 #include <QDebug>
@@ -29,6 +32,7 @@
 #include <QClipboard>
 #include <QMessageBox>
 #include <QtConcurrent/QtConcurrent>
+#include <QFuture>
 #include <QThread>
 #include <QLabel>
 #include <QTimer>
@@ -236,40 +240,8 @@ MainWindow::MainWindow(QWidget *parent)
     });
 
 
-    //初始化功能映射
-    functionMap["painting"]=all_my_function::painting;
-    functionMap["size"]=all_my_function::size;
-    functionMap["color_extractor"]=all_my_function::color_extractor;
-    functionMap["my_erase"]=all_my_function::my_erase;
-    functionMap["fill"]=all_my_function::fill;
-    functionMap["crop"]=all_my_function::crop;
-    functionMap["right_rotation"]=all_my_function::right_rotation;
-    functionMap["left_rotation"]=all_my_function::left_rotation;
-    functionMap["flip_horizontally"]=all_my_function::flip_horizontally;
-    functionMap["flip_vertically"]=all_my_function::flip_vertically;
+    // Global mappings are already defined in enum_mappings.h
 
-    // 初始化图形映射
-    graphicsMap["basic"] = all_my_graphics::basic;
-    graphicsMap["straight_line"] = all_my_graphics::straight_line;
-    graphicsMap["right_circle"] = all_my_graphics::right_circle;
-    graphicsMap["ellipse"] = all_my_graphics::ellipse;
-    graphicsMap["isosceles_triangle"] = all_my_graphics::isosceles_triangle;
-    graphicsMap["right_triangle"] = all_my_graphics::right_triangle;
-    graphicsMap["right_rectangle"] = all_my_graphics::right_rectangle;
-    graphicsMap["rounded_rectangle"] = all_my_graphics::rounded_rectangle;
-    graphicsMap["diamond"] = all_my_graphics::diamond;
-    graphicsMap["hexagon"] = all_my_graphics::hexagon;
-    graphicsMap["four_pointed_star"] = all_my_graphics::four_pointed_star;
-    graphicsMap["five_pointed_star"] = all_my_graphics::five_pointed_star;
-    graphicsMap["six_pointed_star"] = all_my_graphics::six_pointed_star;
-    graphicsMap["lightning"] = all_my_graphics::lightning;
-    graphicsMap["left"] = all_my_graphics::left;
-    graphicsMap["right"] = all_my_graphics::right;
-    graphicsMap["top"] = all_my_graphics::top;
-    graphicsMap["bottom"] = all_my_graphics::bottom;
-    graphicsMap["rounded_rectangle_annotation"] = all_my_graphics::rounded_rectangle_annotation;
-    graphicsMap["cloud_annotation"] = all_my_graphics::cloud_annotation;
-    graphicsMap["circle_annotation"] = all_my_graphics::circle_annotation;
 
 
     // 初始化菜单项
@@ -389,6 +361,7 @@ MainWindow::MainWindow(QWidget *parent)
     });
 
 
+
 }
 
 MainWindow::~MainWindow()
@@ -476,7 +449,7 @@ void MainWindow::showEvent(QShowEvent * /*event*/)
                 button->setStyleSheet("QPushButton {background-color:white;}");
             }
         }
-        customImage->changefunction(painting);
+        customImage->changefunction(all_my_function::func_painting);
         customImage->changegraphics(basic);
         this->hideBoundary();
         // 可以使用鼠标在scene上画线
@@ -589,9 +562,9 @@ void MainWindow::showEvent(QShowEvent * /*event*/)
                 button->setStyleSheet("QPushButton {background-color:QColor(200,200,200);}");
                 QString buttonObjectName = button->objectName();
                 qDebug() << buttonObjectName;
-                auto it = graphicsMap.find(buttonObjectName);
-                if (it!= graphicsMap.end()) {
-                    all_my_graphics graphicsType = it->second;
+                auto it = graphicsStringToEnumMap.find(buttonObjectName);
+                if (it != graphicsStringToEnumMap.end()) {
+                    all_my_graphics graphicsType = *it;
                     qDebug() << graphicsType;
                     customImage->changegraphics(graphicsType);
                     this->hideBoundary();
@@ -624,9 +597,9 @@ void MainWindow::showEvent(QShowEvent * /*event*/)
                 button->setStyleSheet("QPushButton {background-color:QColor(200,200,200);}");
                 QString buttonObjectName = button->objectName();
                 qDebug() << buttonObjectName;
-                auto it = functionMap.find(buttonObjectName);
-                if (it!= functionMap.end()) {
-                    all_my_function functionType = it->second;
+                auto it = functionStringToEnumMap.find(buttonObjectName);
+                if (it != functionStringToEnumMap.end()) {
+                    all_my_function functionType = *it;
                     qDebug() << functionType;
                     customImage->changefunction(functionType);
                     this->hideBoundary();
@@ -845,26 +818,99 @@ void MainWindow::get_refresh()
     graphicsView->centerOn(customImage);
 }
 
+/**
+ * @brief 显示浮动提示信息框
+ * @param message 要显示的提示信息
+ * @param timeout 显示时长（毫秒），超时后自动关闭
+ *
+ * 功能说明：
+ * - 创建半透明背景的浮动提示框
+ * - 根据文本内容自动调整大小
+ * - 在窗口中央偏上位置显示
+ * - 超时后自动销毁
+ */
 void MainWindow::showFloatingMessage(const QString &message, int timeout) {
     // 创建浮动提示框
     QLabel *floatingMessage = new QLabel(this);
+
+    // 设置提示文本和样式
     floatingMessage->setText(message);
-    floatingMessage->setStyleSheet("background-color: white; border: 1px solid black; padding: 5px;");
+    floatingMessage->setStyleSheet(
+        "QLabel {"
+        "background-color: white; border: 1px solid black; padding: 5px;"
+        "   font-weight: bold;"                          // 粗体字
+        "   font-size: 14px;"                            // 字体大小
+        "}"
+        );
+
+    // 设置文本居中对齐和自动换行
     floatingMessage->setAlignment(Qt::AlignCenter);
+    floatingMessage->setWordWrap(true);  // 启用自动换行
+
+    // 计算自适应大小
+    // 获取文本的理想大小，并添加边距
+    QFontMetrics fontMetrics(floatingMessage->font());
+    QRect textRect = fontMetrics.boundingRect(
+        0, 0,
+        this->width() * 0.6,  // 最大宽度为窗口宽度的60%
+        0,                    // 高度不限
+        Qt::TextWordWrap,     // 支持换行
+        message
+        );
+
+    // 设置提示框大小（文本大小 + 内边距）
+    int width = textRect.width() + 40;   // 文本宽度 + 左右内边距
+    int height = textRect.height() + 30; // 文本高度 + 上下内边距
+
+    // 限制最小和最大尺寸 - 修正类型转换问题
+    int maxWidth = static_cast<int>(this->width() * 0.7);   // 转换为int类型
+    int maxHeight = static_cast<int>(this->height() * 0.3); // 转换为int类型
+
+    width = qMax(200, qMin(width, maxWidth));      // 最小200px，最大窗口70%宽度
+    height = qMax(60, qMin(height, maxHeight));    // 最小60px，最大窗口30%高度
+
+    // 计算居中位置（窗口中央偏上20%位置）
+    int x = (this->width() - width) / 2;
+    int y = this->height() * 0.3 - height / 2;  // 在窗口30%高度位置居中
 
     // 设置提示框位置和大小
-    floatingMessage->setGeometry(width() / 2 - 100, height() / 2 - 25, 200, 50);
-    floatingMessage->show();
+    floatingMessage->setGeometry(x, y, width, height);
 
-    // 设置定时器，自动关闭提示框
+    // 设置窗口属性
+    floatingMessage->setWindowFlags(Qt::FramelessWindowHint | Qt::ToolTip);  // 无边框，工具提示样式
+    floatingMessage->setAttribute(Qt::WA_ShowWithoutActivating);             // 显示时不激活窗口
+
+    // 显示提示框
+    floatingMessage->show();
+    floatingMessage->raise();   // 置于顶层
+    floatingMessage->activateWindow();  // 激活窗口确保可见
+
+    // 设置定时器，超时后自动关闭并销毁提示框
     QTimer::singleShot(timeout, floatingMessage, &QLabel::deleteLater);
+
+    // 可选：添加淡出动画效果（如果timeout足够长）
+    if (timeout > 500) {
+        QPropertyAnimation *animation = new QPropertyAnimation(floatingMessage, "windowOpacity");
+        animation->setDuration(2500);  // 动画时长500ms
+        animation->setStartValue(1.0); // 起始完全不透明
+        animation->setEndValue(0.0);   // 结束完全透明
+        animation->start(QAbstractAnimation::DeleteWhenStopped);  // 动画结束后自动删除
+
+        // 在定时器结束前500ms启动淡出动画
+        QTimer::singleShot(timeout - 500, [animation]() {
+            if (animation) {
+                animation->start();
+            }
+        });
+    }
 }
 
+// 这里调用ocr的库函数来实现。
 void MainWindow::on_ocr_clicked() {
     // 调整 UI 布局
     if (!ui->ocr->isDown()) {
         ui->ocr->setDown(true);
-        viewWidth = (this->width()) / 2;
+        viewWidth = this->width() / 2;
         graphicsView->setGeometry(0, 220, viewWidth, viewHeight);
         this->text->setGeometry(viewWidth, 220, viewWidth, viewHeight - 25);
         this->close->setGeometry(viewWidth * 2 - 200 * 2 - 180, 220 + viewHeight - 25, 180, 25);
@@ -880,73 +926,136 @@ void MainWindow::on_ocr_clicked() {
     // 显示浮动提示框
     showFloatingMessage("正在识别中，请稍候...", 1000);
 
-    // 检查并创建 C:/ocr_image_data/ 目录
-    QString ocrDataDir = "C:/ocr_image_data/";
-    QDir dir(ocrDataDir);
-    if (!dir.exists()) {
-        if (!dir.mkpath(ocrDataDir)) {
-            qDebug() << "Failed to create directory:" << ocrDataDir;
-            showFloatingMessage("无法创建 OCR 数据目录！", 1000);
-            return;
-        }
-    }
-
-    // 保存临时图像到 C:/ocr_image_data/temp.png
-    QString imagePath = ocrDataDir + "temp.png";
+    // 获取当前图像
     QImage image = customImage->getImage();
-    if (!image.save(imagePath)) {
-        qDebug() << "Failed to save image";
-        showFloatingMessage("保存图像失败！", 1000);
-        return;
-    }
 
-    // 使用 QtConcurrent 异步执行 OCR 识别
-    QtConcurrent::run([this, imagePath, ocrDataDir]() {
-        // OCR 结果输出路径
-        QString retOutPath = ocrDataDir + "result";
+    // 使用 QtConcurrent 异步执行 OCR 识别，并添加异常处理
+    QtConcurrent::run([this, image]() {
+        try {
+            // 复制图像数据
+            QImage img = image.copy();
 
-        // 调用 Tesseract OCR
-        QStringList args;
-        args << imagePath
-             << retOutPath
-             << QString("-l")
-             << QString("chi_sim+eng");
-        QString pathExe = qApp->applicationDirPath() + "/Tesseract-OCR/tesseract.exe";
-        QString program(pathExe);
-        QProcess pTesseract;
-        pTesseract.start(program, args);
+            // 创建 Tesseract API 实例
+            tesseract::TessBaseAPI* api = new tesseract::TessBaseAPI();
 
-        // 等待识别完成
-        bool bResult = pTesseract.waitForFinished();
-
-        // 识别完成后，更新 UI
-        QMetaObject::invokeMethod(this, [this, retOutPath, bResult, imagePath]() {
-            if (!bResult) {
-                showFloatingMessage("OCR 识别失败！", 1000);
+            // 设置Tesseract数据目录路径为应用程序目录下的tessdata目录(tessdata目录需放到构建目录中 )
+            QString appPath = QCoreApplication::applicationDirPath();
+            QString tessdataPath = appPath + "/tessdata";
+            
+            // 验证路径是否存在
+            if (!QDir(tessdataPath).exists()) {
+                QString errorMsg = QString("OCR 识别失败！错误: tessdata目录不存在");
+                qDebug() << errorMsg << "路径:" << tessdataPath;
+                QMetaObject::invokeMethod(this, [this, errorMsg]() {
+                    showFloatingMessage(errorMsg, 3000);
+                });
+                delete api;
                 return;
             }
 
-            // 读取识别结果
-            QString txtPath = retOutPath + ".txt";
-            QFile file(txtPath);
-            if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-                qDebug() << file.errorString();
-                showFloatingMessage("读取识别结果失败！", 1000);
+            // 初始化 Tesseract
+            qDebug() << "正在初始化Tesseract，数据目录:" << tessdataPath;
+            
+            // 设置页面分割模式
+            api->SetPageSegMode(tesseract::PSM_AUTO);
+            
+            // 先尝试只使用英文进行初始化，通常更稳定
+            char* language = const_cast<char*>("eng");
+            int initResult = api->Init(tessdataPath.toUtf8().constData(), language);
+
+            if (initResult != 0) {
+                QString errorMsg = QString("OCR 识别失败！错误: 初始化 Tesseract API 失败 (错误码: %1)。").arg(initResult);
+                errorMsg += "请确保tessdata目录包含eng语言数据文件。";
+                qDebug() << errorMsg;
+                qDebug() << "使用的数据目录:" << tessdataPath;
+                
+                QMetaObject::invokeMethod(this, [this, errorMsg]() {
+                    showFloatingMessage(errorMsg, 3000);
+                });
+                delete api;
                 return;
             }
 
-            QTextStream inText(&file);
-            while (!inText.atEnd()) {
-                QString lineTxt = inText.readLine();
-                this->text->append(lineTxt);
+            // 初始化成功，忽略图像库警告，这些警告通常不影响基本OCR功能
+            qDebug() << "Tesseract初始化成功。";
+            qDebug() << "注意: 图像库相关警告（如PNG、TIFF）不影响基本OCR功能。";
+            
+            // 转换图像为灰度图并检查是否成功
+            if (img.isNull()) {
+                qDebug() << "错误：图像为空，无法进行OCR识别";
+                QMetaObject::invokeMethod(this, [this]() {
+                    showFloatingMessage("OCR 识别失败！错误: 图像数据无效。", 2000);
+                });
+                api->End();
+                delete api;
+                return;
             }
-            file.close();
+            
+            QImage grayImg = img.convertToFormat(QImage::Format_Grayscale8);
+            if (grayImg.isNull()) {
+                qDebug() << "错误：转换为灰度图失败";
+                QMetaObject::invokeMethod(this, [this]() {
+                    showFloatingMessage("OCR 识别失败！错误: 图像格式转换失败。", 2000);
+                });
+                api->End();
+                delete api;
+                return;
+            }
 
-            // 删除临时文件（可选）
-            QFile::remove(imagePath);  // 删除临时图像
-            QFile::remove(txtPath);    // 删除 OCR 结果文件（如果不需要保留）
+            // 设置图像数据前检查参数有效性
+            qDebug() << "图像信息：宽=" << grayImg.width() << " 高=" << grayImg.height();
+            if (grayImg.width() <= 0 || grayImg.height() <= 0) {
+                qDebug() << "错误：图像尺寸无效";
+                QMetaObject::invokeMethod(this, [this]() {
+                    showFloatingMessage("OCR 识别失败！错误: 图像尺寸无效。", 2000);
+                });
+                api->End();
+                delete api;
+                return;
+            }
+            
+            // 设置图像数据
+            api->SetImage(grayImg.bits(), grayImg.width(), grayImg.height(), 1, grayImg.bytesPerLine());
 
-            showFloatingMessage("识别完成！", 1000);
-        });
+            // 执行 OCR 识别
+            char* outText = api->GetUTF8Text();
+
+            // 先将识别结果复制到QString中，避免在lambda中使用悬空指针
+            QString recognizedText;
+            if (outText) {
+                recognizedText = QString::fromUtf8(outText);
+            }
+
+            // 清理资源（在UI更新前释放资源更安全）
+            delete[] outText;
+            api->End();
+            delete api;
+            
+            qDebug() << "OCR识别过程完成，资源已释放";
+
+            // 更新 UI
+            QMetaObject::invokeMethod(this, [this, recognizedText]() {
+                if (!recognizedText.isEmpty()) {
+                    this->text->setPlainText(recognizedText);
+                    showFloatingMessage("识别完成！", 1000);
+                } else {
+                    showFloatingMessage("OCR 识别失败！错误: 没有识别到文本。", 2000);
+                }
+            });
+        } catch (const std::exception& e) {
+            // 捕获C++标准异常
+            QString errorMsg = QString("OCR 识别发生异常: %1").arg(e.what());
+            qDebug() << errorMsg;
+            QMetaObject::invokeMethod(this, [this, errorMsg]() {
+                showFloatingMessage(errorMsg, 3000);
+            });
+        } catch (...) {
+            // 捕获所有其他异常
+            QString errorMsg = "OCR 识别发生未知异常";
+            qDebug() << errorMsg;
+            QMetaObject::invokeMethod(this, [this, errorMsg]() {
+                showFloatingMessage(errorMsg, 3000);
+            });
+        }
     });
 }

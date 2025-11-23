@@ -1,3 +1,0 @@
-Appendix
-
-Thefollowing sections contain reference material you may find usefulin your Rust journey.

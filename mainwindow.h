@@ -17,6 +17,11 @@
 #include <QProcess>
 #include <QDebug>
 #include <QTextEdit>
+#include <QHash>
+#include "enum_mappings.h"
+//#include "apiwindow.h"
+//#include "apiwindow_global.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -28,8 +33,6 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    std::map<QString,all_my_graphics> graphicsMap;
-    std::map<QString,all_my_function> functionMap;
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void showFloatingMessage(const QString &message, int timeout);

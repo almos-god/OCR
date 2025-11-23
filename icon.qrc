@@ -40,4 +40,9 @@
         <file>icon/five-pointed star.svg</file>
         <file>icon/set.svg</file>
     </qresource>
+    <qresource prefix="/tessdata">
+        <file>bin/tessdata/eng.traineddata</file>
+        <file>bin/tessdata/chi_sim.traineddata</file>
+        <file>bin/tessdata/osd.traineddata</file>
+    </qresource>
 </RCC>
