@@ -23,7 +23,16 @@
 #include <QTimer>
 // Tesseract OCR相关头文件
 #include <tesseract/baseapi.h>
-#include <leptonica/allheaders.h>
+
+// OpenCV相关头文件
+#include <opencv2/core.hpp>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/highgui.hpp>
+
+// 使用OpenCV命名空间
+using namespace cv;
+
+// #include <leptonica/allheaders.h>  // 代码中未直接使用，暂时注释
 #include <QGraphicsBlurEffect>
 #include <QImage>
 #include <QDebug>
@@ -36,12 +45,36 @@
 #include <QThread>
 #include <QLabel>
 #include <QTimer>
+#include "language_selection_dialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , m_currentLanguageCodes(QStringList() << "eng") // 默认使用英文
+    , m_tessApi(nullptr)
 {
+    // 从文件读取保存的语言设置
+    QFile file("language_settings.txt");
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream in(&file);
+        QStringList savedCodes;
+        while (!in.atEnd()) {
+            QString line = in.readLine().trimmed();
+            if (!line.isEmpty()) {
+                savedCodes.append(line);
+            }
+        }
+        file.close();
+        
+        if (!savedCodes.isEmpty()) {
+            m_currentLanguageCodes = savedCodes;
+        }
+    }
     ui->setupUi(this);
+    
+    // 设置verticalLayoutWidget_2的固定尺寸为宽度160，高度180
+    ui->verticalLayoutWidget_2->setFixedSize(160, 180);
+    
     // 初始化长宽
     int miderlonger = 1280;
     int miderwider = 720;
@@ -72,6 +105,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->groupBox_3->setStyleSheet("QGroupBox { border: none; background-color: white; }");
 
     // 设置初始值为 0
+    // 为set按钮设置与其他按钮一致的样式
+    ui->set->setStyleSheet("QPushButton {background-color:white;}");
     ui->spinBox->setValue(0);
     ui->spinBox_2->setValue(0);
     ui->spinBox_3->setValue(0);
@@ -218,6 +253,10 @@ MainWindow::MainWindow(QWidget *parent)
         exitApp();
     });
 
+    // 将设置按钮与语言选择对话框关联
+    connect(ui->set, &QPushButton::clicked, this, &MainWindow::on_language_selection_triggered);
+    ui->set->setGeometry(viewWidth-40,0,viewWidth,40);
+
     connect(ui->undo, &QAction::triggered, this, [this]() {
         int result = customImage->undoimage();
         if (result == -1) {
@@ -238,9 +277,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(showMenuAction, &QAction::triggered, this, [this]() {
         ui->menu->exec(QCursor::pos());  // 显示菜单
     });
-
-
-    // Global mappings are already defined in enum_mappings.h
 
 
 
@@ -367,6 +403,11 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    // 释放Tesseract API实例
+    if (m_tessApi) {
+        m_tessApi->End();
+        delete m_tessApi;
+    }
 }
 // 重写右键菜单事件
 void MainWindow::contextMenuEvent(QContextMenuEvent *event){
@@ -428,7 +469,19 @@ void MainWindow::resizeEvent(QResizeEvent *event)
         this->copy->setGeometry(viewWidth+180, viewHeight-25,180,25);
     }
     graphicsView->setGeometry(0, 220, viewWidth, viewHeight);
-    //get_refresh()
+    
+    // 调整set按钮的位置，使其位于groupBox_3的右边，不被遮盖
+    int groupBox3X = ui->groupBox_3->x()+ui->groupBox_3->width();
+    int buttonWidth = ui->set->width();
+    int buttonHeight = ui->set->height();
+    int margin = 40; // 边距
+    
+    // 确保按钮位于groupBox_3的右边，并且跟随窗口右上角移动
+    int buttonX = qMax(groupBox3X , this->width() - buttonWidth - margin);
+    int buttonY = 0;
+    
+    ui->set->setGeometry(buttonX, buttonY, buttonWidth, buttonHeight);
+    
     this->get_refresh();
     customImage->update();
 }
@@ -906,6 +959,26 @@ void MainWindow::showFloatingMessage(const QString &message, int timeout) {
 }
 
 // 这里调用ocr的库函数来实现。
+void MainWindow::on_language_selection_triggered()
+{
+    LanguageSelectionDialog dialog(this);
+    dialog.setSelectedLanguageCodes(m_currentLanguageCodes);
+    if (dialog.exec() == QDialog::Accepted) {
+        m_currentLanguageCodes = dialog.selectedLanguageCodes();
+        showFloatingMessage("已选择语言: " + m_currentLanguageCodes.join(", "), 2000);
+        
+        // 保存选择的语言设置到文件
+        QFile file("language_settings.txt");
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
+            QTextStream out(&file);
+            for (const QString &code : m_currentLanguageCodes) {
+                out << code << "\n";
+            }
+            file.close();
+        }
+    }
+}
+
 void MainWindow::on_ocr_clicked() {
     // 调整 UI 布局
     if (!ui->ocr->isDown()) {
@@ -923,20 +996,28 @@ void MainWindow::on_ocr_clicked() {
     // 清空文本框
     this->text->clear();
 
-    // 显示浮动提示框
+    // 显示浮动提示信息框
     showFloatingMessage("正在识别中，请稍候...", 1000);
 
-    // 获取当前图像
-    QImage image = customImage->getImage();
-
     // 使用 QtConcurrent 异步执行 OCR 识别，并添加异常处理
-    QtConcurrent::run([this, image]() {
+    // 直接将图像移动到lambda函数中，避免不必要的变量和拷贝
+    // 直接调用QtConcurrent::run()，忽略返回的QFuture对象
+    QtConcurrent::run([this, image = std::move(customImage->getImage())]() {
         try {
-            // 复制图像数据
-            QImage img = image.copy();
 
-            // 创建 Tesseract API 实例
-            tesseract::TessBaseAPI* api = new tesseract::TessBaseAPI();
+            // 初始化或重用 Tesseract API 实例
+            tesseract::TessBaseAPI* api = nullptr;
+            
+            // 线程安全地访问API实例
+            if (m_tessApi) {
+                // 如果API已初始化，先结束之前的会话
+                m_tessApi->End();
+                api = m_tessApi;
+            } else {
+                // 如果API未初始化，创建新实例
+                api = new tesseract::TessBaseAPI();
+                m_tessApi = api;
+            }
 
             // 设置Tesseract数据目录路径为应用程序目录下的tessdata目录(tessdata目录需放到构建目录中 )
             QString appPath = QCoreApplication::applicationDirPath();
@@ -949,19 +1030,22 @@ void MainWindow::on_ocr_clicked() {
                 QMetaObject::invokeMethod(this, [this, errorMsg]() {
                     showFloatingMessage(errorMsg, 3000);
                 });
-                delete api;
                 return;
             }
 
             // 初始化 Tesseract
-            qDebug() << "正在初始化Tesseract，数据目录:" << tessdataPath;
-            
-            // 设置页面分割模式
-            api->SetPageSegMode(tesseract::PSM_AUTO);
-            
-            // 先尝试只使用英文进行初始化，通常更稳定
-            char* language = const_cast<char*>("eng");
-            int initResult = api->Init(tessdataPath.toUtf8().constData(), language);
+             qDebug() << "正在初始化Tesseract，数据目录:" << tessdataPath;
+               
+             // 设置页面分割模式
+             api->SetPageSegMode(tesseract::PSM_AUTO);
+               
+             // 使用选择的语言进行初始化
+             QString languages = m_currentLanguageCodes.join("+");
+             QByteArray languageData = languages.toUtf8();  // 保存到局部变量
+             const char* language = languageData.constData();  // 正确转换为const char*
+
+             // 直接调用完整版本的Init函数，避免使用重载版本
+             int initResult = api->Init(tessdataPath.toUtf8().constData(), language, tesseract::OEM_DEFAULT, nullptr, 0, nullptr, nullptr, false);
 
             if (initResult != 0) {
                 QString errorMsg = QString("OCR 识别失败！错误: 初始化 Tesseract API 失败 (错误码: %1)。").arg(initResult);
@@ -972,7 +1056,6 @@ void MainWindow::on_ocr_clicked() {
                 QMetaObject::invokeMethod(this, [this, errorMsg]() {
                     showFloatingMessage(errorMsg, 3000);
                 });
-                delete api;
                 return;
             }
 
@@ -981,7 +1064,7 @@ void MainWindow::on_ocr_clicked() {
             qDebug() << "注意: 图像库相关警告（如PNG、TIFF）不影响基本OCR功能。";
             
             // 转换图像为灰度图并检查是否成功
-            if (img.isNull()) {
+            if (image.isNull()) {
                 qDebug() << "错误：图像为空，无法进行OCR识别";
                 QMetaObject::invokeMethod(this, [this]() {
                     showFloatingMessage("OCR 识别失败！错误: 图像数据无效。", 2000);
@@ -991,11 +1074,31 @@ void MainWindow::on_ocr_clicked() {
                 return;
             }
             
-            QImage grayImg = img.convertToFormat(QImage::Format_Grayscale8);
-            if (grayImg.isNull()) {
-                qDebug() << "错误：转换为灰度图失败";
+            // 使用OpenCV进行图像处理预处理
+            // 将QImage转换为OpenCV的Mat
+            cv::Mat src = cv::Mat(image.height(), image.width(), CV_8UC4, const_cast<uchar*>(image.bits()), static_cast<size_t>(image.bytesPerLine()));
+            cv::Mat gray;
+            cv::Mat processed;
+            
+            // 转换为灰度图
+            cv::cvtColor(src, gray, cv::COLOR_BGRA2GRAY);
+            
+            // 对比度增强
+            cv::equalizeHist(gray, gray);
+            
+            // 二值化处理
+            cv::adaptiveThreshold(gray, processed, 255, cv::ADAPTIVE_THRESH_GAUSSIAN_C, cv::THRESH_BINARY, 11, 2);
+            
+            // 降噪处理
+            cv::medianBlur(processed, processed, 3);
+            
+            // 将OpenCV的Mat转换为QImage
+            QImage processedImg(processed.data, processed.cols, processed.rows, processed.step, QImage::Format_Grayscale8);
+            
+            if (processedImg.isNull()) {
+                qDebug() << "错误：图像预处理失败";
                 QMetaObject::invokeMethod(this, [this]() {
-                    showFloatingMessage("OCR 识别失败！错误: 图像格式转换失败。", 2000);
+                    showFloatingMessage("OCR 识别失败！错误: 图像预处理失败。", 2000);
                 });
                 api->End();
                 delete api;
@@ -1003,8 +1106,8 @@ void MainWindow::on_ocr_clicked() {
             }
 
             // 设置图像数据前检查参数有效性
-            qDebug() << "图像信息：宽=" << grayImg.width() << " 高=" << grayImg.height();
-            if (grayImg.width() <= 0 || grayImg.height() <= 0) {
+            qDebug() << "图像信息：宽=" << processedImg.width() << " 高=" << processedImg.height();
+            if (processedImg.width() <= 0 || processedImg.height() <= 0) {
                 qDebug() << "错误：图像尺寸无效";
                 QMetaObject::invokeMethod(this, [this]() {
                     showFloatingMessage("OCR 识别失败！错误: 图像尺寸无效。", 2000);
@@ -1015,7 +1118,7 @@ void MainWindow::on_ocr_clicked() {
             }
             
             // 设置图像数据
-            api->SetImage(grayImg.bits(), grayImg.width(), grayImg.height(), 1, grayImg.bytesPerLine());
+            api->SetImage(processedImg.bits(), processedImg.width(), processedImg.height(), 1, processedImg.bytesPerLine());
 
             // 执行 OCR 识别
             char* outText = api->GetUTF8Text();
@@ -1026,12 +1129,12 @@ void MainWindow::on_ocr_clicked() {
                 recognizedText = QString::fromUtf8(outText);
             }
 
-            // 清理资源（在UI更新前释放资源更安全）
+            // 清理资源
             delete[] outText;
+            // 不删除API实例，而是只结束当前会话，以便下次重用
             api->End();
-            delete api;
             
-            qDebug() << "OCR识别过程完成，资源已释放";
+            qDebug() << "OCR识别过程完成，API实例已重置";
 
             // 更新 UI
             QMetaObject::invokeMethod(this, [this, recognizedText]() {

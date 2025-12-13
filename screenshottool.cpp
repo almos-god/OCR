@@ -8,7 +8,7 @@ ScreenshotTool::ScreenshotTool(QWidget *parent) : QWidget(parent), isSelecting(f
     setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
 
     // 设置窗口透明度
-    setWindowOpacity(0.25);
+    setWindowOpacity(0.1);
 }
 
 void ScreenshotTool::mousePressEvent(QMouseEvent *event) {

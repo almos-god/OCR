@@ -19,6 +19,8 @@
 #include <QTextEdit>
 #include <QHash>
 #include "enum_mappings.h"
+// Tesseract OCR相关头文件
+#include <tesseract/baseapi.h>
 //#include "apiwindow.h"
 //#include "apiwindow_global.h"
 
@@ -55,6 +57,7 @@ protected:
 
 private slots:
     void on_ocr_clicked();
+    void on_language_selection_triggered();
 
 private:
     void contextMenuEvent(QContextMenuEvent *event);
@@ -89,5 +92,11 @@ private:
     QPushButton* save;
     QPushButton* copy;
     QTextEdit* text;
+    
+    // 当前选中的OCR语言代码列表
+    QStringList m_currentLanguageCodes;
+    
+    // Tesseract API 实例（作为成员变量，避免重复创建和销毁）
+    tesseract::TessBaseAPI* m_tessApi;
 };
 #endif // MAINWINDOW_H

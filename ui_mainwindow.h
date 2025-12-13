@@ -105,6 +105,7 @@ public:
     QRadioButton *five;
     QPushButton *screenshot;
     QPushButton *ocr;
+    QPushButton *set;
     QMenuBar *menubar;
     QMenu *menu;
     QStatusBar *statusbar;
@@ -304,7 +305,7 @@ public:
         painting->setAutoExclusive(true);
         verticalLayoutWidget_2 = new QWidget(groupBox);
         verticalLayoutWidget_2->setObjectName("verticalLayoutWidget_2");
-        verticalLayoutWidget_2->setGeometry(QRect(210, 0, 161, 171));
+        verticalLayoutWidget_2->setGeometry(QRect(210, 0, 161, 181));
         verticalLayout_2 = new QVBoxLayout(verticalLayoutWidget_2);
         verticalLayout_2->setObjectName("verticalLayout_2");
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
@@ -648,12 +649,12 @@ public:
         QFont font4;
         font4.setPointSize(11);
         label_3->setFont(font4);
-        label_3->setAlignment(Qt::AlignmentFlag::AlignCenter);
+        label_3->setAlignment(Qt::AlignCenter);
         horizontalSlider = new QSlider(groupBox);
         horizontalSlider->setObjectName("horizontalSlider");
         horizontalSlider->setGeometry(QRect(390, 40, 159, 22));
         horizontalSlider->setMaximum(255);
-        horizontalSlider->setOrientation(Qt::Orientation::Horizontal);
+        horizontalSlider->setOrientation(Qt::Horizontal);
         spinBox_3 = new QSpinBox(groupBox);
         spinBox_3->setObjectName("spinBox_3");
         spinBox_3->setGeometry(QRect(450, 70, 100, 30));
@@ -663,12 +664,12 @@ public:
         label_5->setObjectName("label_5");
         label_5->setGeometry(QRect(370, 70, 80, 30));
         label_5->setFont(font4);
-        label_5->setAlignment(Qt::AlignmentFlag::AlignCenter);
+        label_5->setAlignment(Qt::AlignCenter);
         horizontalSlider_2 = new QSlider(groupBox);
         horizontalSlider_2->setObjectName("horizontalSlider_2");
         horizontalSlider_2->setGeometry(QRect(390, 100, 159, 22));
         horizontalSlider_2->setMaximum(255);
-        horizontalSlider_2->setOrientation(Qt::Orientation::Horizontal);
+        horizontalSlider_2->setOrientation(Qt::Horizontal);
         spinBox_4 = new QSpinBox(groupBox);
         spinBox_4->setObjectName("spinBox_4");
         spinBox_4->setGeometry(QRect(450, 130, 100, 30));
@@ -678,12 +679,12 @@ public:
         label_4->setObjectName("label_4");
         label_4->setGeometry(QRect(370, 130, 80, 30));
         label_4->setFont(font4);
-        label_4->setAlignment(Qt::AlignmentFlag::AlignCenter);
+        label_4->setAlignment(Qt::AlignCenter);
         horizontalSlider_3 = new QSlider(groupBox);
         horizontalSlider_3->setObjectName("horizontalSlider_3");
         horizontalSlider_3->setGeometry(QRect(390, 160, 158, 22));
         horizontalSlider_3->setMaximum(255);
-        horizontalSlider_3->setOrientation(Qt::Orientation::Horizontal);
+        horizontalSlider_3->setOrientation(Qt::Horizontal);
         groupBox_3 = new QGroupBox(centralwidget);
         groupBox_3->setObjectName("groupBox_3");
         groupBox_3->setGeometry(QRect(1160, 0, 201, 201));
@@ -714,6 +715,15 @@ public:
         icon37.addFile(QString::fromUtf8(":/new/prefix1/MdiOcr.svg"), QSize(), QIcon::Normal, QIcon::Off);
         ocr->setIcon(icon37);
         ocr->setIconSize(QSize(32, 32));
+        set = new QPushButton(centralwidget);
+        set->setObjectName("set");
+        set->setGeometry(QRect(1500, 0, 40, 40));
+        set->setMinimumSize(QSize(40, 40));
+        set->setMaximumSize(QSize(32, 32));
+        QIcon icon38;
+        icon38.addFile(QString::fromUtf8(":/new/prefix1/set.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        set->setIcon(icon38);
+        set->setIconSize(QSize(32, 32));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
@@ -795,6 +805,7 @@ public:
         five->setText(QCoreApplication::translate("MainWindow", "\344\272\224\347\247\222\345\273\266\350\277\237", nullptr));
         screenshot->setText(QString());
         ocr->setText(QString());
+        set->setText(QString());
         menu->setTitle(QCoreApplication::translate("MainWindow", "\350\217\234\345\215\225", nullptr));
     } // retranslateUi
 

@@ -441,7 +441,7 @@
        <x>210</x>
        <y>0</y>
        <width>161</width>
-       <height>171</height>
+       <height>181</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -1350,7 +1350,7 @@
       <string>红色</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignmentFlag::AlignCenter</set>
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QSlider" name="horizontalSlider">
@@ -1366,7 +1366,7 @@
       <number>255</number>
      </property>
      <property name="orientation">
-      <enum>Qt::Orientation::Horizontal</enum>
+      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
     <widget class="QSpinBox" name="spinBox_3">
@@ -1405,7 +1405,7 @@
       <string>绿色</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignmentFlag::AlignCenter</set>
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QSlider" name="horizontalSlider_2">
@@ -1421,7 +1421,7 @@
       <number>255</number>
      </property>
      <property name="orientation">
-      <enum>Qt::Orientation::Horizontal</enum>
+      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
     <widget class="QSpinBox" name="spinBox_4">
@@ -1460,7 +1460,7 @@
       <string>蓝色</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignmentFlag::AlignCenter</set>
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QSlider" name="horizontalSlider_3">
@@ -1476,7 +1476,7 @@
       <number>255</number>
      </property>
      <property name="orientation">
-      <enum>Qt::Orientation::Horizontal</enum>
+      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </widget>
@@ -1601,6 +1601,41 @@
       </size>
      </property>
     </widget>
+   </widget>
+   <widget class="QPushButton" name="set">
+    <property name="geometry">
+     <rect>
+      <x>1500</x>
+      <y>0</y>
+      <width>40</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>32</width>
+      <height>32</height>
+     </size>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="icon/icon.qrc">
+      <normaloff>:/new/prefix1/set.svg</normaloff>:/new/prefix1/set.svg</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>32</width>
+      <height>32</height>
+     </size>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
