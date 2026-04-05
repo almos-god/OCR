@@ -980,7 +980,7 @@ void MainWindow::on_language_selection_triggered()
 }
 
 void MainWindow::on_ocr_clicked() {
-    // 调整 UI 布局
+    // 1. UI 布局调整逻辑
     if (!ui->ocr->isDown()) {
         ui->ocr->setDown(true);
         viewWidth = this->width() / 2;
@@ -993,172 +993,72 @@ void MainWindow::on_ocr_clicked() {
         customImage->update();
     }
 
-    // 清空文本框
     this->text->clear();
-
-    // 显示浮动提示信息框
     showFloatingMessage("正在识别中，请稍候...", 1000);
 
-    // 使用 QtConcurrent 异步执行 OCR 识别，并添加异常处理
-    // 直接将图像移动到lambda函数中，避免不必要的变量和拷贝
-    // 直接调用QtConcurrent::run()，忽略返回的QFuture对象
-    QtConcurrent::run([this, image = std::move(customImage->getImage())]() {
+    // 2. 获取当前图像 (注意：确保 getImage() 返回的是一个独立的 QImage 副本)
+    QImage inputImage = customImage->getImage().copy();
+    if (inputImage.isNull()) {
+        showFloatingMessage("识别失败：图像为空", 2000);
+        return;
+    }
+
+    // 3. 异步执行
+    QtConcurrent::run([this, image = std::move(inputImage)]() {
         try {
-
-            // 初始化或重用 Tesseract API 实例
-            tesseract::TessBaseAPI* api = nullptr;
-            
-            // 线程安全地访问API实例
-            if (m_tessApi) {
-                // 如果API已初始化，先结束之前的会话
-                m_tessApi->End();
-                api = m_tessApi;
+            // --- Tesseract 初始化 ---
+            if (!m_tessApi) {
+                m_tessApi = new tesseract::TessBaseAPI();
             } else {
-                // 如果API未初始化，创建新实例
-                api = new tesseract::TessBaseAPI();
-                m_tessApi = api;
+                m_tessApi->End();
             }
 
-            // 设置Tesseract数据目录路径为应用程序目录下的tessdata目录(tessdata目录需放到构建目录中 )
-            QString appPath = QCoreApplication::applicationDirPath();
-            QString tessdataPath = appPath + "/tessdata";
+            QString tessdataPath = QCoreApplication::applicationDirPath() + "/tessdata";
+            QString languages = m_currentLanguageCodes.join("+");
             
-            // 验证路径是否存在
-            if (!QDir(tessdataPath).exists()) {
-                QString errorMsg = QString("OCR 识别失败！错误: tessdata目录不存在");
-                qDebug() << errorMsg << "路径:" << tessdataPath;
-                QMetaObject::invokeMethod(this, [this, errorMsg]() {
-                    showFloatingMessage(errorMsg, 3000);
-                });
-                return;
-            }
-
-            // 初始化 Tesseract
-             qDebug() << "正在初始化Tesseract，数据目录:" << tessdataPath;
-               
-             // 设置页面分割模式
-             api->SetPageSegMode(tesseract::PSM_AUTO);
-               
-             // 使用选择的语言进行初始化
-             QString languages = m_currentLanguageCodes.join("+");
-             QByteArray languageData = languages.toUtf8();  // 保存到局部变量
-             const char* language = languageData.constData();  // 正确转换为const char*
-
-             // 直接调用完整版本的Init函数，避免使用重载版本
-             int initResult = api->Init(tessdataPath.toUtf8().constData(), language, tesseract::OEM_DEFAULT, nullptr, 0, nullptr, nullptr, false);
-
-            if (initResult != 0) {
-                QString errorMsg = QString("OCR 识别失败！错误: 初始化 Tesseract API 失败 (错误码: %1)。").arg(initResult);
-                errorMsg += "请确保tessdata目录包含eng语言数据文件。";
-                qDebug() << errorMsg;
-                qDebug() << "使用的数据目录:" << tessdataPath;
-                
-                QMetaObject::invokeMethod(this, [this, errorMsg]() {
-                    showFloatingMessage(errorMsg, 3000);
-                });
-                return;
-            }
-
-            // 初始化成功，忽略图像库警告，这些警告通常不影响基本OCR功能
-            qDebug() << "Tesseract初始化成功。";
-            qDebug() << "注意: 图像库相关警告（如PNG、TIFF）不影响基本OCR功能。";
-            
-            // 转换图像为灰度图并检查是否成功
-            if (image.isNull()) {
-                qDebug() << "错误：图像为空，无法进行OCR识别";
+            // 初始化 API
+            if (m_tessApi->Init(tessdataPath.toUtf8().constData(), languages.toUtf8().constData(),tesseract::OcrEngineMode::OEM_LSTM_ONLY)) {
                 QMetaObject::invokeMethod(this, [this]() {
-                    showFloatingMessage("OCR 识别失败！错误: 图像数据无效。", 2000);
+                    showFloatingMessage("OCR 初始化失败，请检查库文件", 3000);
                 });
-                api->End();
-                delete api;
-                return;
-            }
-            
-            // 使用OpenCV进行图像处理预处理
-            // 将QImage转换为OpenCV的Mat
-            cv::Mat src = cv::Mat(image.height(), image.width(), CV_8UC4, const_cast<uchar*>(image.bits()), static_cast<size_t>(image.bytesPerLine()));
-            cv::Mat gray;
-            cv::Mat processed;
-            
-            // 转换为灰度图
-            cv::cvtColor(src, gray, cv::COLOR_BGRA2GRAY);
-            
-            // 对比度增强
-            cv::equalizeHist(gray, gray);
-            
-            // 二值化处理
-            cv::adaptiveThreshold(gray, processed, 255, cv::ADAPTIVE_THRESH_GAUSSIAN_C, cv::THRESH_BINARY, 11, 2);
-            
-            // 降噪处理
-            cv::medianBlur(processed, processed, 3);
-            
-            // 将OpenCV的Mat转换为QImage
-            QImage processedImg(processed.data, processed.cols, processed.rows, processed.step, QImage::Format_Grayscale8);
-            
-            if (processedImg.isNull()) {
-                qDebug() << "错误：图像预处理失败";
-                QMetaObject::invokeMethod(this, [this]() {
-                    showFloatingMessage("OCR 识别失败！错误: 图像预处理失败。", 2000);
-                });
-                api->End();
-                delete api;
                 return;
             }
 
-            // 设置图像数据前检查参数有效性
-            qDebug() << "图像信息：宽=" << processedImg.width() << " 高=" << processedImg.height();
-            if (processedImg.width() <= 0 || processedImg.height() <= 0) {
-                qDebug() << "错误：图像尺寸无效";
-                QMetaObject::invokeMethod(this, [this]() {
-                    showFloatingMessage("OCR 识别失败！错误: 图像尺寸无效。", 2000);
-                });
-                api->End();
-                delete api;
-                return;
-            }
-            
-            // 设置图像数据
-            api->SetImage(processedImg.bits(), processedImg.width(), processedImg.height(), 1, processedImg.bytesPerLine());
+            m_tessApi->SetPageSegMode(tesseract::PageSegMode::PSM_AUTO_OSD);
+
+            // Convert QImage to a format Tesseract likes directly if possible, or use OpenCV carefully
+            QImage grayImage = image.convertToFormat(QImage::Format_Grayscale8);
+
+
+            // Option A: Use QImage directly if Tesseract API supports it well (less common)
+            // m_tessApi->SetImage(grayImage.bits(), grayImage.width(), grayImage.height(), 1, grayImage.bytesPerLine());
+
+            // Option B: Use OpenCV conversion (as you intended)
+            cv::Mat mat(grayImage.height(), grayImage.width(), CV_8UC1, (uchar*)grayImage.bits(), grayImage.bytesPerLine());
+            // Optional: apply minimal OpenCV processing to 'mat' here if needed
+            // cv::GaussianBlur(mat, mat, cv::Size(3, 3), 0);
+            // cv::threshold(mat, mat, 0, 255, cv::THRESH_BINARY | cv::THRESH_OTSU); // Example
+
+            // Set image to Tesseract from cv::Mat
+            m_tessApi->SetImage(mat.data, mat.cols, mat.rows, 1, mat.step);
 
             // 执行 OCR 识别
-            char* outText = api->GetUTF8Text();
-
-            // 先将识别结果复制到QString中，避免在lambda中使用悬空指针
-            QString recognizedText;
-            if (outText) {
-                recognizedText = QString::fromUtf8(outText);
-            }
-
-            // 清理资源
+            char* outText = m_tessApi->GetUTF8Text();
+            QString recognizedText = QString::fromUtf8(outText);
             delete[] outText;
-            // 不删除API实例，而是只结束当前会话，以便下次重用
-            api->End();
-            
-            qDebug() << "OCR识别过程完成，API实例已重置";
 
-            // 更新 UI
+            // --- 更新 UI ---
             QMetaObject::invokeMethod(this, [this, recognizedText]() {
-                if (!recognizedText.isEmpty()) {
+                if (!recognizedText.trimmed().isEmpty()) {
                     this->text->setPlainText(recognizedText);
-                    showFloatingMessage("识别完成！", 1000);
+                    showFloatingMessage("识别完成", 1000);
                 } else {
-                    showFloatingMessage("OCR 识别失败！错误: 没有识别到文本。", 2000);
+                    showFloatingMessage("未识别到文字，请尝试提高图片清晰度", 2000);
                 }
             });
+
         } catch (const std::exception& e) {
-            // 捕获C++标准异常
-            QString errorMsg = QString("OCR 识别发生异常: %1").arg(e.what());
-            qDebug() << errorMsg;
-            QMetaObject::invokeMethod(this, [this, errorMsg]() {
-                showFloatingMessage(errorMsg, 3000);
-            });
-        } catch (...) {
-            // 捕获所有其他异常
-            QString errorMsg = "OCR 识别发生未知异常";
-            qDebug() << errorMsg;
-            QMetaObject::invokeMethod(this, [this, errorMsg]() {
-                showFloatingMessage(errorMsg, 3000);
-            });
+            qDebug() << "OCR Exception:" << e.what();
         }
     });
 }
