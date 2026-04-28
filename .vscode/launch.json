@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Desktop/draw",
-      "program": "c:/Desktop/draw/build/Debug/outDebug",
+      "cwd": "c:/Desktop/ocr",
+      "program": "c:/Desktop/ocr/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
